@@ -10,37 +10,61 @@ const map = new mapboxgl.Map({
   //interactive:false,
 });
 
-
-var toggle = document.querySelector(".toggle-sidebar");
+var toggleKnots = document.querySelector(".toggle-sidebar-knots");
 var sidebar = document.querySelector(".sidebar");
 
-var toggleFirstTheme = document.querySelector(".toggle-first-theme");
-var firstTheme = document.querySelector(".first-theme");
+var toggleAnimals = document.querySelector(".toggle-sidebar-animals");
+var sidebarAnimals = document.querySelector(".sidebar-animals");
 
-toggle.addEventListener("click", function () {
+toggleKnots.addEventListener("click", function () {
   sidebar.classList.toggle("show-sidebar");
-  toggle.classList.toggle("click-toggle");
+  toggleKnots.classList.toggle("click-toggle");
 });
 
-toggleFirstTheme.addEventListener("click", function () {
-  firstTheme.classList.toggle("show-first-theme");
-  toggleFirstTheme.classList.toggle("click-toggle-theme");
+toggleAnimals.addEventListener("click", function () {
+  sidebarAnimals.classList.toggle("show-sidebar-animals");
+  toggleAnimals.classList.toggle("toggle-animals");
 });
 
-const el = document.createElement('div');
+/*/ create a marker for the whales's location
+const whaleMarker = new mapboxgl.Marker()
+    .setLngLat([-1.32, 46.13]) // set the marker's position
+    .addTo(map); // add the marker to the map
+
+// listen for clicks on the whale marker
+whaleMarker.on('click', function() {
+    // when the marker is clicked, add some data to the div that has "sound-effect" as an id
+    console.log("Whale clicked");
+    //document.getElementById('markerInfo').innerHTML = "Whale sound";
+    document.querySelector('#markerInfo').innerHTML = 'Hello, I am a whale!';
+})
+*/
+
+// Create a marker and set its coordinates.
+// const whaleMarker = new mapboxgl.Marker()
+//   .setLngLat([-1.8, 45.73])
+//   .addTo(map);
+
+const el = document.createElement("div");
 const width = 50;
 const height = 50;
-el.className = 'marker';
+el.className = "marker";
 el.style.backgroundImage = `url(../img/boat2.png)`;
 el.style.width = `${width}px`;
 el.style.height = `${height}px`;
-el.style.backgroundSize = '100%';
-  
-  
+el.style.backgroundSize = "100%";
+
 // Add markers to the map.
-new mapboxgl.Marker(el)
-.setLngLat([-1.9, 45.9])
-.addTo(map);
+new mapboxgl.Marker(el).setLngLat([-1.9, 45.9]).addTo(map);
+/* POPUP
+// Create a popup and set its content.
+const popup = new mapboxgl.Popup()
+  .setHTML("<p>Hello World!</p>")
+  .addTo(map);
+
+// Set the marker's popup.
+whaleMarker.setPopup(popup);
+*/
 
 map.on("load", () => {
   // Add a custom vector tileset source. This tileset contains
@@ -83,14 +107,10 @@ map.on("load", () => {
     source: "marine_mammal.geojson",
     layout: {},
     paint: {
-      "fill-color": "#f00",
+      "fill-color": "#800080",
       "fill-opacity": 0.5,
     },
   });
-
-
-
- 
 
   map.addSource("safe_zone_5_noeuds.geojson", {
     type: "geojson",
@@ -111,7 +131,6 @@ map.on("load", () => {
         1,
         "rgba(0,255,0,0.5)",
       ],
-
     },
   });
 
@@ -159,7 +178,7 @@ map.on("load", () => {
     },
   });
 
-    map.addSource("safe_zone_10_noeuds.geojson", {
+  map.addSource("safe_zone_10_noeuds.geojson", {
     type: "geojson",
     data: "../data/safe_zone_10_noeuds.geojson",
   });
@@ -178,7 +197,6 @@ map.on("load", () => {
         1,
         "rgba(0,255,0,0.5)",
       ],
-
     },
   });
 
@@ -225,35 +243,75 @@ map.on("load", () => {
       ],
     },
   });
+  map.setLayoutProperty("Dead zone 10 noeuds", "visibility", "none");
+  map.setLayoutProperty("Hurt zone 10 noeuds", "visibility", "none");
+  map.setLayoutProperty("Safe zone 10 noeuds", "visibility", "none");
+
+  map.setLayoutProperty("Poissons", "visibility", "none");
+  map.setLayoutProperty("Mammifères marins", "visibility", "none");
+
+  
 });
 
 // After the last frame rendered before the map enters an "idle" state.
 map.on("idle", () => {
   // If these two layers were not added to the map, abort
-  if (
-    !map.getLayer("Poissons") ||
-    !map.getLayer("Mammifères marins") ||
-    !map.getLayer("Hurt zone 5 noeuds") ||
-    !map.getLayer("Dead zone 5 noeuds") ||
-    !map.getLayer("Safe zone 5 noeuds") ||
-    !map.getLayer("Hurt zone 10 noeuds") ||
-    !map.getLayer("Dead zone 10 noeuds") ||
-    !map.getLayer("Safe zone 10 noeuds")
-  ) {
+  if (!map.getLayer("Poissons") || !map.getLayer("Mammifères marins")) {
     return;
   }
 
   // Enumerate ids of the layers.
-  const toggleableLayerIds = [
-    "Poissons",
-    "Mammifères marins",
-    "Dead zone 5 noeuds",
-    "Hurt zone 5 noeuds",
-    "Safe zone 5 noeuds",
-    "Dead zone 10 noeuds",
-    "Hurt zone 10 noeuds",
-    "Safe zone 10 noeuds",
-  ];
+  const toggleableLayerIds = ["Poissons", "Mammifères marins"];
+
+  // define a variable to track the current state of the layers
+  let layersVisible = false;
+
+  
+  // define the function to toggle the visibility of the layers
+  function toggleLayer5knots() {
+    // check the current state of the layers
+    if (layersVisible) {
+      // hide the layers
+      map.setLayoutProperty("Dead zone 5 noeuds", "visibility", "none");
+      map.setLayoutProperty("Hurt zone 5 noeuds", "visibility", "none");
+      map.setLayoutProperty("Safe zone 5 noeuds", "visibility", "none");
+      // update the variable to track the state of the layers
+      layersVisible = false;
+    } else {
+      // show the layers
+      map.setLayoutProperty("Dead zone 5 noeuds", "visibility", "visible");
+      map.setLayoutProperty("Hurt zone 5 noeuds", "visibility", "visible");
+      map.setLayoutProperty("Safe zone 5 noeuds", "visibility", "visible");
+      // update the variable to track the state of the layers
+      layersVisible = true;
+    }
+  }
+
+  function toggleLayer10knots() {
+    // check the current state of the layers
+    if (layersVisible) {
+      // hide the layers
+      map.setLayoutProperty("Dead zone 10 noeuds", "visibility", "none");
+      map.setLayoutProperty("Hurt zone 10 noeuds", "visibility", "none");
+      map.setLayoutProperty("Safe zone 10 noeuds", "visibility", "none");
+      // update the variable to track the state of the layers
+      layersVisible = false;
+    } else {
+      // show the layers
+      map.setLayoutProperty("Dead zone 10 noeuds", "visibility", "visible");
+      map.setLayoutProperty("Hurt zone 10 noeuds", "visibility", "visible");
+      map.setLayoutProperty("Safe zone 10 noeuds", "visibility", "visible");
+      // update the variable to track the state of the layers
+      layersVisible = true;
+    }
+  }
+
+  const toggleButton5knots = document.querySelector("#toggleLayer5knots");
+  const toggleButton10knots = document.querySelector("#toggleLayer10knots");
+
+  // add an event listener to the button
+  toggleButton5knots.addEventListener("click", toggleLayer5knots);
+  toggleButton10knots.addEventListener("click", toggleLayer10knots);
 
   // Set up the corresponding toggle button for each layer.
   for (const id of toggleableLayerIds) {

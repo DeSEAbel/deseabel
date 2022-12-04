@@ -29,6 +29,7 @@ html,body,#container,#map {
   max-width: 5em;
   position: absolute;
   bottom: 0;
+  left: 5px;
   padding: 30px;
 }
 
@@ -38,10 +39,29 @@ h3 {
 }
 
 h4 {
-
   font-size: large;
   padding-left: 10px;
 }
+
+.toggleButtons{
+  background-color: #3378aa;
+  color: #fff;
+  padding: 5px;
+  cursor: pointer;
+  border: none;
+  box-shadow: #333;
+  font-weight: 700;
+  height: 5%;
+  width: 75%;
+  margin-bottom: 10%;
+}
+
+.toggleButtons:hover{
+  background-color: #fff;
+  color: #3378aa;
+  border: 1px solid #3378aa;
+}
+
 
 .toggle-first-theme:hover {
   background-color: #fff;
@@ -57,7 +77,7 @@ nav {
 }
 
 /*Sidebar for buttons */
-.sidebar {
+.sidebar, .sidebar-animals {
   width: 150px;
   z-index: 2;
   background-color: #F4F2F2;
@@ -66,9 +86,10 @@ nav {
   top: 0;
   bottom: 0;
   display: none;
+  text-align: center;
 }
 
-.toggle-sidebar {
+.toggle-sidebar-knots {
   position: absolute;
   z-index: 2;
   top: 200px;
@@ -79,20 +100,38 @@ nav {
   border-bottom-right-radius: 10px;
 }
 
-.fa-layer-group {
+.toggle-sidebar-animals {
+  position: absolute;
+  z-index: 2;
+  top: 300px;
+  left: 0;
+  cursor: pointer;
+  background-color: #3378aa;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.fa-layer-group, .fa-fish {
   color: #fff;
   font-size: 30px;
   padding: 20px;
 }
 
-.show-sidebar {
+
+.show-sidebar, .show-sidebar-animals {
   display: block;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
 
+
+
 .click-toggle {
+  left: 150px;
+}
+
+.toggle-animals {
   left: 150px;
 }
 
@@ -104,25 +143,15 @@ nav {
   display: block;
 }
 
-#menu2 {
-  background-color: #3378aa;
-  color: #fff;
-  transition: 0.2s;
-}
-
-#menu2:hover {
-  background-color: #3074a4;
-}
-
 /*Buttons */
-#menu {
+#menu, #toggleLayer5knots, #toggleLayer10knots {
   z-index: 1;
   top: 10px;
   left: 10px;
   font-family: "Open Sans", sans-serif;
 }
 
-#menu a {
+#menu a, #toggleLayer5knots a, #toggleLayer10knots a {
   font-size: 20x;
   border-radius: 10px;
   color: #404040;
@@ -135,17 +164,17 @@ nav {
   text-align: center;
 }
 
-#menu a:hover {
+#menu a:hover, #toggleLayer5knots a:hover, #toggleLayer10knots a:hover {
   background-color: #f8f8f8;
   color: #404040;
 }
 
-#menu a.active {
+#menu a.active, #toggleLayer5knots a.active, #toggleLayer10knots a.active {
   background-color: #3887be;
   color: #ffffff;
 }
 
-#menu a.active:hover {
+#menu a.active:hover, #toggleLayer5knots a.active:hover, #toggleLayer10knots a.active:hover {
   background: #3074a4;
 }
 
