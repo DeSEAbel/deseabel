@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="../img/deSEAbel.png" />
+    <title>SoundInOcean</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+  </head>
+  
+  <body>
+    <div id="container">
+      <img id="logo" src="../img/deSEAbel.png" />
+      <div id="top">
+        <a href="index.html">APPLICATION</a>
+        <a href="about.html">À PROPOS</a>
+        <a href="team.html">L'ÉQUIPE</a>
+        <a href="donation.html">CONTRIBUER</a>
+      </div>
+
+      <div id="bottom">
+        <div id="left-container">
+          <div class="toggle-sidebar">
+            <i class="fas fa-layer-group"></i>
+          </div>
+
+          <div class="sidebar">
+            <h3>Données thématiques</h3>
+            <div class="toggle-first-theme">
+              <!-- <i class="fas fa-building"></i> -->
+              <h4>Animaux</h4>
+              <i class="fas fa-fish"></i>
+            </div>
+            <div class="first-theme" id="menu"></div>
+            <img id="logoSidebar" src="../img/deSEAbel.png" />
+          </div>
+
+          <div id="map"></div>
+        </div>
+        
+        <div id="right-container">
+          <div id="dead-fish-table">
+
+            <table width="100%">
+              <h4 style="text-align: center;">Impact de la pollution sonore sur la faune marine</h4>
+              <tr>
+                <td width="19%">Risque</td>
+                <td width="27%">Effet physiologique</td>
+                <td width="27%">Réaction comportementale</td>
+                <td width="27%">Faible perturbation</td>
+                
+              </tr>
+              <tr>
+                <td width="19%">5 Noeuds</td>
+                
+                <td width="27%" id="r-fish">5% <i class="fas fa-fish"></i></td>
+                <td width="27%" id="y-fish">15% <i class="fas fa-fish"></i></td>
+                <td width="27%" id="g-fish">80% <i class="fas fa-fish"></i></td>
+              </tr>
+
+            </table>
+          </div>
+
+          <div id="recommendations">
+            <h3 style="text-align: left; margin-left: 8px">
+              Recommandations Navire :
+            </h3>
+            <ul>
+              <li>Réduction de la vitesse des navires</li>
+              <li>Eviter les zones sensibles dans la mesure du possible</li>
+              <li>
+                Design de navires et propulsion diesel-électrique : hybride
+                (éviter les vibrations)
+              </li>
+              <li>Coque lisse et Hélices innovantes</li>
+              <li>Entretien navire</li>
+            </ul>
+            <h3 style="text-align: left; margin-left: 8px">
+              Recommandations Abattage de Pieux :
+            </h3>
+            <ul>
+              <li>
+                Adapter les activités selon le cycle biologique des espèces
+              </li>
+              <li>Rideaux de bulles</li>
+            </ul>
+            <a href="../img/hachis.jpg"
+              ><img
+                src="../img/hachis.jpg"
+                style="
+                  position: absolute;
+                  bottom: 0;
+                  max-height: 5px;
+                  max-width: 5px;
+                "
+            /></a>
+            <i class="fa-brands fa-osi"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="map.js"></script>
+  </body>
+</html>

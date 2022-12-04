@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="http://127.0.0.1:5500/SoundInOcean/img/deSEAbel.png">
+    <title>SoundInOcean</title>
+    <link rel="stylesheet" type="text/css" href="SoundInOcean_files/style.css">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="SoundInOcean_files/mapbox-gl.css" rel="stylesheet">
+    <script src="SoundInOcean_files/mapbox-gl.js"></script>
+    <link rel="stylesheet" href="SoundInOcean_files/all.min.css">
+  </head>
+  
+  <body>
+    <div id="container">
+      <div id="top">
+        <a href="http://127.0.0.1:5500/SoundInOcean/visualization/index.html">APPLICATION</a>
+        <a href="http://127.0.0.1:5500/SoundInOcean/visualization/about.html">À PROPOS</a>
+        <a href="http://127.0.0.1:5500/SoundInOcean/visualization/team.html">L'ÉQUIPE</a>
+        <a href="http://127.0.0.1:5500/SoundInOcean/visualization/donation.html">CONTRIBUER</a>
+      </div>
+
+      <div id="bottom">
+        <div id="left-container">
+          <div class="toggle-sidebar">
+            <i class="fas fa-layer-group"></i>
+          </div>
+
+          <div class="sidebar">
+            <h3>Données thématiques</h3>
+            <div class="toggle-first-theme">
+              <!-- <i class="fas fa-building"></i> -->
+              <h4>Animaux</h4>
+              <i class="fas fa-fish"></i>
+            </div>
+            <div class="first-theme" id="menu"><a id="Poissons" href="#" class="active">Poissons</a><a id="Mammifères Marins" href="#" class="active">Mammifères Marins</a><a id="Safe Zone (Green)" href="#" class="active">Safe Zone (Green)</a><a id="Hurt Zone (Yellow)" href="#" class="active">Hurt Zone (Yellow)</a><a id="Dead Zone (Red)" href="#" class="active">Dead Zone (Red)</a></div>
+          </div>
+
+          <div id="map" class="mapboxgl-map"><div class="mapboxgl-canary" style="visibility: hidden;"></div><div class="mapboxgl-canvas-container"><canvas class="mapboxgl-canvas" tabindex="0" aria-label="Map" role="region" style="width: 1008px; height: 506.2px;" width="1008" height="507"></canvas><div aria-label="Map marker" class="mapboxgl-marker mapboxgl-marker-anchor-center" style="transform: translate(337px, 556px) translate(-50%, -50%) translate(0px, -14px);"><svg display="block" height="41px" width="27px" viewBox="0 0 27 41"><defs><radialGradient id="shadowGradient"><stop offset="10%" stop-opacity="0.4"></stop><stop offset="100%" stop-opacity="0.05"></stop></radialGradient></defs><ellipse cx="13.5" cy="34.8" rx="10.5" ry="5.25" fill="url(#shadowGradient)"></ellipse><path fill="#3FB1CE" d="M27,13.5C27,19.07 20.25,27 14.75,34.5C14.02,35.5 12.98,35.5 12.25,34.5C6.75,27 0,19.22 0,13.5C0,6.04 6.04,0 13.5,0C20.96,0 27,6.04 27,13.5Z"></path><path opacity="0.25" d="M13.5,0C6.04,0 0,6.04 0,13.5C0,19.22 6.75,27 12.25,34.5C13,35.52 14.02,35.5 14.75,34.5C20.25,27 27,19.07 27,13.5C27,6.04 20.96,0 13.5,0ZM13.5,1C20.42,1 26,6.58 26,13.5C26,15.9 24.5,19.18 22.22,22.74C19.95,26.3 16.71,30.14 13.94,33.91C13.74,34.18 13.61,34.32 13.5,34.44C13.39,34.32 13.26,34.18 13.06,33.91C10.28,30.13 7.41,26.31 5.02,22.77C2.62,19.23 1,15.95 1,13.5C1,6.58 6.58,1 13.5,1Z"></path><circle fill="white" cx="13.5" cy="13.5" r="5.5"></circle></svg></div></div><div class="mapboxgl-control-container"><div class="mapboxgl-ctrl-top-left"></div><div class="mapboxgl-ctrl-top-right"><div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-zoom-in" type="button" aria-label="Zoom in" aria-disabled="false"><span class="mapboxgl-ctrl-icon" aria-hidden="true" title="Zoom in"></span></button><button class="mapboxgl-ctrl-zoom-out" type="button" aria-label="Zoom out" aria-disabled="false"><span class="mapboxgl-ctrl-icon" aria-hidden="true" title="Zoom out"></span></button><button class="mapboxgl-ctrl-compass" type="button" aria-label="Reset bearing to north"><span class="mapboxgl-ctrl-icon" aria-hidden="true" title="Reset bearing to north" style="transform: rotate(0deg);"></span></button></div></div><div class="mapboxgl-ctrl-bottom-left"><div class="mapboxgl-ctrl" style="display: block;"><a class="mapboxgl-ctrl-logo" target="_blank" rel="noopener nofollow" href="https://www.mapbox.com/" aria-label="Mapbox logo"></a></div></div><div class="mapboxgl-ctrl-bottom-right"><div class="mapboxgl-ctrl mapboxgl-ctrl-attrib"><button class="mapboxgl-ctrl-attrib-button" type="button" aria-label="Toggle attribution"><span class="mapboxgl-ctrl-icon" aria-hidden="true" title="Toggle attribution"></span></button><div class="mapboxgl-ctrl-attrib-inner" role="list"><a href="https://www.mapbox.com/about/maps/" target="_blank" title="Mapbox" aria-label="Mapbox" role="listitem">© Mapbox</a> <a href="https://www.openstreetmap.org/about/" target="_blank" title="OpenStreetMap" aria-label="OpenStreetMap" role="listitem">© OpenStreetMap</a> <a class="mapbox-improve-map" href="https://apps.mapbox.com/feedback/?owner=mapbox&amp;id=streets-v12&amp;access_token=pk.eyJ1IjoiZmxvaGF0MzIiLCJhIjoiY2o1aWhnaXhjMXh6bzMzb2RlamR5N3lxZCJ9.wu2JL5mP4H5eFeDxpmrxNQ#/-1.57/46.02/9" target="_blank" aria-label="Map feedback" role="listitem" rel="noopener nofollow">Improve this map</a></div></div></div></div></div>
+        </div>
+
+        <div id="right-container">
+          <div id="sound-effect">
+            <!-- grid with 3 columns -->
+            <div class="grid-container-0">
+              <div class="grid-item-frise-db">
+                <p>Decibel</p>
+              </div>
+              <div class="grid-item-frise-g">
+                <p>Safe</p>
+              </div>
+              <div class="grid-item-frise-y">
+                <p>Hurt</p>
+              </div>
+              <div class="grid-item-frise-r">
+                <p>Dead</p>
+              </div>
+            </div>
+            <div class="grid-container-1">
+              <div class="grid-item-frise-db">
+                  <p>5dB</p>
+              </div>
+              <div class="grid-item-frise-g" style="margin-left: -20px;">
+                  <i class="fas fa-fish"></i>
+              </div>
+              <div class="grid-item-frise-y">
+                  <i class="fas fa-fish"></i>
+              </div>
+              <div class="grid-item-frise-r">
+                  <i class="fas fa-fish"></i>
+              </div>
+            </div>
+
+            <div class="grid-container-2">
+              <div class="grid-item-frise-db">
+                  <p>10dB</p>
+              </div>
+              <div class="grid-item-frise-g">
+                  <i class="fas fa-fish"></i>
+              </div>
+              <div class="grid-item-frise-y">
+                  <i class="fas fa-fish"></i>
+              </div>
+              <div class="grid-item-frise-r">
+                  <i class="fas fa-fish"></i>
+              </div>
+            </div>
+
+          <div id="recommendations">
+            <h3 style="text-align: left; margin-left: 8px">
+              Recommandations Navire :
+            </h3>
+            <ul>
+              <li>Réduction de la vitesse des navires</li>
+              <li>Eviter les zones sensibles dans la mesure du possible</li>
+              <li>
+                Design de navires et propulsion diesel-électrique : hybride
+                (éviter les vibrations)
+              </li>
+              <li>Coque lisse et Hélices innovantes</li>
+              <li>Entretien navire</li>
+            </ul>
+            <h3 style="text-align: left; margin-left: 8px">
+              Recommandations Abattage de Pieux :
+            </h3>
+            <ul>
+              <li>
+                Adapter les activités selon le cycle biologique des espèces
+              </li>
+              <li>Rideaux de bulles</li>
+            </ul>
+            <a href="http://127.0.0.1:5500/SoundInOcean/img/hachis.jpg"><img src="SoundInOcean_files/hachis.jpg" style="
+                  position: absolute;
+                  bottom: 0;
+                  max-height: 5px;
+                  max-width: 5px;
+                "></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="SoundInOcean_files/map.js"></script>
+  <!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+</div></body></html>

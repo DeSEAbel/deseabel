@@ -1,0 +1,418 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html,body,#container,#map {
+  height:100%;
+  min-height:100%;
+  max-height:100%;
+}
+
+#logo {
+  background-color: white;
+  border-bottom-right-radius: 60%;
+  max-width: 7em;
+  position: absolute;
+  z-index: 1;
+  filter: drop-shadow(1px 1px 1px white);
+}
+
+#logoSidebar {
+  max-width: 5em;
+  position: absolute;
+  bottom: 0;
+  padding: 30px;
+}
+
+h3 {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  text-align: center;
+}
+
+h4 {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: large;
+  padding-left: 10px;
+}
+
+.toggle-first-theme:hover {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.toggle-first-theme h4, .toggle-first-theme i {
+  display: inline-block;
+}
+
+nav {
+  display: none;
+}
+
+/*Sidebar for buttons */
+.sidebar {
+  width: 150px;
+  z-index: 2;
+  background-color: #eee;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+}
+
+.toggle-sidebar {
+  position: absolute;
+  z-index: 2;
+  top: 200px;
+  left: 0;
+  cursor: pointer;
+  background-color: #3378aa;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.fa-layer-group {
+  color: #fff;
+  font-size: 30px;
+  padding: 20px;
+}
+
+.show-sidebar {
+  display: block;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.click-toggle {
+  left: 150px;
+}
+
+.click-toggle-theme {
+  background-color: #fff;
+}
+
+.show-first-theme {
+  display: block;
+}
+
+#menu2 {
+  background-color: #3378aa;
+  color: #fff;
+  transition: 0.2s;
+}
+
+#menu2:hover {
+  background-color: #3074a4;
+}
+
+/*Buttons */
+#menu {
+  z-index: 1;
+  top: 10px;
+  left: 10px;
+  font-family: "Open Sans", sans-serif;
+}
+
+#menu a {
+  font-size: 20x;
+  border-radius: 10px;
+  color: #404040;
+  display: block;
+  margin: 10px 20px;
+  padding: 0;
+  padding: 10px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+#menu a:hover {
+  background-color: #f8f8f8;
+  color: #404040;
+}
+
+#menu a.active {
+  background-color: #3887be;
+  color: #ffffff;
+}
+
+#menu a.active:hover {
+  background: #3074a4;
+}
+
+.mapboxgl-ctrl-top-right {
+  display: none;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+}
+
+#top {
+  flex: 0 0 auto;
+  text-align: center;
+  background-color: #F4F2F2;
+  padding: 1% 0 1% 0;
+}
+
+#top a {
+  font-size: 20px;
+  color: #404040;
+  display: inline;
+  padding: 0;
+  padding: 10px;
+  text-decoration: none;
+  text-align: center;
+  padding-right: 14px;
+}
+
+#top a:nth-of-type(1), #top a:nth-of-type(2), #top a:nth-of-type(3) {
+  border-right: 1px solid;
+}
+
+#bottom {
+  flex: 1 1 auto;
+  display: flex;
+}
+
+#left-container {
+  flex: 1 1 70%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+#right-container {
+  flex: 1 1 30%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+#right-container > div:first-child {
+  /* This element should take up 60% of the container's height */
+  flex: 6 0 60%;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+#right-container > div:last-child {
+  /* This element should take up the remaining 40% of the container's height */
+  flex: 4 0 40%;
+  border-left: 1px solid #ccc;
+}
+
+button {
+  /* Use a consistent font, color, and size for all buttons */
+  font-family: sans-serif;
+  color: #333;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Use a button-specific class to style the buttons */
+button.nice-button {
+  /* Set the button's background color and add some padding */
+  background-color: #eee;
+  padding: 10px 20px;
+}
+/* Use the :hover and :active pseudo-classes to add hover and active styles */
+nice-button:hover {
+  background-color: #ddd;
+}
+nice-button:active {
+  background-color: #ccc;
+}
+
+#about-CriQUIET {
+  display: flex;
+  flex-direction: row;
+}
+
+.about-us-column {
+  flex: 1;
+}
+
+/* Page a propos */
+#first-section-propos {
+  background-image: url("../img/wallpaper_hackathon.jpg");
+  height: 80%;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 2px 2px 5px #888888;
+  border-radius: 12px;
+  margin: 100px auto;
+}
+
+#first-section-propos-content {
+  text-align: center;
+}
+
+h1 {
+  color: black;
+  font-size: 50px;
+  padding-top: 50px;
+  font-weight: bold;
+  text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  color: black;
+  font-size: 30px;
+  padding-top: 50px;
+  font-weight: bold;
+  text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+#first-section-propos-content h2 {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#first-section-propos-content, #second-section-propos-content p {
+  color: white;
+  font-size: 20px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.grid-item:nth-of-type(2), .grid-item:nth-of-type(3) {
+  border-left: 2px solid white;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+.grid-item {
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+
+#second-section-propos {
+  background-color: #0077b6;
+  height: 80%;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 2px 2px 5px #888888;
+  border-radius: 12px;
+  margin: 100px auto;
+  padding: 50px 0 50px 0;
+}
+
+#second-section-propos-content {
+  text-align: center;
+  margin: 20px;
+  font-size: 20px;
+  color: white;
+}
+
+#first-section-contributions{
+  background-color: #0077b6;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 2px 2px 5px #888888;
+  border-radius: 12px;
+  margin: 70px auto;
+}
+
+#first-section-contributions-content{
+  text-align: center;
+  font-size: 20px;
+  color: white;
+}
+
+#second-section-contributions{
+  background-color: #0077b6;
+  height: 80%;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 2px 2px 5px #888888;
+  border-radius: 12px;
+  margin: 100px auto;
+}
+
+#contributions-grid-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  padding: 10px;
+}
+
+#contributions-grid-item {
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  color: white;
+}
+
+#contributions-grid-item:nth-of-type(2), #contributions-grid-item:nth-of-type(3) {
+  border-left: 2px solid white;
+}
+
+.grid-container-0, .grid-container-1 {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  border-bottom: 2px solid black;
+}
+
+.grid-item-frise-g, .grid-item-frise-y, .grid-item-frise-r {
+  border-right: 1px solid black;
+  text-align: center;
+}
+
+.grid-item-frise-db {
+  border-right: 1px solid black;
+  max-width: 100px;
+  text-align: center;
+}
+
+.grid-container-2 {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.grid-item-frise-g i {
+  font-size: 20px;
+  color: green;
+}
+
+.grid-item-frise-y i {
+  font-size: 20px;
+  color: yellow;
+}
+
+.grid-item-frise-r i {
+  font-size: 20px;
+  color: red;
+}
+
+.grid-item-frise-db i, .grid-item-frise-g i, .grid-item-frise-y i, .grid-item-frise-r i {
+  max-width: 25% !important;
+}
