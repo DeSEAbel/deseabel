@@ -432,3 +432,20 @@ td {
   border-bottom: 2px solid black;
   border-left: 2px solid black;;
 }
+
+
+#dialog-box {
+  display: block;
+  position: absolute; /* position the element absolutely */
+  top: 50%; /* set the top position to the middle of the page */
+  left: 25%;
+  margin: auto auto; 
+  text-align: center; /* center the text within the box */
+  width: 50%; /* set the width of the element */
+  height: auto; /* set the height of the element */
+  padding: 20px; /* add some padding to the element */
+  border: 1px solid #333; /* add a border to the element */
+  background-color: #fff; /* set the background color of the element */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* add a box shadow to the element */
+  z-index: 4; /* position the element above the page background */
+}

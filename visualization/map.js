@@ -1,4 +1,7 @@
-mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
+function loadMap(mapboxApiKey){
+
+  console.log("hello")
+mapboxgl.accessToken =  mapboxApiKey;
 
 const map = new mapboxgl.Map({
   container: "map", // container ID
@@ -78,22 +81,22 @@ map.on("load", () => {
   // the structure of data in this tileset in the documentation:
   // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
 
-  map.addSource("fish.geojson", {
-    type: "geojson",
-    data: "../data/fish.geojson",
-  });
-  /* Add Layer for heatmap points */
+  // map.addSource("fish.geojson", {
+  //   type: "geojson",
+  //   data: "../data/fish.geojson",
+  // });
+  // /* Add Layer for heatmap points */
 
-  map.addLayer({
-    id: "Poissons",
-    type: "fill",
-    source: "fish.geojson",
-    layout: {},
-    paint: {
-      "fill-color": "#088",
-      "fill-opacity": 0.5,
-    },
-  });
+  // map.addLayer({
+  //   id: "Poissons",
+  //   type: "fill",
+  //   source: "fish.geojson",
+  //   layout: {},
+  //   paint: {
+  //     "fill-color": "#088",
+  //     "fill-opacity": 0.5,
+  //   },
+  // });
 
   map.addSource("marine_mammal.geojson", {
     type: "geojson",
@@ -348,3 +351,4 @@ map.on("idle", () => {
     layers.appendChild(link);
   }
 });
+}
