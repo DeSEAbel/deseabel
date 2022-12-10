@@ -1,4 +1,4 @@
-mapboxgl.accessToken = process.env.MAPBOX_API_KEY;
+mapboxgl.accessToken = "pk.eyJ1IjoiZmxvaGF0MzIiLCJhIjoiY2xiaDN6Nm9yMGIxZTNvbm1oODR5YjM5ZiJ9.LTPa5auzUxqs-MyvrY7l7Q";
 
 const map = new mapboxgl.Map({
   container: "map", // container ID
