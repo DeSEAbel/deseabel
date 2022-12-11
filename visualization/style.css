@@ -34,7 +34,7 @@ html,body,#container,#map {
 }
 
 h3 {
-
+  
   text-align: center;
 }
 
@@ -308,7 +308,7 @@ h1 {
   padding-top: 50px;
   font-weight: bold;
   text-align: center;
-
+  
 }
 
 h2 {
@@ -317,7 +317,7 @@ h2 {
   padding-top: 50px;
   font-weight: bold;
   text-align: center;
-
+  
 }
 
 #first-section-propos-content h2 {
@@ -329,7 +329,7 @@ h2 {
 #first-section-propos-content, #second-section-propos-content p {
   color: white;
   font-size: 20px;
-
+  
 }
 
 .grid-item:nth-of-type(2), .grid-item:nth-of-type(3) {
