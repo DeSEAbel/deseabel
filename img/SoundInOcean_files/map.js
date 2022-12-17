@@ -46,16 +46,16 @@ map.on("load", () => {
   // the structure of data in this tileset in the documentation:
   // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
 
-  map.addSource("fish.geojson", {
-    type: "geojson",
-    data: "../data/fish.geojson",
+  map.addSource("fish.js", {
+    type: "js",
+    data: "../data/fish.js",
   });
   /* Add Layer for heatmap points */
 
   map.addLayer({
     id: "Poissons",
     type: "fill",
-    source: "fish.geojson",
+    source: "fish.js",
     layout: {},
     paint: {
       "fill-color": "#088",
@@ -63,15 +63,15 @@ map.on("load", () => {
     },
   });
 
-  map.addSource("marine_mammal.geojson", {
-    type: "geojson",
-    data: "../data/marine_mammal.geojson",
+  map.addSource("marine_mammal.js", {
+    type: "js",
+    data: "../data/marine_mammal.js",
   });
 
   map.addLayer({
     id: "Mammifères Marins",
     type: "fill",
-    source: "marine_mammal.geojson",
+    source: "marine_mammal.js",
     layout: {},
     paint: {
       "fill-color": "#f00",
@@ -79,15 +79,15 @@ map.on("load", () => {
     },
   });
 
-  map.addSource("safe_zone.geojson", {
-    type: "geojson",
-    data: "../data/safe_zone.geojson",
+  map.addSource("safe_zone.js", {
+    type: "js",
+    data: "../data/safe_zone.js",
   });
 
   map.addLayer({
     id: "Safe Zone (Green)",
     type: "heatmap",
-    source: "safe_zone.geojson",
+    source: "safe_zone.js",
     paint: {
       "heatmap-color": [
         "interpolate",
@@ -102,15 +102,15 @@ map.on("load", () => {
     },
   });
 
-  map.addSource("hurt_zone.geojson", {
-    type: "geojson",
-    data: "../data/hurt_zone.geojson",
+  map.addSource("hurt_zone.js", {
+    type: "js",
+    data: "../data/hurt_zone.js",
   });
 
   map.addLayer({
     id: "Hurt Zone (Yellow)",
     type: "heatmap",
-    source: "hurt_zone.geojson",
+    source: "hurt_zone.js",
     paint: {
       "heatmap-color": [
         "interpolate",
@@ -124,15 +124,15 @@ map.on("load", () => {
     },
   });
 
-  map.addSource("dead_zone.geojson", {
-    type: "geojson",
-    data: "../data/dead_zone.geojson",
+  map.addSource("dead_zone.js", {
+    type: "js",
+    data: "../data/dead_zone.js",
   });
 
   map.addLayer({
     id: "Dead Zone (Red)",
     type: "heatmap",
-    source: "dead_zone.geojson",
+    source: "dead_zone.js",
     paint: {
       "heatmap-color": [
         "interpolate",
