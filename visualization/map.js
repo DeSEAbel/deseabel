@@ -65,6 +65,43 @@ function loadMap(mapboxApiKey){
   // Set the marker's popup.
   whaleMarker.setPopup(popup);
   */
+
+  // map.on('load', function () {
+  //   map.addSource('random_decibels_geojson', {
+  //       type: 'geojson',
+  //       data: '../ocean_ecosystem/data/decibels_100000x100000_1000m_-2.4095_46.4181.geojson' // URL du fichier GeoJSON
+  //   }); 
+
+  //   // Ajout du calque de polygones à la carte
+  //   map.addLayer({
+  //       id: 'random_decibels',
+  //       type: 'fill',
+  //       source: 'random_decibels_geojson',
+  //       paint: {
+  //         'fill-color': {
+  //           property: 'decibel',
+  //           type: 'interval',
+  //           stops: [
+  //             [40, '#99ddff'], // Bleu transparent
+  //             [50, '#ffff00'], // Jaune
+  //             [100, '#ffa500'], // Orange
+  //             [200, '#ff0000'] // Rouge
+  //           ]
+  //         },// Utilisation de la propriété 'fill' pour la couleur de remplissage
+  //         'fill-outline-color': 'black', // Couleur de bordure des polygones
+  //         'fill-opacity': {
+  //           property: 'decibel',
+  //           type: 'interval',
+  //           stops: [
+  //               [50, 0], // Si la valeur est inférieure à 50, opacité à 0 (polygone invisible)
+  //               [100, 0.5], // Si la valeur est comprise entre 50 et 100, opacité à 0.5
+  //               [160, 0.8], // Si la valeur est comprise entre 100 et 160, opacité à 0.8
+  //               [200, 1] 
+  //           ]
+  //       }
+  //       }
+  //   });
+  // });
   
   map.on("load", () => {
     // Add a custom vector tileset source. This tileset contains
