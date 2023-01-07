@@ -138,16 +138,17 @@ def get_hash_coordinates_lonlat_to_decibel_from_matrix(
     return hash_coordinates_lonlat_to_decibel
 
 
-def save_conversion_metadata_in_json_with_metadata_in_filename(
+def get_or_save_conversion_metadata_in_json_with_metadata_in_filename(
     width: int,
     height: int,
     step: int,
     longitude_west: float,
     latitude_north: float,
-    directory: str = "data",
+    precision: int = 4,
+    directory: str = None,
 ) -> None:
-    """Save conversion metadata in json with metadata in filename
-
+    """Get of save conversion metadata in json with metadata in filename
+    The function save the metadata in directory if it's not None.
     Parameters
     ----------
     width : int
@@ -160,6 +161,8 @@ def save_conversion_metadata_in_json_with_metadata_in_filename(
         longitude of the west border
     latitude_north : float
         latitude of the north border
+    precision : int, optional
+        precision of the coordinates, by default 4 decimal
     directory : str, optional
         directory to save the json file, by default "data"
     """
@@ -184,21 +187,24 @@ def save_conversion_metadata_in_json_with_metadata_in_filename(
         "latitude_north": latitude_north,
         "longitude_est": longitude_est,
         "latitude_south": latitude_south,
-        "longitude_west_to_est": longitude_west_to_est.tolist(),
-        "latitude_north_to_south": latitude_north_to_south.tolist(),
+        "longitude_west_to_est": np.sort(np.round(longitude_west_to_est, precision)).tolist(),
+        "latitude_north_to_south": np.sort(np.round(latitude_north_to_south, precision)).tolist(),
     }
 
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    if directory is not None:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-    with open(
-        (
-            f"{directory}/conversion_metadata_{width}x{height}_{step}m_"
-            f"{longitude_west:.4f}_{latitude_north:.4f}.json"
-        ),
-        "w",
-    ) as outfile:
-        json.dump(metadata, outfile)
+        with open(
+            (
+                f"{directory}/conversion_metadata_{width}x{height}_{step}m_"
+                f"{longitude_west:.4f}_{latitude_north:.4f}.json"
+            ),
+            "w",
+        ) as outfile:
+            json.dump(metadata, outfile)
+    else:
+        return metadata
 
 
 def get_decibels_geojson_from_matrix(
@@ -358,6 +364,32 @@ def get_random_decibels_matrix(
         (int(width / step), int(height / step)),
     )
 
+def get_xy_from_hash_coordinates_lonlat(lon, lat, metadata,  hash_coordinates_lonlat_to_xy):
+    longitude_west_to_est = np.array(metadata['longitude_west_to_est'])
+    latitude_north_to_south = np.array(metadata['latitude_north_to_south'])
+    
+    idx_lon_closest = np.searchsorted(longitude_west_to_est, lon)
+    idx_lat_closest = np.searchsorted(latitude_north_to_south, lat)
+
+    lon_closest = longitude_west_to_est[idx_lon_closest]
+    lat_closest = latitude_north_to_south[idx_lat_closest]
+
+    if lon > lon_closest:
+        lon_closest_min = lon_closest
+        lon_closest_max = longitude_west_to_est[idx_lon_closest+1]
+    else:
+        lon_closest_max = lon_closest
+        lon_closest_min = longitude_west_to_est[idx_lon_closest-1]
+
+    if lat > lat_closest:
+        lat_closest_min = lat_closest
+        lat_closest_max = latitude_north_to_south[idx_lat_closest+1]
+    else:
+        lat_closest_max = lat_closest
+        lat_closest_min = latitude_north_to_south[idx_lat_closest-1]
+
+    return hash_coordinates_lonlat_to_xy[(lon_closest_min, lat_closest_max, lon_closest_max, lat_closest_min)]
+
 
 if __name__ == "__main__":
     # Example
@@ -395,7 +427,7 @@ if __name__ == "__main__":
     )
 
     # Save conversion metadata in json with metadata in case we want to convert it back
-    save_conversion_metadata_in_json_with_metadata_in_filename(
+    get_or_save_conversion_metadata_in_json_with_metadata_in_filename(
         width=width,
         height=height,
         step=step,
