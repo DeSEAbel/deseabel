@@ -1,31 +1,46 @@
-function loadMap(mapboxApiKey){
-  mapboxgl.accessToken =  mapboxApiKey;
-  
+function loadMap(mapboxApiKey) {
+  mapboxgl.accessToken = mapboxApiKey;
+
   const map = new mapboxgl.Map({
     container: "map", // container ID
     // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
     style: "mapbox://styles/mapbox/streets-v12", // style URL
-    center: [-1.57, 46.02], // starting position [lng, lat]
-    zoom: 9, // starting zoom
-    //interactive:false,
+    //center: [-1.57, 46.02], // starting position [lng, lat]
+    zoom: 7, // starting zoom
   });
+
+
+
+  map.setMaxBounds([[-2.50, 45], [-0.5, 47] ]);
+  map.jumpTo({
+    center: [-1.57, 46.02],
+    zoom: 7,
+    essential: true
+});
+  map.addControl(new mapboxgl.NavigationControl({
+    showCompass: false,
+    showZoom: false
+  }));
+  map.scrollZoom.disable();
+  map.dragRotate.disable();
   
+
   var toggleKnots = document.querySelector(".toggle-sidebar-knots");
   var sidebar = document.querySelector(".sidebar");
-  
+
   var toggleAnimals = document.querySelector(".toggle-sidebar-animals");
   var sidebarAnimals = document.querySelector(".sidebar-animals");
-  
+
   toggleKnots.addEventListener("click", function () {
     sidebar.classList.toggle("show-sidebar");
     toggleKnots.classList.toggle("click-toggle");
   });
-  
+
   toggleAnimals.addEventListener("click", function () {
     sidebarAnimals.classList.toggle("show-sidebar-animals");
     toggleAnimals.classList.toggle("toggle-animals");
   });
-  
+
   /*/ create a marker for the whales's location
   const whaleMarker = new mapboxgl.Marker()
   .setLngLat([-1.32, 46.13]) // set the marker's position
@@ -39,23 +54,35 @@ function loadMap(mapboxApiKey){
     document.querySelector('#markerInfo').innerHTML = 'Hello, I am a whale!';
   })
   */
-  
+
   // Create a marker and set its coordinates.
   // const whaleMarker = new mapboxgl.Marker()
   //   .setLngLat([-1.8, 45.73])
   //   .addTo(map);
-  
-  const el = document.createElement("div");
-  const width = 50;
-  const height = 50;
-  el.className = "marker";
-  el.style.backgroundImage = `url(../img/boat2.png)`;
-  el.style.width = `${width}px`;
-  el.style.height = `${height}px`;
-  el.style.backgroundSize = "100%";
-  
+
+  list_markers = [];
+
+  const markerBoatSize = 20; // minimum size of the boat marker in pixels
+  function create_div_marker(
+    img_url = `../img/boat2.png`,
+    width = markerBoatSize,
+    height = markerBoatSize
+  ) {
+    var div = document.createElement("div");
+    div.className = "marker";
+    div.style.backgroundImage = `url(${img_url})`;
+    div.style.width = `${width}px`;
+    div.style.height = `${height}px`;
+    div.style.backgroundSize = "100%";
+    return div;
+  }
+
+  var div_boat = create_div_marker();
+
   // Add markers to the map.
-  new mapboxgl.Marker(el).setLngLat([-1.9, 45.9]).addTo(map);
+  var marker_boat = new mapboxgl.Marker(div_boat).setLngLat([-1.9, 45.9]).addTo(map);
+  list_markers.push(marker_boat);
+
   /* POPUP
   // Create a popup and set its content.
   const popup = new mapboxgl.Popup()
@@ -102,8 +129,12 @@ function loadMap(mapboxApiKey){
   //       }
   //   });
   // });
-  
+
   map.on("load", () => {
+    map.addSource('bathymetry', {
+      type: 'vector',
+      url: 'mapbox://mapbox.mapbox-bathymetry-v2'
+      });
     // Add a custom vector tileset source. This tileset contains
     // point features representing museums. Each feature contains
     // three properties. For example:
@@ -115,13 +146,13 @@ function loadMap(mapboxApiKey){
     // Add the Mapbox Terrain v2 vector tileset. Read more about
     // the structure of data in this tileset in the documentation:
     // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
-    
+
     map.addSource("fish", {
       type: "geojson",
       data: "../data/fish.geojson",
     });
     /* Add Layer for heatmap points */
-    
+
     map.addLayer({
       id: "Poissons",
       type: "fill",
@@ -132,12 +163,12 @@ function loadMap(mapboxApiKey){
         "fill-opacity": 0.5,
       },
     });
-    
+
     map.addSource("marine_mammal", {
       type: "geojson",
       data: "../data/marine_mammal.geojson",
     });
-    
+
     map.addLayer({
       id: "Mammifères marins",
       type: "fill",
@@ -148,12 +179,12 @@ function loadMap(mapboxApiKey){
         "fill-opacity": 0.5,
       },
     });
-    
+
     map.addSource("safe_zone_5_noeuds", {
       type: "geojson",
       data: "../data/safe_zone_5_noeuds.geojson",
     });
-    
+
     map.addLayer({
       id: "Safe zone 5 noeuds",
       type: "heatmap",
@@ -170,12 +201,12 @@ function loadMap(mapboxApiKey){
         ],
       },
     });
-    
+
     map.addSource("hurt_zone_5_noeuds", {
       type: "geojson",
       data: "../data/hurt_zone_5_noeuds.geojson",
     });
-    
+
     map.addLayer({
       id: "Hurt zone 5 noeuds",
       type: "heatmap",
@@ -192,12 +223,12 @@ function loadMap(mapboxApiKey){
         ],
       },
     });
-    
+
     map.addSource("dead_zone_5_noeuds", {
       type: "geojson",
       data: "../data/dead_zone_5_noeuds.geojson",
     });
-    
+
     map.addLayer({
       id: "Dead zone 5 noeuds",
       type: "heatmap",
@@ -214,12 +245,12 @@ function loadMap(mapboxApiKey){
         ],
       },
     });
-    
+
     map.addSource("safe_zone_10_noeuds", {
       type: "geojson",
       data: "../data/safe_zone_10_noeuds.geojson",
     });
-    
+
     map.addLayer({
       id: "Safe zone 10 noeuds",
       type: "heatmap",
@@ -236,12 +267,12 @@ function loadMap(mapboxApiKey){
         ],
       },
     });
-    
+
     map.addSource("hurt_zone_10_noeuds", {
       type: "geojson",
       data: "../data/hurt_zone_10_noeuds.geojson",
     });
-    
+
     map.addLayer({
       id: "Hurt zone 10 noeuds",
       type: "heatmap",
@@ -258,12 +289,12 @@ function loadMap(mapboxApiKey){
         ],
       },
     });
-    
+
     map.addSource("dead_zone_10_noeuds", {
       type: "geojson",
       data: "../data/dead_zone_10_noeuds.geojson",
     });
-    
+
     map.addLayer({
       id: "Dead zone 10 noeuds",
       type: "heatmap",
@@ -280,35 +311,35 @@ function loadMap(mapboxApiKey){
         ],
       },
     });
-    
+
     map.setLayoutProperty("Dead zone 5 noeuds", "visibility", "none");
     map.setLayoutProperty("Hurt zone 5 noeuds", "visibility", "none");
     map.setLayoutProperty("Safe zone 5 noeuds", "visibility", "none");
-    
+
     map.setLayoutProperty("Dead zone 10 noeuds", "visibility", "none");
     map.setLayoutProperty("Hurt zone 10 noeuds", "visibility", "none");
     map.setLayoutProperty("Safe zone 10 noeuds", "visibility", "none");
-    
+
     map.setLayoutProperty("Poissons", "visibility", "none");
     map.setLayoutProperty("Mammifères marins", "visibility", "none");
-    
-    
+
+
   });
-  
+
   // After the last frame rendered before the map enters an "idle" state.
   map.on("idle", () => {
     // If these two layers were not added to the map, abort
     if (!map.getLayer("Poissons") || !map.getLayer("Mammifères marins")) {
       return;
     }
-    
+
     // Enumerate ids of the layers.
     const toggleableLayerIds = ["Poissons", "Mammifères marins"];
-    
+
     // define a variable to track the current state of the layers
     let layersVisible = false;
-    
-    
+
+
     // define the function to toggle the visibility of the layers
     function toggleLayer5knots() {
       // check the current state of the layers
@@ -328,7 +359,7 @@ function loadMap(mapboxApiKey){
         layersVisible = true;
       }
     }
-    
+
     function toggleLayer10knots() {
       // check the current state of the layers
       if (layersVisible) {
@@ -347,14 +378,14 @@ function loadMap(mapboxApiKey){
         layersVisible = true;
       }
     }
-    
+
     const toggleButton5knots = document.querySelector("#toggleLayer5knots");
     const toggleButton10knots = document.querySelector("#toggleLayer10knots");
-    
+
     // add an event listener to the button
     toggleButton5knots.addEventListener("click", toggleLayer5knots);
     toggleButton10knots.addEventListener("click", toggleLayer10knots);
-    
+
     // Set up the corresponding toggle button for each layer.
     for (const id of toggleableLayerIds) {
       // Skip layers that already have a button set up.
@@ -362,22 +393,22 @@ function loadMap(mapboxApiKey){
         continue;
       }
       console.log(id)
-      
+
       // Create a link.
       const link = document.createElement("a");
       link.id = id;
       link.href = "#";
       link.textContent = id;
       link.className = "active";
-      
+
       // Show or hide layer when the toggle is clicked.
       link.onclick = function (e) {
         const clickedLayer = this.textContent;
         e.preventDefault();
         e.stopPropagation();
-        
+
         const visibility = map.getLayoutProperty(clickedLayer, "visibility");
-        
+
         // Toggle layer visibility by changing the layout object's visibility property.
         if (visibility === "visible") {
           map.setLayoutProperty(clickedLayer, "visibility", "none");
@@ -387,9 +418,51 @@ function loadMap(mapboxApiKey){
           map.setLayoutProperty(clickedLayer, "visibility", "visible");
         }
       };
-      
+
       const layers = document.getElementById("menu");
       layers.appendChild(link);
+    }
+  });
+
+  // Add geolocate control to the map.
+  map.on('contextmenu', function (e) {
+    // e.lngLat contains the geographical position of the point on the map
+    var div_boat = create_div_marker()
+    var marker_boat = new mapboxgl.Marker(div_boat)
+      .setLngLat(e.lngLat)
+      .addTo(map);
+
+    list_markers.push(marker_boat);
+  });
+
+  // Delete marker on the map when click on it
+  map.on('click', function (e) {
+    console.log("lat: " + e.lngLat.lat + "\nlon: " + e.lngLat.lng)
+    for (var i = 0; i < list_markers.length; i++) {
+      difference_lat = Math.abs(list_markers[i].getLngLat().lat - e.lngLat.lat)
+      difference_lon = Math.abs(list_markers[i].getLngLat().lng - e.lngLat.lng)
+      if (difference_lat < 0.01 && difference_lon < 0.01) {
+        list_markers[i].remove();
+        list_markers.splice(i, 1);
+
+      }
+    }
+  }
+  );
+
+
+
+  function calculateMarkerSize(markerSize = markerBoatSize) {
+    var zoom = map.getZoom();
+    var markerSize = Math.max(markerSize, zoom * 2);
+    return markerSize;
+  }
+
+  map.on('zoom', function () {
+    var markerBoatSize = calculateMarkerSize(markerBoatSize);
+    for (var i = 0; i < list_markers.length; i++) {
+      list_markers[i].getElement().style.width = markerBoatSize + 'px';
+      list_markers[i].getElement().style.height = markerBoatSize + 'px';
     }
   });
 }
