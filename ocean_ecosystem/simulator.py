@@ -1,12 +1,5 @@
-import numpy as np
-import pandas as pd
-import geopandas
-from utils import load_config, get_ranges_lon_lat
-
 
 class Simulator(object):
-    config = load_config()
-    range_lat, range_lon = get_ranges_lon_lat(config) 
     
     def __init__(self, map, list_noise_impactor, list_marine_fauna):
         assert type(list_marine_fauna) == type(list_noise_impactor) == list, "list_noise_impactor and list_marine_fauna should be lists."
@@ -14,7 +7,7 @@ class Simulator(object):
         self.list_marine_fauna = list_marine_fauna
         self.check_list_marine_fauna_is_correct()
         self.map = map
-        self.map.compute_and_add_heatmaps(self.list_noise_impactor)
+        self.compute_and_add_heatmaps()
     
     def check_list_marine_fauna_is_correct(self):
         set_marine_fauna = set()
@@ -44,4 +37,16 @@ class Simulator(object):
     def remove_marine_fauna(self, idx):
         return self.list_marine_fauna.pop(idx)
     
+    def get_marine_fauna_by_type(self, type):
+        for marine_fauna in self.list_marine_fauna:
+            if marine_fauna.type == type:
+                return marine_fauna
+        raise Exception(f"The marine fauna {type} is not in the simulator.")
+    
+    def compute_and_add_heatmaps(self):
+        self.map.compute_and_add_heatmaps(self.list_noise_impactor)
+    
+    def compute_marine_fauna_impact(self, type):
+        marine_fauna = self.get_marine_fauna_by_type(type)
+        self.map.compute_marine_fauna_impact(marine_fauna)
 

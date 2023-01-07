@@ -23,12 +23,6 @@ class MarineFauna(object):
         # Sum of the array must be equal to 1.
         self.array_impact = np.zeros(self.array_sonor_impact_level.shape[0] + 1)
         self.array_impact[0] = 1.
-        
-    # def quantified_decibel_matrix_by_level(self, matrix_decibel):
-    #     matrix_decibel_quantified = np.zeros(matrix_decibel.shape)
-    #     for i, level in enumerate(self.array_sonor_impact_level):
-    #         matrix_decibel_quantified = np.where(matrix_decibel >= level, i + 1, matrix_decibel_quantified)
-    #     return matrix_decibel_quantified
     
     def set_array_impact(self, array_impact):
         assert array_impact.shape[0] == self.array_impact.shape[0], f"The array must have a size of {self.array_impact.shape[0]} not {array_impact.shape[0]}."

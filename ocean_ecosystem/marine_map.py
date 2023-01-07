@@ -1,47 +1,66 @@
 import numpy as np
 import pandas as pd
 import geopandas
+from matrix_conversion import get_hash_coordinates_lonlat_to_xy, get_or_save_conversion_metadata_in_json_with_metadata_in_filename, \
+    get_hash_coordinates_lonlat_to_xy, get_xy_from_hash_coordinates_lonlat, get_hash_coordinates_lonlat_to_decibel_from_matrix
 
 
 class MaritimeMap(object):
     
-    def __init__(self, x_min, x_max, y_min, y_max, step) -> None:
-        self.x_min = x_min
-        self.x_max = x_max
-        self.y_min = y_min
-        self.y_max = y_max
+    def __init__(self, width, height, step, longitude_west, latitude_north) -> None:
+        self.width = width
+        self.height = height
         self.step = step
-        self.update_matrix()
+        self.longitude_west = longitude_west
+        self.latitude_north = latitude_north
+        self.update_map()
         self.matrix_decibel_impact_quantified = np.zeros(self.matrix_decibel.shape)
         self.matrix_decibel_impact_quantified_gpd = None
 
-    def update_matrix(self):
-        self.matrix_decibel = np.zeros(((self.y_max - self.y_min) // self.step,
-                                (self.x_max - self.x_min) // self.step))
+    def update_map(self):
+        self.matrix_decibel = np.zeros((self.width // self.step, self.height // self.step))
+        self.hash_coordinates_lonlat_to_xy = get_hash_coordinates_lonlat_to_xy(
+            width=self.width,
+            height=self.height,
+            step=self.step,
+            longitude_west=self.longitude_west,
+            latitude_north=self.latitude_north,
+        )
+        self.metadata = get_or_save_conversion_metadata_in_json_with_metadata_in_filename(
+            width=self.width,
+            height=self.height,
+            step=self.step,
+            longitude_west=self.longitude_west,
+            latitude_north=self.latitude_north,
+        )
+        self.hash_coordinates_lonlat_to_decibel = (
+            get_hash_coordinates_lonlat_to_decibel_from_matrix(
+                self.matrix_decibel, self.hash_coordinates_lonlat_to_xy
+            )
+        )
         
     def compute_distance_matrix(self, x0, y0):
-        x, y = np.meshgrid(range(self.matrix.shape[0]), range(self.matrix.shape[1]))
+        x, y = np.meshgrid(range(self.matrix_decibel.shape[0]), range(self.matrix_decibel.shape[1]))
         return np.sqrt((x - x0) ** 2 + (y - y0) ** 2) * self.step
     
     def compute_decibel_matrix(self, x0, y0, sound_level):
         matrix_distance = self.compute_distance_matrix(x0, y0)
+        matrix_distance[matrix_distance == 0] = 1
         matrix_decibel = sound_level - 20 * np.log10(matrix_distance)
-        matrix_decibel[x0, y0] = sound_level
         return matrix_decibel
-    
+        
     def compute_and_add_heatmaps(self, list_noise_impactor):
         for noise_impactor in list_noise_impactor:
-            # TODO geo_...
-            x0, y0 = self.geo_coord_to_plan_coord(noise_impactor.lat, noise_impactor.lon)
+            x0, y0 = get_xy_from_hash_coordinates_lonlat(noise_impactor.lon, noise_impactor.lat,
+                                                        self.metadata, self.hash_coordinates_lonlat_to_xy)
             matrix_decibel = self.compute_decibel_matrix(x0, y0, noise_impactor.sound_level)
             self.matrix_decibel = self.matrix_decibel + 10 * np.log10(10 ** (matrix_decibel / 10))
-        self.matrix_decibel[::-1]  # TODO check if ::-1 is mandatory
         self.matrix_decibel_gpd = self.matrix_decibel_to_geopandas(self.matrix_decibel)
         
     def matrix_decibel_to_geopandas(self, matrix_decibel):
         df_res = pd.DataFrame(matrix_decibel)
-        df_res.columns = self.range_lon
-        df_res["lat"] = self.range_lat
+        df_res.columns = self.metadata["longitude_west_to_est"]
+        df_res["lat"] = self.metadata["latitude_north_to_south"]
         df_res = df_res.melt(id_vars=["lat"],
                              var_name="lon",
                              value_name="value")
