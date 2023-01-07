@@ -9,6 +9,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8.1"
 numpy = "^1.24.0"
+pandas = "^1.4.4"
+geopandas = "^0.12.1"
+seaborn = "^0.12.1"
 
 
 [tool.poetry.group.notebook.dependencies]
