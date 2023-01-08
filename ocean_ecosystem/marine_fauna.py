@@ -5,7 +5,7 @@ class MarineFauna(object):
     
     def __init__(self, path_spot_geojson, type, min_freq, max_freq, array_sonor_impact_level):
         self.type = type
-        self.spot_gpd = geopandas.read_file(path_spot_geojson).dissolve()  # TODO check if is a True Union of the different polygons
+        self.spot_gpd = geopandas.read_file(path_spot_geojson).explode(index_parts=True).reset_index() # TODO check if the explode is better here or when really needed
         self.min_freq = min_freq
         self.max_freq = max_freq
         # array_sonor_impact_level is an array of 5 integers corresponding to sonor level in decibels.

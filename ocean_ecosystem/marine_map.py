@@ -49,7 +49,7 @@ class MaritimeMap(object):
         matrix_decibel = sound_level - 20 * np.log10(matrix_distance)
         return matrix_decibel
         
-    def compute_and_add_heatmaps(self, list_noise_impactor):
+    def update_and_add_heatmaps(self, list_noise_impactor):
         for noise_impactor in list_noise_impactor:
             x0, y0 = get_xy_from_hash_coordinates_lonlat(noise_impactor.lon, noise_impactor.lat,
                                                         self.metadata, self.hash_coordinates_lonlat_to_xy)
@@ -79,7 +79,7 @@ class MaritimeMap(object):
         self.matrix_decibel_impact_quantified = self.quantify_decibel_matrix_by_level(marine_fauna)
         self.matrix_decibel_impact_quantified_gpd = self.matrix_decibel_to_geopandas(self.matrix_decibel_impact_quantified)
         
-    def compute_marine_fauna_impact(self, marine_fauna):
+    def update_marine_fauna_impact_old(self, marine_fauna):
         self.update_matrix_decibel_impact_quantified(marine_fauna)
         mask = self.matrix_decibel_impact_quantified_gpd.within(marine_fauna.spot_gpd.geometry[0])
         matrix_decibel_impact_quantified_gpd = self.matrix_decibel_impact_quantified_gpd[mask]
@@ -89,4 +89,22 @@ class MaritimeMap(object):
             array_impact[level] = 0 if level not in dict_impact else dict_impact[level]
         array_impact = array_impact / array_impact.sum()
         marine_fauna.set_array_impact(array_impact)
-                
+                   
+    def update_marine_fauna_impact(self, marine_fauna):
+        # Define a function that returns the coordinates of a Polygon
+        def get_coords(polygon):
+            return [get_xy_from_hash_coordinates_lonlat(lon, lat, self.metadata, \
+                                                        self.hash_coordinates_lonlat_to_xy) \
+                    for lon, lat, _ in list(polygon.exterior.coords)]
+
+        # Apply the function to the 'geometry' column of the GeoDataFrame
+        coords = marine_fauna.spot_gpd['geometry'].apply(get_coords).explode()
+        coords = np.array(coords[coords != (-1, -1)].tolist())
+
+        unique, counts = np.unique(self.matrix_decibel_impact_quantified[coords[:, 0], coords[:, 1]], return_counts=True)
+        dict_impact = dict(zip(unique, counts))
+        array_impact = np.zeros(marine_fauna.array_impact.shape[0])
+        for level in range(len(array_impact)):
+            array_impact[level] = 0 if level not in dict_impact else dict_impact[level]
+        array_impact = array_impact / array_impact.sum()
+        marine_fauna.set_array_impact(array_impact)

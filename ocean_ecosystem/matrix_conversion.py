@@ -370,7 +370,11 @@ def get_xy_from_hash_coordinates_lonlat(lon, lat, metadata,  hash_coordinates_lo
     
     idx_lon_closest = np.searchsorted(longitude_west_to_est, lon)
     idx_lat_closest = np.searchsorted(latitude_north_to_south, lat)
-
+    
+    if idx_lon_closest == 0 or idx_lon_closest == len(longitude_west_to_est) or \
+        idx_lat_closest == 0 or idx_lat_closest == len(latitude_north_to_south) :
+        return -1, -1
+    
     lon_closest = longitude_west_to_est[idx_lon_closest]
     lat_closest = latitude_north_to_south[idx_lat_closest]
 

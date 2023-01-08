@@ -7,7 +7,7 @@ class Simulator(object):
         self.list_marine_fauna = list_marine_fauna
         self.check_list_marine_fauna_is_correct()
         self.map = map
-        self.compute_and_add_heatmaps()
+        self.update_and_add_heatmaps()
     
     def check_list_marine_fauna_is_correct(self):
         set_marine_fauna = set()
@@ -19,7 +19,7 @@ class Simulator(object):
     
     def add_noise_impactor(self, noise_impactor):
         self.list_noise_impactor.append(noise_impactor)
-        self.decibels = self.compute_and_add_heatmaps()
+        self.decibels = self.update_and_add_heatmaps()
         
     def add_marine_fauna(self, marine_fauna):
         self.list_marine_fauna.append(marine_fauna)
@@ -31,7 +31,7 @@ class Simulator(object):
         
     def remove_noise_impactor(self, idx):
         noise_impactor = self.list_noise_impactor.pop(idx)
-        self.decibels = self.compute_and_add_heatmaps()
+        self.decibels = self.update_and_add_heatmaps()
         return noise_impactor
         
     def remove_marine_fauna(self, idx):
@@ -43,10 +43,14 @@ class Simulator(object):
                 return marine_fauna
         raise Exception(f"The marine fauna {type} is not in the simulator.")
     
-    def compute_and_add_heatmaps(self):
-        self.map.compute_and_add_heatmaps(self.list_noise_impactor)
+    def update_and_add_heatmaps(self):
+        self.map.update_and_add_heatmaps(self.list_noise_impactor)
     
-    def compute_marine_fauna_impact(self, type):
+    def update_marine_fauna_impact_old(self, type):
         marine_fauna = self.get_marine_fauna_by_type(type)
-        self.map.compute_marine_fauna_impact(marine_fauna)
+        self.map.update_marine_fauna_impact_old(marine_fauna)
+        
+    def update_marine_fauna_impact(self, type):
+        marine_fauna = self.get_marine_fauna_by_type(type)
+        self.map.update_marine_fauna_impact(marine_fauna)
 
