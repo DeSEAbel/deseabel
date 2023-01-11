@@ -17,3 +17,16 @@ submitButton.addEventListener('click', function() {
     // remove the dialog box element from the parent element
     parentElement.removeChild(dialogBox);
 });
+
+cookieMapboxApiKey = document.cookie.split(';').filter((item) => item.trim().startsWith('mapbox_api_key='))
+if (cookieMapboxApiKey.length) {
+    cookieMapboxApiKey = cookieMapboxApiKey[0].trim().split('=')[1];
+} else {
+    cookieMapboxApiKey = '';
+}
+
+console.log("cookieMapboxKey", cookieMapboxApiKey);
+if (cookieMapboxApiKey != '') {
+    document.getElementById("dialog-box").style.display = "none";
+    loadMap(cookieMapboxApiKey);
+}
