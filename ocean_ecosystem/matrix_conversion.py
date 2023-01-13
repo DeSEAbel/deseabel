@@ -147,7 +147,7 @@ def get_or_save_conversion_metadata_in_json_with_metadata_in_filename(
     precision: int = 4,
     directory: str = None,
 ) -> None:
-    """Get of save conversion metadata in json with metadata in filename
+    """Get or save conversion metadata in json with metadata in filename
     The function save the metadata in directory if it's not None.
     Parameters
     ----------
