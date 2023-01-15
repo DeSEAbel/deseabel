@@ -23,7 +23,7 @@ function loadMap(mapboxApiKey) {
   }));
   map.scrollZoom.disable();
   map.dragRotate.disable();
-  
+  map.doubleClickZoom.disable();  
 
   var toggleKnots = document.querySelector(".toggle-sidebar-knots");
   var sidebar = document.querySelector(".sidebar");
@@ -437,6 +437,7 @@ function loadMap(mapboxApiKey) {
 
   // Delete marker on the map when click on it
   map.on('click', function (e) {
+    console.log("cookie", document.cookie)
     console.log("lat: " + e.lngLat.lat + "\nlon: " + e.lngLat.lng)
     for (var i = 0; i < list_markers.length; i++) {
       difference_lat = Math.abs(list_markers[i].getLngLat().lat - e.lngLat.lat)
