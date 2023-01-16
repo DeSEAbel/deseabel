@@ -1,0 +1,83 @@
+map:
+  min_longitude: -2.250511
+  max_longitude: -0.802813
+  min_latitude: 45.670575
+  max_latitude: 46.378693
+wind_turbine:
+  emission_type: continue
+  freq_min: 50
+  freq_max: 2000
+  sound_level_mean: 133
+  sound_level_min: 120
+  sound_level_max: 150
+drilling:
+  emission_type: continue
+  freq_min: 10
+  freq_max: 10000
+  sound_level_mean: 168
+  sound_level_min: 120
+  sound_level_max: 190
+pile_driving:
+  emission_type: impulsive
+  freq_min: 10
+  freq_max: 20000
+  sound_level_mean: 207
+  sound_level_min: 200
+  sound_level_max: 250
+seismic_probing:
+  emission_type: impulsive
+  freq_min: 5
+  freq_max: 15000
+  sound_level_mean: 251
+  sound_level_min: 240
+  sound_level_max: 260
+fishing_boat:
+  emission_type: continue
+  freq_min: 10
+  freq_max: 20000
+  sound_level_mean: 140
+  sound_level_min: 130
+  sound_level_max: 160
+  length_min: 3
+  length_max: 30
+  speed_max: 35
+commercial_ship:
+  emission_type: continue
+  freq_min: 1
+  freq_max: 10000
+  sound_level_mean: 183 
+  sound_level_min: 170
+  sound_level_max: 190
+  length_min: 130
+  length_max: 330
+  speed_max: 25
+high_speed_ship:
+  emission_type: continue
+  freq_min: 1
+  freq_max: 25000
+  sound_level_mean: 197
+  sound_level_min: 150
+  sound_level_max: 200
+  length_min: 100
+  length_max: 150
+  speed_max: 45
+outboard_pleasure_boat:
+  emission_type: continue
+  freq_min: 10
+  freq_max: 20000
+  sound_level_mean: 140 
+  sound_level_min: 135
+  sound_level_max: 175
+  length_min: 2
+  length_max: 50
+  speed_max: 60
+jetski:
+  emission_type: continue
+  freq_min: 100
+  freq_max: 10000
+  sound_level_mean: 136
+  sound_level_min: 120
+  sound_level_max: 190
+  length_min: 2.4
+  length_max: 4
+  speed_max: 60

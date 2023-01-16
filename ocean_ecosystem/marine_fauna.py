@@ -1,18 +1,19 @@
 import numpy as np
 import geopandas
 
+
 class MarineFauna:
     """Object representing marine fauna.
     """
-    def __init__(self, path_spot_geojson: str, type: str, min_freq: float, 
-                 max_freq: float, array_sonor_impact_level: 'np.ndarray[float,(5)]'):
+    def __init__(self, path_spot_geojson: str, type: str, freq_min: float, 
+                 freq_max: float, array_sonor_impact_level: 'np.ndarray[float,(5)]'):
         """Init function.
 
         Args:
             path_spot_geojson (str): Path to geojson coordinates of marine fauna.
             type (str): The type of the marine fauna.
-            min_freq (float): The minimum frequency that can be heard by the species.
-            max_freq (float): The maximum frequency that can be heard by the species.
+            freq_min (float): The minimum frequency that can be heard by the species.
+            freq_max (float): The maximum frequency that can be heard by the species.
             array_sonor_impact_level (np.ndarray[float,(5)]): An array of 5 integers corresponding to sonor level in decibels.
                 Each integer indicates the threshold of a certain sonor impact level of the species.
                 5 levels exist (physiological reaction, acoustic masking, behavioral response, temporal physilogical damages,
@@ -25,8 +26,8 @@ class MarineFauna:
         """
         self.type = type
         self.spot_gpd = geopandas.read_file(path_spot_geojson).explode(index_parts=True).reset_index()
-        self.min_freq = min_freq
-        self.max_freq = max_freq
+        self.freq_min = freq_min
+        self.freq_max = freq_max
         assert array_sonor_impact_level.shape[0] == 5, "The number of threshold in the array should be equal to 5."
         self.array_sonor_impact_level = array_sonor_impact_level
         # first index is level 0 (no impact), second index is level 2, etc.

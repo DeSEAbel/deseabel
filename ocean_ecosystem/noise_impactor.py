@@ -1,11 +1,15 @@
 import numpy as np
+from utils import load_environment_config
+from enum import Enum
+
+conf = load_environment_config()
 
 
 class NoiseImpactor:
     """Object representing noise impactor.
     """
     def __init__(self, lat: float, lon: float, type: str, 
-                 sound_level: float, min_freq: float, max_freq: float):
+                 sound_level: float, freq_min: float, freq_max: float):
         """Init function
 
         Args:
@@ -13,15 +17,15 @@ class NoiseImpactor:
             lon (float): The longitude.
             type (str): The type of the noise impactor.
             sound_level (float): The sound level of the noise impactor (in decibel).
-            min_freq (float): The minimum frequency of the sound produced.
-            max_freq (float): The maximum frequency of the sound produced.
+            freq_min (float): The minimum frequency of the sound produced.
+            freq_max (float): The maximum frequency of the sound produced.
         """
         self.type = type
         self.lat = lat
         self.lon = lon
         self.sound_level = sound_level
-        self.min_freq = min_freq
-        self.max_freq = max_freq
+        self.freq_min = freq_min
+        self.freq_max = freq_max
     
     def set_sound_level(self, sound_level: float):
         """Set the sound level parameter.
@@ -30,13 +34,19 @@ class NoiseImpactor:
             sound_level (float): The sound level to be set (in decibel).
         """
         self.sound_level = sound_level
+        
+    def __init_subclass__(cls, type: str = None, **kwargs) -> None:
+        if type is not None:
+            cls.dict_characteristics = conf[type]
+            cls.type = type.replace("_", " ")
+        return super().__init_subclass__(**kwargs)
 
 
 class Boat(NoiseImpactor):
     """Object representing a boat.
     Its mother class is NoiseImpactor.
     """
-    def __init__(self, lat: float, lon: float, type: str, min_freq: float, max_freq: float, 
+    def __init__(self, lat: float, lon: float, type: str, freq_min: float, freq_max: float, 
                  speed_max: float, speed: float, length: float, length_min: float, length_max: float):
         """Init function.
 
@@ -44,15 +54,15 @@ class Boat(NoiseImpactor):
             lat (float): The latitude.
             lon (float): The longitude.
             type (str): The type of the noise impactor.
-            min_freq (float): The minimum frequency of the sound produced (in hertz).
-            max_freq (float): The maximum frequency of the sound produced (in hertz).
+            freq_min (float): The minimum frequency of the sound produced (in hertz).
+            freq_max (float): The maximum frequency of the sound produced (in hertz).
             speed_max (float): The speed max of the boat (in knot).
             speed (float): The actual speed of the boat (in knot).
             length (float): The actual length of the boat (in meters).
             length_min (float): The mminimum length of the boat (in meters).
             length_max (float): The maximum length of the boat (in meters).
         """
-        super().__init__(lat, lon, type, 0, min_freq, max_freq)
+        super().__init__(lat, lon, type, 0, freq_min, freq_max)
         # Define all possible values of the speed.
         self.speed_array = np.arange(1, speed_max+1)
         self.speed_max = speed_max
@@ -80,14 +90,7 @@ class Boat(NoiseImpactor):
         """
         self.speed = speed if 0 < speed else self.speed_max if self.speed_max < speed else 0
         self.set_sound_level()
-    
-    # def set_sound_level(self):
-    #     reference_sound_power = 10**-12 # Watts
-    #     reference_length = 1 # square meter
-
-    #     boat_sound_power = 0.11 * self.speed + 0.0053 * self.length # Watts
-    #     self.sound_level = 10 * np.log10(boat_sound_power / reference_sound_power) + 2 * np.log10(self.length / reference_length)
-        
+  
     def set_sound_level(self):
         """Set the sound level of the boat. The formula to compute its sound level is based on its length and speed.
         """
@@ -110,88 +113,164 @@ class Boat(NoiseImpactor):
         self.sound_level = np.mean(SLi)
 
 
-# TODO Create a config file for all the parameters of noise impactors and marine fauna
-class Cargo(Boat):
+class Type(Enum):
+    fishing_boat = "fishing_boat"
+    commercial_ship = "commercial_ship"
+    outboard_pleasure_boat = "outboard_pleasure_boat"
+    high_speed_ship = "high_speed_ship"
+    jetski = "jetski"
+    pile_driving = "pile_driving"
+    seismic_probing = "seismic_probing"
+    drilling = "drilling"
+    wind_turbine = "wind_turbine"
+    
+        
+class FishingBoat(Boat, type=Type.fishing_boat.name):
+    """Object representing a fishing boat.
+    Its mother class is Boat.
+    """
     def __init__(self, lat: float, lon: float, speed: float, length: float):
-        """_summary_
+        """Init function.
 
         Args:
-            lat (float): _description_
-            lon (float): _description_
-            speed (float): _description_
-            length (float): _description_
+            lat (float): The latitude.
+            lon (float): The longitude.
+            speed (float): The actual speed of the boat (in knot).
+            length (float): The actual length of the boat (in meters).
         """
-        super().__init__(lat, lon, "cargo", min_freq=1, max_freq=10*1e3, speed_max=30, speed=speed,
-                         length=length, length_min=20*4, length_max=80*10)
+        super().__init__(lat, lon, self.type, freq_min=self.dict_characteristics["freq_min"], 
+                         freq_max=self.dict_characteristics["freq_max"], speed_max=self.dict_characteristics["speed_max"], speed=speed,
+                         length=length, length_min=self.dict_characteristics["length_min"], length_max=self.dict_characteristics["length_max"])
 
-class FishingBoat(Boat):
+
+class CommercialShip(Boat, type=Type.commercial_ship.name):
+    """Object representing a commercial ship.
+    Its mother class is Boat.
+    """
     def __init__(self, lat: float, lon: float, speed: float, length: float):
-        """_summary_
+        """Init function.
 
         Args:
-            lat (float): _description_
-            lon (float): _description_
-            speed (float): _description_
-            length (float): _description_
+            lat (float): The latitude.
+            lon (float): The longitude.
+            speed (float): The actual speed of the boat (in knot).
+            length (float): The actual length of the boat (in meters).
         """
-        super().__init__(lat, lon, "fishing_boat", min_freq=1, max_freq=10*1e3, speed_max=20, speed=speed,
-                         length=length, length_min=10*4, length_max=50*10)
+        super().__init__(lat, lon, self.type.replace("_", " "), freq_min=self.dict_characteristics["freq_min"], 
+                         freq_max=self.dict_characteristics["freq_max"], speed_max=self.dict_characteristics["speed_max"], speed=speed,
+                         length=length, length_min=self.dict_characteristics["length_min"], length_max=self.dict_characteristics["length_max"])
+       
 
-class PleasureBoat(Boat):
+class OutboardPleasureBoat(Boat, type=Type.outboard_pleasure_boat.name):
+    """Object representing a outboard pleasure boat.
+    Its mother class is Boat.
+    """
     def __init__(self, lat: float, lon: float, speed: float, length: float):
-        """_summary_
+        """Init function.
 
         Args:
-            lat (float): _description_
-            lon (float): _description_
-            speed (float): _description_
-            length (float): _description_
+            lat (float): The latitude.
+            lon (float): The longitude.
+            speed (float): The actual speed of the boat (in knot).
+            length (float): The actual length of the boat (in meters).
         """
-        super().__init__(lat, lon, "pleasure_boat", min_freq=10, max_freq=30*1e3, speed_max=30, speed=speed,
-                         length=length, length_min=4*2, length_max=20*5)
+        super().__init__(lat, lon, self.type, freq_min=self.dict_characteristics["freq_min"], 
+                         freq_max=self.dict_characteristics["freq_max"], speed_max=self.dict_characteristics["speed_max"], speed=speed,
+                         length=length, length_min=self.dict_characteristics["length_min"], length_max=self.dict_characteristics["length_max"])
 
-class OutboardBoat(Boat):
+
+class JetSki(Boat, type=Type.jetski.name):
+    """Object representing a jetski.
+    Its mother class is Boat.
+    """
     def __init__(self, lat: float, lon: float, speed: float, length: float):
-        """_summary_
+        """Init function.
 
         Args:
-            lat (float): _description_
-            lon (float): _description_
-            speed (float): _description_
-            length (float): _description_
+            lat (float): The latitude.
+            lon (float): The longitude.
+            speed (float): The actual speed of the boat (in knot).
+            length (float): The actual length of the boat (in meters).
         """
-        super().__init__(lat, lon, "outboard_boat", min_freq=10, max_freq=30*1e3, speed_max=20, speed=speed,
-                         length=length, length_min=4*2, length_max=15*5)
+        super().__init__(lat, lon, self.type, freq_min=self.dict_characteristics["freq_min"], 
+                         freq_max=self.dict_characteristics["freq_max"], speed_max=self.dict_characteristics["speed_max"], speed=speed,
+                         length=length, length_min=self.dict_characteristics["length_min"], length_max=self.dict_characteristics["length_max"])
          
-
-class PileDriving(NoiseImpactor):
-    def __init__(self, lat: float, lon: float):
-        """_summary_
-
-        Args:
-            lat (float): _description_
-            lon (float): _description_
-        """
-        super().__init__(lat, lon, "pile_driving", initial_sound_level=230, min_freq=10, max_freq=100*1e3)
-
-
-class MilitarSonar(NoiseImpactor):
-    def __init__(self, lat: float, lon: float):
-        """_summary_
+         
+class HighSpeedShip(Boat, type=Type.high_speed_ship.name):
+    """Object representing a high speed boat.
+    Its mother class is Boat.
+    """
+    def __init__(self, lat: float, lon: float, speed: float, length: float):
+        """Init function.
 
         Args:
-            lat (float): _description_
-            lon (float): _description_
+            lat (float): The latitude.
+            lon (float): The longitude.
+            speed (float): The actual speed of the boat (in knot).
+            length (float): The actual length of the boat (in meters).
         """
-        super().__init__(lat, lon, "militar_sonar", initial_sound_level=240, min_freq=100, max_freq=10*1e3)
+        super().__init__(lat, lon, self.type, freq_min=self.dict_characteristics["freq_min"], 
+                         freq_max=self.dict_characteristics["freq_max"], speed_max=self.dict_characteristics["speed_max"], speed=speed,
+                         length=length, length_min=self.dict_characteristics["length_min"], length_max=self.dict_characteristics["length_max"])
+
+
+class PileDriving(NoiseImpactor, type=Type.pile_driving.name):
+    """Object representing a pile driving.
+    Its mother class is NoiseImpactor.
+    """
+    def __init__(self, lat: float, lon: float):
+        """Init function.
+
+        Args:
+            lat (float): The latitude.
+            lon (float): The longitude.
+        """
+        super().__init__(lat, lon, self.type, sound_level=self.dict_characteristics["sound_level_mean"], 
+                         freq_min=self.dict_characteristics["freq_min"], freq_max=self.dict_characteristics["freq_max"])
+
+
+class WindTurbine(NoiseImpactor, type=Type.wind_turbine.name):
+    """Object representing a wind turbine.
+    Its mother class is NoiseImpactor.
+    """
+    def __init__(self, lat: float, lon: float):
+        """Init function.
+
+        Args:
+            lat (float): The latitude.
+            lon (float): The longitude.
+        """
+        super().__init__(lat, lon, self.type, sound_level=self.dict_characteristics["sound_level_mean"], 
+                         freq_min=self.dict_characteristics["freq_min"], freq_max=self.dict_characteristics["freq_max"])
 
     
-class SeismicTesting(NoiseImpactor):
+class Drilling(NoiseImpactor, type=Type.drilling.name):
+    """Object representing a drilling.
+    Its mother class is NoiseImpactor.
+    """
     def __init__(self, lat: float, lon: float):
-        """_summary_
+        """Init function.
 
         Args:
-            lat (float): _description_
-            lon (float): _description_
+            lat (float): The latitude.
+            lon (float): The longitude.
         """
-        super().__init__(lat, lon, "seismic_testing", initial_sound_level=250, min_freq=8, max_freq=16)
+        super().__init__(lat, lon, self.type, sound_level=self.dict_characteristics["sound_level_mean"], 
+                         freq_min=self.dict_characteristics["freq_min"], freq_max=self.dict_characteristics["freq_max"])
+
+
+class SeismicProbing(NoiseImpactor, type=Type.seismic_probing.name):
+    """Object representing a seismic probing.
+    Its mother class is NoiseImpactor.
+    """
+    def __init__(self, lat: float, lon: float):
+        """Init function.
+
+        Args:
+            lat (float): The latitude.
+            lon (float): The longitude.
+        """
+        super().__init__(lat, lon, self.type, sound_level=self.dict_characteristics["sound_level_mean"], 
+                         freq_min=self.dict_characteristics["freq_min"], freq_max=self.dict_characteristics["freq_max"])
+
