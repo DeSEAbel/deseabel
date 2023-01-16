@@ -1,6 +1,9 @@
 import numpy as np
 import geopandas
+from enum import Enum
+from utils import load_environment_config
 
+conf = load_environment_config()
 
 class MarineFauna:
     """Object representing marine fauna.
@@ -28,8 +31,8 @@ class MarineFauna:
         self.spot_gpd = geopandas.read_file(path_spot_geojson).explode(index_parts=True).reset_index()
         self.freq_min = freq_min
         self.freq_max = freq_max
-        assert array_sonor_impact_level.shape[0] == 5, "The number of threshold in the array should be equal to 5."
-        self.array_sonor_impact_level = array_sonor_impact_level
+        assert len(array_sonor_impact_level) == 5, "The number of threshold in the array should be equal to 5."
+        self.array_sonor_impact_level = np.array(array_sonor_impact_level)
         # first index is level 0 (no impact), second index is level 2, etc.
         # Sum of the array must be equal to 1.
         self.array_impact = np.zeros(self.array_sonor_impact_level.shape[0] + 1)
@@ -45,40 +48,69 @@ class MarineFauna:
         assert array_impact.shape[0] == self.array_impact.shape[0], f"The array must have a size of {self.array_impact.shape[0]} not {array_impact.shape[0]}."
         assert np.sum(array_impact) == 1., "The sum of all the elements in array_impact must be equal to 1."
         self.array_impact = array_impact
-
-
-class Mysticetes(MarineFauna):
-    def __init__(self, path_spot_geojson: str):
-        """Mysticetes species.
-
-        Args:
-            path_spot_geojson (str): Path to geojson coordinates of marine fauna.
-        """
-        super().__init__(path_spot_geojson, "mysticetes", 10, 10*1e3, np.arange(60, 110, 10))
         
-class Odontocetes(MarineFauna):
+    def __init_subclass__(cls, type: str = None, **kwargs) -> None:
+        if type is not None:
+            cls.dict_characteristics = conf[type]
+            cls.type = type.replace("_", " ")
+        return super().__init_subclass__(**kwargs)
+
+
+class Type(Enum):
+    mysticetes = "mysticetes"
+    odontocetes = "odontocetes"
+    phocides = "phocides"
+    fish = "fish"
+
+
+class Mysticetes(MarineFauna, type=Type.mysticetes.name):
+    """Object representing the mysticetes species.
+    Its mother class is MarineFauna.
+    """
     def __init__(self, path_spot_geojson: str):
-        """Odontocetes species.
+        """Init function.
 
         Args:
             path_spot_geojson (str): Path to geojson coordinates of marine fauna.
         """
-        super().__init__(path_spot_geojson, "odontocetes", 100, 180*1e3, np.arange(60, 110, 10))
+        super().__init__(path_spot_geojson, self.type, self.dict_characteristics["freq_min"],
+                         self.dict_characteristics["freq_max"], self.dict_characteristics["array_sonor_impact_level"])
         
-class Phocides(MarineFauna):
+class Odontocetes(MarineFauna, type=Type.odontocetes.name):
+    """Object representing the odontocetes species.
+    Its mother class is MarineFauna.
+    """
     def __init__(self, path_spot_geojson: str):
-        """Phocides species.
+        """Init function.
 
         Args:
             path_spot_geojson (str): Path to geojson coordinates of marine fauna.
         """
-        super().__init__(path_spot_geojson, "phocides", 100, 100*1e3, np.arange(60, 110, 10))
-
-class Fish(MarineFauna):
+        super().__init__(path_spot_geojson, self.type, self.dict_characteristics["freq_min"],
+                         self.dict_characteristics["freq_max"], self.dict_characteristics["array_sonor_impact_level"])
+        
+class Phocides(MarineFauna, type=Type.phocides.name):
+    """Object representing the phocides species.
+    Its mother class is MarineFauna.
+    """
     def __init__(self, path_spot_geojson: str):
-        """Fish species.
+        """Init function.
 
         Args:
             path_spot_geojson (str): Path to geojson coordinates of marine fauna.
         """
-        super().__init__(path_spot_geojson, "fish", 50, 300, np.arange(60, 110, 10))
+        super().__init__(path_spot_geojson, self.type, self.dict_characteristics["freq_min"],
+                         self.dict_characteristics["freq_max"], self.dict_characteristics["array_sonor_impact_level"])
+                         
+class Fish(MarineFauna, type=Type.fish.name):
+    """Object representing the fish species.
+    Its mother class is MarineFauna.
+    """
+    def __init__(self, path_spot_geojson: str):
+        """Init function.
+
+        Args:
+            path_spot_geojson (str): Path to geojson coordinates of marine fauna.
+        """
+        super().__init__(path_spot_geojson, self.type, self.dict_characteristics["freq_min"],
+                         self.dict_characteristics["freq_max"], self.dict_characteristics["array_sonor_impact_level"])
