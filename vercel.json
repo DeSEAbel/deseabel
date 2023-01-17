@@ -1,0 +1,15 @@
+{
+	"version": 2,
+	"public": false,
+	"builds": [
+		{ "src": "ocean_ecosystem/server/api.py",
+		"use": "@now/python" 
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "ocean_ecosystem/server/api.py" 
+		}
+	]
+}
