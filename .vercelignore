@@ -1,0 +1,7 @@
+__pycache__
+*.ipynb
+img
+data
+visualization
+sounds
+examples
