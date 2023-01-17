@@ -27,6 +27,10 @@ class ZoneOfInterest {
             this.hash_coordinates_lonlat
         );
         this.matrix = initMatrix(this.width, this.height, this.step);
+        this.longitude_east =
+            this.longitude_west_to_east[this.longitude_west_to_east.length - 1];
+        this.latitude_south =
+            this.latitude_north_to_south[this.latitude_north_to_south.length - 1];
     }
 
     display(map) {
@@ -34,8 +38,8 @@ class ZoneOfInterest {
             map,
             this.longitude_west,
             this.latitude_north,
-            this.longitude_west_to_east[this.longitude_west_to_east.length - 1],
-            this.latitude_north_to_south[this.latitude_north_to_south.length - 1]
+            this.longitude_east,
+            this.latitude_south
         );
         displayPolygonsFromCoordinates(map, this.hash_coordinates_lonlat);
     }

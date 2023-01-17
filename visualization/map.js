@@ -79,8 +79,8 @@ function loadMap(mapbox_api_key) {
     var div_boat = create_div_marker();
 
     // Add markers to the map.
-    var marker_boat = new mapboxgl.Marker(div_boat).setLngLat([-1.9, 45.9]).addTo(map);
-    list_markers.push(marker_boat);
+    // var marker_boat = new mapboxgl.Marker(div_boat).setLngLat([-1.9, 45.9]).addTo(map);
+    // list_markers.push(marker_boat);
 
     /* POPUP
   // Create a popup and set its content.
@@ -235,11 +235,25 @@ function loadMap(mapbox_api_key) {
 
     // Add geolocate control to the map.
     map.on("contextmenu", function (e) {
-        // e.lngLat contains the geographical position of the point on the map
-        var div_boat = create_div_marker();
-        var marker_boat = new mapboxgl.Marker(div_boat).setLngLat(e.lngLat).addTo(map);
+        if (typeof zone_of_interest !== "undefined") {
+            longitude = e.lngLat.lng;
+            latitude = e.lngLat.lat;
+            console.log("lat: " + latitude + "\nlon: " + longitude);
+            if (
+                longitude > zone_of_interest.longitude_west &&
+                longitude < zone_of_interest.longitude_east &&
+                latitude > zone_of_interest.latitude_south &&
+                latitude < zone_of_interest.latitude_north
+            ) {
+                // e.lngLat contains the geographical position of the point on the map
+                var div_boat = create_div_marker();
+                var marker_boat = new mapboxgl.Marker(div_boat)
+                    .setLngLat(e.lngLat)
+                    .addTo(map);
 
-        list_markers.push(marker_boat);
+                list_markers.push(marker_boat);
+            }
+        }
     });
 
     // Delete marker on the map when click on it
@@ -259,8 +273,11 @@ function loadMap(mapbox_api_key) {
         // TODO Put in a function to be called when the user select the zone of interest
         // Create zone of interest
 
-        longitude_west = -2.4095;
-        latitude_north = 46.4181;
+        var longitude_west = -2.3595;
+        var latitude_north = 46.4181;
+
+        // Make the zone of interest available in the global scope to be able to use it
+        //in the context menu. Don't use let, var or const to make it global
         zone_of_interest = new ZoneOfInterest(
             (width = 100000),
             (height = 100000),
