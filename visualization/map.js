@@ -1,5 +1,9 @@
-function loadMap(mapboxApiKey) {
-    mapboxgl.accessToken = mapboxApiKey;
+/**
+ *
+ * @param {string} mapbox_api_key - Mapbox API Key
+ */
+function loadMap(mapbox_api_key) {
+    mapboxgl.accessToken = mapbox_api_key;
 
     const map = new mapboxgl.Map({
         container: "map", // container ID
@@ -198,7 +202,6 @@ function loadMap(mapboxApiKey) {
             if (document.getElementById(id)) {
                 continue;
             }
-            console.log(id);
 
             // Create a link.
             const link = document.createElement("a");
@@ -241,7 +244,6 @@ function loadMap(mapboxApiKey) {
 
     // Delete marker on the map when click on it
     map.on("click", function (e) {
-        console.log("cookie", document.cookie);
         console.log("lat: " + e.lngLat.lat + "\nlon: " + e.lngLat.lng);
         for (var i = 0; i < list_markers.length; i++) {
             difference_lat = Math.abs(list_markers[i].getLngLat().lat - e.lngLat.lat);
@@ -253,17 +255,19 @@ function loadMap(mapboxApiKey) {
         }
     });
 
-    function calculateMarkerSize(markerSize = markerBoatSize) {
-        var zoom = map.getZoom();
-        var markerSize = Math.max(markerSize, zoom * 2);
-        return markerSize;
-    }
+    map.on("load", function () {
+        // TODO Put in a function to be called when the user select the zone of interest
+        // Create zone of interest
 
-    map.on("zoom", function () {
-        var markerBoatSize = calculateMarkerSize(markerBoatSize);
-        for (var i = 0; i < list_markers.length; i++) {
-            list_markers[i].getElement().style.width = markerBoatSize + "px";
-            list_markers[i].getElement().style.height = markerBoatSize + "px";
-        }
+        longitude_west = -2.4095;
+        latitude_north = 46.4181;
+        zone_of_interest = new ZoneOfInterest(
+            (width = 100000),
+            (height = 100000),
+            (step = 1000),
+            (longitude_west = longitude_west),
+            (latitude_north = latitude_north)
+        );
+        zone_of_interest.display(map);
     });
 }
