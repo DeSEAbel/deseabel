@@ -26,7 +26,7 @@ class ZoneOfInterest {
         this.hash_coordinates_xy_to_lonlat = getHashCoordinatesXyToLonlat(
             this.hash_coordinates_lonlat
         );
-        this.matrix = initMatrix(this.width, this.height, this.step);
+        this.decibel_matrix = initMatrix(this.width, this.height, this.step);
         this.longitude_east =
             this.longitude_west_to_east[this.longitude_west_to_east.length - 1];
         this.latitude_south =
@@ -42,5 +42,17 @@ class ZoneOfInterest {
             this.latitude_south
         );
         displayPolygonsFromCoordinates(map, this.hash_coordinates_lonlat);
+    }
+
+    autoUpdateDecibelMatrix(coordinates_lonlat, decibel) {
+        this.decibel_matrix = updateDecibelMatrix(
+            this.decibel_matrix,
+            decibel,
+            coordinates_lonlat,
+            this.hash_coordinates_lonlat,
+            this.width,
+            this.height,
+            this.step
+        );
     }
 }

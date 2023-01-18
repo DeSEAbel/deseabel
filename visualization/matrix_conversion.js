@@ -70,12 +70,13 @@ function getHashCoordinatesXyToLonlat(hash_coordinates) {
 
 function initMatrix(width, height, step) {
     var matrix = [];
-    for (var i = 0; i < width; i += step) {
+    for (var i = 0; i < height; i += step) {
         var row = [];
-        for (var j = 0; j < height; j += step) {
+        for (var j = 0; j < width; j += step) {
             row.push(0);
         }
         matrix.push(row);
     }
     return matrix;
 }
+
