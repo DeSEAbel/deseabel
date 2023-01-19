@@ -245,13 +245,28 @@ function loadMap(mapbox_api_key) {
                 latitude > zone_of_interest.latitude_south &&
                 latitude < zone_of_interest.latitude_north
             ) {
-                // e.lngLat contains the geographical position of the point on the map
-                var div_boat = create_div_marker();
-                var marker_boat = new mapboxgl.Marker(div_boat)
-                    .setLngLat(e.lngLat)
-                    .addTo(map);
+                coordinates_lonlat = findTileFromLonlat(
+                    (longitude = longitude),
+                    (latitude = latitude),
+                    (hash_coordinates_lonlat_to_xy =
+                        zone_of_interest.hash_coordinates_lonlat_to_xy)
+                );
+                if (coordinates_lonlat != null) {
+                    // e.lngLat contains the geographical position of the point on the map
+                    var div_boat = create_div_marker();
+                    var marker_boat = new mapboxgl.Marker(div_boat)
+                        .setLngLat(e.lngLat)
+                        .addTo(map);
 
-                list_markers.push(marker_boat);
+                    list_markers.push(marker_boat);
+                    console.log("Tile coordinates: " + coordinates_lonlat);
+                    console.log("autoUpdateDecibelLayer");
+                    zone_of_interest.autoUpdateDecibelLayer(
+                        map,
+                        coordinates_lonlat,
+                        120
+                    );
+                }
             }
         }
     });
