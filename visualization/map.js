@@ -248,7 +248,8 @@ function loadMap(mapbox_api_key) {
                 coordinates_lonlat = findTileFromLonlat(
                     (longitude = longitude),
                     (latitude = latitude),
-                    (hash_coordinates_lonlat = zone_of_interest.hash_coordinates_lonlat)
+                    (hash_coordinates_lonlat_to_xy =
+                        zone_of_interest.hash_coordinates_lonlat_to_xy)
                 );
                 if (coordinates_lonlat != null) {
                     // e.lngLat contains the geographical position of the point on the map
@@ -259,7 +260,12 @@ function loadMap(mapbox_api_key) {
 
                     list_markers.push(marker_boat);
                     console.log("Tile coordinates: " + coordinates_lonlat);
-                    zone_of_interest.autoUpdateDecibelMatrix(coordinates_lonlat, 120);
+                    console.log("autoUpdateDecibelLayer");
+                    zone_of_interest.autoUpdateDecibelLayer(
+                        map,
+                        coordinates_lonlat,
+                        120
+                    );
                 }
             }
         }

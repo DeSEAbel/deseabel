@@ -25,14 +25,14 @@ function getHashCoordinatesLonlatToXy(
     var latitude_south = latitude_north - (height / earth_radius) * (180 / Math.PI);
 
     var longitude_west_to_east = [];
-    for (var i = 0; i < width; i += step) {
+    for (var i = 0; i <= width; i += step) {
         var longitude_value =
             longitude_west + (i * (longitude_est - longitude_west)) / width;
         longitude_west_to_east.push(longitude_value.toFixed(precision));
     }
 
     var latitude_north_to_south = [];
-    for (var i = 0; i < height; i += step) {
+    for (var i = 0; i <= height; i += step) {
         var latitude_value =
             latitude_north - (i * (latitude_north - latitude_south)) / height;
         latitude_north_to_south.push(latitude_value.toFixed(precision));
@@ -80,3 +80,29 @@ function initMatrix(width, height, step) {
     return matrix;
 }
 
+function getCoordinatesLonlatList(hash_coordinates_lonlat_to_xy) {
+    return Object.keys(hash_coordinates_lonlat_to_xy).map((x) => x.split(","));
+}
+
+function getHashCoordinatesLonlatToIndex(hash_coordinates_lonlat_to_xy) {
+    var hash_coordinates_lonlat_to_index = {};
+    var index = 0;
+    for (var key in hash_coordinates_lonlat_to_xy) {
+        hash_coordinates_lonlat_to_index[key] = index;
+        index++;
+    }
+    return hash_coordinates_lonlat_to_index;
+}
+
+function getHashCoordinatesXyToIndex(
+    hash_coordinates_xy_to_lonlat,
+    hash_coordinates_lonlat_to_index
+) {
+    var hash_coordinates_xy_to_index = {};
+    console.log(hash_coordinates_xy_to_lonlat["0,0"]);
+    for (var key in hash_coordinates_xy_to_lonlat) {
+        hash_coordinates_xy_to_index[key] =
+            hash_coordinates_lonlat_to_index[hash_coordinates_xy_to_lonlat[key]];
+    }
+    return hash_coordinates_xy_to_index;
+}

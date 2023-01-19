@@ -81,17 +81,15 @@ function createPolygonFeature(
     return feature;
 }
 
-function displayPolygonsFromCoordinates(map, hash_coordinates_lonlat) {
-    coordinates_lonlat = Object.keys(hash_coordinates_lonlat).map((x) => x.split(","));
-
+function displayPolygonsFromCoordinates(map, coordinates_lonlat_list) {
     features = [];
-    for (let i = 0; i < coordinates_lonlat.length; i++) {
+    for (let i = 0; i < coordinates_lonlat_list.length; i++) {
         features.push(
             createPolygonFeature(
-                coordinates_lonlat[i][0],
-                coordinates_lonlat[i][1],
-                coordinates_lonlat[i][2],
-                coordinates_lonlat[i][3]
+                coordinates_lonlat_list[i][0],
+                coordinates_lonlat_list[i][1],
+                coordinates_lonlat_list[i][2],
+                coordinates_lonlat_list[i][3]
             )
         );
     }
@@ -103,8 +101,6 @@ function displayPolygonsFromCoordinates(map, hash_coordinates_lonlat) {
             features: features,
         },
     });
-
-    console.log(features);
 
     map.addLayer({
         id: "decibel_polygons_layer",
@@ -133,5 +129,28 @@ function displayPolygonsFromCoordinates(map, hash_coordinates_lonlat) {
                 ],
             },
         },
+    });
+}
+
+function updateDecibelLayer(
+    map,
+    decibel_matrix,
+    xy_sorted_by_distance,
+    hash_coordinates_xy_to_index
+) {
+    console.log("updateDecibelLayer");
+    console.log("features", features);
+    for (let i = 0; i < xy_sorted_by_distance.length; i++) {
+        let x = xy_sorted_by_distance[i][0];
+        let y = xy_sorted_by_distance[i][1];
+        let decibel = decibel_matrix[y][x];
+        let index = hash_coordinates_xy_to_index[xy_sorted_by_distance[i].join(",")];
+
+        features[index].properties.decibel = decibel;
+    }
+
+    map.getSource("decibel_polygons_source").setData({
+        type: "FeatureCollection",
+        features: features,
     });
 }
