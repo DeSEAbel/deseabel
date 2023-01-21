@@ -187,8 +187,12 @@ def get_or_save_conversion_metadata_in_json_with_metadata_in_filename(
         "latitude_north": latitude_north,
         "longitude_est": longitude_est,
         "latitude_south": latitude_south,
-        "longitude_west_to_est": np.sort(np.round(longitude_west_to_est, precision)).tolist(),
-        "latitude_north_to_south": np.sort(np.round(latitude_north_to_south, precision)).tolist(),
+        "longitude_west_to_est": np.sort(
+            np.round(longitude_west_to_est, precision)
+        ).tolist(),
+        "latitude_north_to_south": np.sort(
+            np.round(latitude_north_to_south, precision)
+        ).tolist(),
     }
 
     if directory is not None:
@@ -364,35 +368,44 @@ def get_random_decibels_matrix(
         (int(width / step), int(height / step)),
     )
 
-def get_xy_from_hash_coordinates_lonlat(lon, lat, metadata,  hash_coordinates_lonlat_to_xy):
-    longitude_west_to_est = np.array(metadata['longitude_west_to_est'])
-    latitude_north_to_south = np.array(metadata['latitude_north_to_south'])
-    
+
+def get_xy_from_hash_coordinates_lonlat(
+    lon, lat, metadata, hash_coordinates_lonlat_to_xy
+):
+    longitude_west_to_est = np.array(metadata["longitude_west_to_est"])
+    latitude_north_to_south = np.array(metadata["latitude_north_to_south"])
+
     idx_lon_closest = np.searchsorted(longitude_west_to_est, lon)
     idx_lat_closest = np.searchsorted(latitude_north_to_south, lat)
-    
-    if idx_lon_closest == 0 or idx_lon_closest == len(longitude_west_to_est) or \
-        idx_lat_closest == 0 or idx_lat_closest == len(latitude_north_to_south) :
+
+    if (
+        idx_lon_closest == 0
+        or idx_lon_closest == len(longitude_west_to_est)
+        or idx_lat_closest == 0
+        or idx_lat_closest == len(latitude_north_to_south)
+    ):
         return -1, -1
-    
+
     lon_closest = longitude_west_to_est[idx_lon_closest]
     lat_closest = latitude_north_to_south[idx_lat_closest]
 
     if lon > lon_closest:
         lon_closest_min = lon_closest
-        lon_closest_max = longitude_west_to_est[idx_lon_closest+1]
+        lon_closest_max = longitude_west_to_est[idx_lon_closest + 1]
     else:
         lon_closest_max = lon_closest
-        lon_closest_min = longitude_west_to_est[idx_lon_closest-1]
+        lon_closest_min = longitude_west_to_est[idx_lon_closest - 1]
 
     if lat > lat_closest:
         lat_closest_min = lat_closest
-        lat_closest_max = latitude_north_to_south[idx_lat_closest+1]
+        lat_closest_max = latitude_north_to_south[idx_lat_closest + 1]
     else:
         lat_closest_max = lat_closest
-        lat_closest_min = latitude_north_to_south[idx_lat_closest-1]
+        lat_closest_min = latitude_north_to_south[idx_lat_closest - 1]
 
-    return hash_coordinates_lonlat_to_xy[(lon_closest_min, lat_closest_max, lon_closest_max, lat_closest_min)]
+    return hash_coordinates_lonlat_to_xy[
+        (lon_closest_min, lat_closest_max, lon_closest_max, lat_closest_min)
+    ]
 
 
 if __name__ == "__main__":

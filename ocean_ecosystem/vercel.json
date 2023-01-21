@@ -1,0 +1,16 @@
+{
+	"version": 2,
+	"public": false,
+	"builds": [
+		{ "src": "server/api.py",
+		"use": "@vercel/python" 
+		}
+	],
+  	"rewrites": [
+		{
+		       	"source": "/(.*)",
+		       	"destination": "server/api.py" 
+		}
+	]
+}
+

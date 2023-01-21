@@ -1,8 +1,9 @@
 map:
-  min_longitude: -2.250511
-  max_longitude: -0.802813
-  min_latitude: 45.670575
-  max_latitude: 46.378693
+  width: 300000
+  height: 300000
+  step: 1000
+  longitude_west: -6.40953
+  latitude_north: 46.41813
 wind_turbine:
   emission_type: continue
   freq_min: 50
