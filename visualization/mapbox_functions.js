@@ -138,8 +138,7 @@ function updateDecibelLayer(
     xy_sorted_by_distance,
     hash_coordinates_xy_to_index
 ) {
-    console.log("updateDecibelLayer");
-    console.log("features", features);
+    // Not possible to log from this function. Don't know why.
     for (let i = 0; i < xy_sorted_by_distance.length; i++) {
         let x = xy_sorted_by_distance[i][0];
         let y = xy_sorted_by_distance[i][1];

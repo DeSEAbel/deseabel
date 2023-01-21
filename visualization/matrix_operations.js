@@ -136,8 +136,11 @@ function updateDecibelMatrix(
         (step = step)
     );
 
-    return [
-        calculateDecibelMatrices(decibel_matrix, new_decibel_matrix, operation),
-        xy_sorted_by_distance,
-    ];
+    updated_decibel_matrix = calculateDecibelMatrices(
+        decibel_matrix,
+        new_decibel_matrix,
+        operation
+    );
+
+    return [updated_decibel_matrix, xy_sorted_by_distance];
 }

@@ -11,6 +11,8 @@ class ZoneOfInterest {
     }
 
     initZoneOfInterest() {
+        console.time("initZoneOfInterest");
+
         [
             this.hash_coordinates_lonlat_to_xy,
             this.longitude_west_to_east,
@@ -44,10 +46,14 @@ class ZoneOfInterest {
         );
 
         this.decibel_matrix = initMatrix(this.width, this.height, this.step);
+
+        console.timeEnd("initZoneOfInterest");
     }
 
     display(map) {
-        console.log("display map");
+        console.time("zone_of_interest.display");
+
+        console.time("displayZoneOfInterest");
         displayZoneOfInterest(
             map,
             this.longitude_west,
@@ -55,10 +61,19 @@ class ZoneOfInterest {
             this.longitude_east,
             this.latitude_south
         );
+        console.timeEnd("displayZoneOfInterest");
+
+        console.time("displayPolygonsFromCoordinates");
         displayPolygonsFromCoordinates(map, this.coordinates_lonlat_list);
+        console.timeEnd("displayPolygonsFromCoordinates");
+
+        console.timeEnd("zone_of_interest.display");
     }
 
     autoUpdateDecibelLayer(map, coordinates_lonlat, decibel) {
+        console.time("zone_of_interest.autoUpdateDecibelLayer");
+
+        console.time("updateDecibelMatrix");
         var [decibel_matrix, xy_sorted_by_distance] = updateDecibelMatrix(
             this.decibel_matrix,
             decibel,
@@ -68,29 +83,19 @@ class ZoneOfInterest {
             this.height,
             this.step
         );
+        console.timeEnd("updateDecibelMatrix");
         this.decibel_matrix = decibel_matrix;
-        // console.log("updateDecibelLayer");
-        // console.log("features", features);
-        // for (let i = 0; i < xy_sorted_by_distance.length; i++) {
-        //     let x = xy_sorted_by_distance[i][0];
-        //     let y = xy_sorted_by_distance[i][1];
-        //     let decibel = decibel_matrix[y][x];
-        //     let index =
-        //         this.hash_coordinates_xy_to_index[xy_sorted_by_distance[i].join(",")];
 
-        //     features[index].properties.decibel = decibel;
-        // }
-
-        // map.getSource("decibel_polygons_source").setData({
-        //     type: "FeatureCollection",
-        //     features: features,
-        // });
-
+        console.time("updateDecibelLayer");
+        // Don't understand why logs in the function updateDecibelLayer are not displayed
         updateDecibelLayer(
             map,
             this.decibel_matrix,
             xy_sorted_by_distance,
             this.hash_coordinates_xy_to_index
         );
+        console.timeEnd("updateDecibelLayer");
+
+        console.timeEnd("zone_of_interest.autoUpdateDecibelLayer");
     }
 }

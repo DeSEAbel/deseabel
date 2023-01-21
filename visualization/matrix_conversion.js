@@ -16,6 +16,7 @@ function getHashCoordinatesLonlatToXy(
     latitude_north,
     precision
 ) {
+    console.time("getHashCoordinatesLonlatToXy");
     var earth_radius = 6371000;
     var longitude_est =
         longitude_west +
@@ -51,7 +52,7 @@ function getHashCoordinatesLonlatToXy(
             ] = [i, j];
         }
     }
-
+    console.timeEnd("getHashCoordinatesLonlatToXy");
     return [hash_coordinates, longitude_west_to_east, latitude_north_to_south];
 }
 
@@ -61,36 +62,50 @@ function getHashCoordinatesLonlatToXy(
  * @returns
  */
 function getHashCoordinatesXyToLonlat(hash_coordinates) {
+    console.time("getHashCoordinatesXyToLonlat");
     var hash_coordinates_xy_to_lonlat = {};
     for (var key in hash_coordinates) {
         hash_coordinates_xy_to_lonlat[String(hash_coordinates[key])] = key;
     }
+    console.timeEnd("getHashCoordinatesXyToLonlat");
     return hash_coordinates_xy_to_lonlat;
 }
 
 function initMatrix(width, height, step) {
+    console.time("initMatrix");
+
     var matrix = [];
-    for (var i = 0; i < height; i += step) {
-        var row = [];
-        for (var j = 0; j < width; j += step) {
-            row.push(0);
+    for (var i = 0; i < height / step; i++) {
+        matrix[i] = [];
+        for (var j = 0; j < width / step; j++) {
+            matrix[i][j] = 0;
         }
-        matrix.push(row);
     }
+
+    console.timeEnd("initMatrix");
     return matrix;
 }
 
 function getCoordinatesLonlatList(hash_coordinates_lonlat_to_xy) {
-    return Object.keys(hash_coordinates_lonlat_to_xy).map((x) => x.split(","));
+    console.time("getCoordinatesLonlatList");
+    var coordinates_lonlat_list = Object.keys(hash_coordinates_lonlat_to_xy).map((x) =>
+        x.split(",")
+    );
+    console.timeEnd("getCoordinatesLonlatList");
+    return coordinates_lonlat_list;
 }
 
 function getHashCoordinatesLonlatToIndex(hash_coordinates_lonlat_to_xy) {
+    console.time("getHashCoordinatesLonlatToIndex");
+
     var hash_coordinates_lonlat_to_index = {};
     var index = 0;
     for (var key in hash_coordinates_lonlat_to_xy) {
         hash_coordinates_lonlat_to_index[key] = index;
         index++;
     }
+
+    console.timeEnd("getHashCoordinatesLonlatToIndex");
     return hash_coordinates_lonlat_to_index;
 }
 
@@ -98,11 +113,14 @@ function getHashCoordinatesXyToIndex(
     hash_coordinates_xy_to_lonlat,
     hash_coordinates_lonlat_to_index
 ) {
+    console.time("getHashCoordinatesXyToIndex");
+
     var hash_coordinates_xy_to_index = {};
-    console.log(hash_coordinates_xy_to_lonlat["0,0"]);
     for (var key in hash_coordinates_xy_to_lonlat) {
         hash_coordinates_xy_to_index[key] =
             hash_coordinates_lonlat_to_index[hash_coordinates_xy_to_lonlat[key]];
     }
+
+    console.timeEnd("getHashCoordinatesXyToIndex");
     return hash_coordinates_xy_to_index;
 }
