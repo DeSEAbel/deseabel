@@ -1,9 +1,9 @@
 import numpy as np
 import geopandas
 from enum import Enum
-from utils import load_environment_config
+from ocean_ecosystem.utils import load_marine_fauna_config
 
-conf = load_environment_config()
+conf = load_marine_fauna_config()
 
 
 class MarineFauna:

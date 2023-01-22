@@ -1,6 +1,6 @@
 LICENSE
+MANIFEST.in
 README.md
-pyproject.toml
 setup.py
 deseabel.egg-info/PKG-INFO
 deseabel.egg-info/SOURCES.txt
@@ -14,3 +14,6 @@ ocean_ecosystem/matrix_conversion.py
 ocean_ecosystem/noise_impactor.py
 ocean_ecosystem/simulator.py
 ocean_ecosystem/utils.py
+ocean_ecosystem/config/marine_fauna.yaml
+ocean_ecosystem/config/marine_map.yaml
+ocean_ecosystem/config/noise_impactor.yaml

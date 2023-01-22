@@ -1,6 +1,6 @@
-from marine_map import MarineMap
-from noise_impactor import NoiseImpactor
-from marine_fauna import MarineFauna
+from ocean_ecosystem.marine_map import MarineMap
+from ocean_ecosystem.noise_impactor import NoiseImpactor
+from ocean_ecosystem.marine_fauna import MarineFauna
 from typing import List
 
 

@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 import geopandas
-from noise_impactor import NoiseImpactor
-from marine_fauna import MarineFauna
+from ocean_ecosystem.noise_impactor import NoiseImpactor
+from ocean_ecosystem.marine_fauna import MarineFauna
 from typing import List, Tuple
 
 from matrix_conversion import (

@@ -1,8 +1,8 @@
 import numpy as np
-from utils import load_environment_config
+from ocean_ecosystem.utils import load_noise_impactor_config
 from enum import Enum
 
-conf = load_environment_config()
+conf = load_noise_impactor_config()
 
 
 class NoiseImpactor:
