@@ -5,7 +5,7 @@ from ocean_ecosystem.noise_impactor import NoiseImpactor
 from ocean_ecosystem.marine_fauna import MarineFauna
 from typing import List, Tuple
 
-from matrix_conversion import (
+from ocean_ecosystem.matrix_conversion import (
     get_hash_coordinates_lonlat_to_xy,
     get_or_save_conversion_metadata_in_json_with_metadata_in_filename,
     get_hash_coordinates_lonlat_to_xy,
