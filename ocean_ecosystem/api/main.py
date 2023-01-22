@@ -40,6 +40,9 @@ async def startup():
 async def read_root():
     return {"message": "Welcome to the DeSEAbel API !!!"}
 
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
+    return {"item_id": item_id}
 
 def get_simulator(request: Request):
     return request.app.state.simulator
