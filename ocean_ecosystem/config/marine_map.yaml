@@ -4,3 +4,5 @@ la_rochelle:
   step: 1000
   longitude_west: -6.40953
   latitude_north: 46.41813
+  marine_fauna:
+    fish: "s3://deseabel/marine_fauna/fish.geojson"

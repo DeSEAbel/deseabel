@@ -80,6 +80,20 @@ class Species(Enum):
     fish = "fish"
 
 
+def get_constructor_from_type(species):
+    if species == Species.mysticetes.name:
+        return Mysticetes
+    elif species == Species.odontocetes.name:
+        return Odontocetes
+    elif species == Species.phocides.name:
+        return Phocides
+    elif species == Species.fish.name:
+        return Fish
+    else:
+        raise ValueError(f"Species {species} is not supported.")
+
+
+
 class Mysticetes(MarineFauna, species=Species.mysticetes.name):
     """Object representing the mysticetes species.
     Its mother class is MarineFauna.

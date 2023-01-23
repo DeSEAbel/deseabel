@@ -1,16 +1,26 @@
 from fastapi import FastAPI, Request, Depends, \
     HTTPException, Header
-from ocean_ecosystem.noise_impactor import FishingBoat, PileDriving, \
-    Types as noise_impactor_types
-from ocean_ecosystem.simulator import Simulator
-from ocean_ecosystem.marine_fauna import Fish, Species as marine_fauna_species
-from ocean_ecosystem.marine_map import MarineMap
-from ocean_ecosystem.matrix_conversion import *
-from ocean_ecosystem.utils import load_marine_map_config
 from pydantic import BaseModel
 import jwt
 from datetime import datetime
 
+# from ocean_ecosystem.noise_impactor import FishingBoat, PileDriving, \
+#     Types as noise_impactor_types
+# from ocean_ecosystem.simulator import Simulator
+# from ocean_ecosystem.marine_fauna import Fish, Species as marine_fauna_species, \
+#     get_constructor_from_type
+# from ocean_ecosystem.marine_map import MarineMap
+# from ocean_ecosystem.matrix_conversion import *
+# from ocean_ecosystem.utils import load_marine_map_config, load_marine_fauna_config
+
+from noise_impactor import FishingBoat, PileDriving, \
+    Types as noise_impactor_types
+from simulator import Simulator
+from marine_fauna import Fish, Species as marine_fauna_species, \
+    get_constructor_from_type
+from marine_map import MarineMap
+from matrix_conversion import *
+from utils import load_marine_map_config
 
 app = FastAPI()
 
@@ -29,7 +39,9 @@ async def startup():
             config_map[zone]["longitude_west"],
             config_map[zone]["latitude_north"],
         )
-        app.state.dict_marine_map[zone] = marine_map
+        list_marine_fauna = [get_constructor_from_type(marine_fauna)(path_geojson) for marine_fauna, path_geojson in config_map[zone]["marine_fauna"].items()]
+        app.state.dict_marine_map[zone] = {"map": marine_map,
+                                           "marine_fauna": list_marine_fauna}
     app.state.simulator = {}
     # app.state.simulator = Simulator(
     #     marine_map, list_noise_impactor=[], list_marine_fauna=[]
@@ -53,9 +65,11 @@ async def initialize_user(simulator: dict = Depends(get_simulator),
                           map: dict = Depends(get_map)):
     token = jwt.encode({}, str(datetime.now()), algorithm='HS256')
     set_token.add(token)
-    simulator[token] = {zone: Simulator(
-        map[zone], list_noise_impactor=[], list_marine_fauna=[]
-    ) for zone in map.keys()}
+    simulator[token] = {}
+    for zone in map.keys():
+        simulator[token][zone] = Simulator(
+            map[zone]["map"], list_noise_impactor=[], list_marine_fauna=map[zone]["marine_fauna"]
+        )
     return {"token": token}
 
 
@@ -119,7 +133,6 @@ async def add_marine_fauna(zone: str,
                            token: str = Depends(auth_required),
                            simulator: dict = Depends(get_simulator)):
     if species == marine_fauna_species.fish.name:
-        # TODO 3S bucket
         if simulator[token][zone].check_marine_fauna_exists(species):
             return {"error": f"The {species} marine fauna has not been added in the environment because the species already exists."}
         marine_fauna = Fish(geojson_path)
