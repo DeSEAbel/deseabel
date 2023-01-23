@@ -12,7 +12,6 @@ import jwt
 from datetime import datetime
 
 
-
 app = FastAPI()
 
 set_token = set()
@@ -40,9 +39,6 @@ async def startup():
 async def read_root():
     return {"message": "Welcome to the DeSEAbel API !!!"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-    return {"item_id": item_id}
 
 def get_simulator(request: Request):
     return request.app.state.simulator
@@ -52,7 +48,7 @@ def get_map(request: Request):
     return request.app.state.dict_marine_map
 
 
-@app.post("/initialize_user")
+@app.get("/initialize_user")
 async def initialize_user(simulator: dict = Depends(get_simulator),
                           map: dict = Depends(get_map)):
     token = jwt.encode({}, str(datetime.now()), algorithm='HS256')
