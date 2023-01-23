@@ -1,5 +1,17 @@
 # SoundInOcean
 
+## Installation
+
+Requierements:
+- Python 3.8 or newer.
+- Poetry that can be installed following the instructions at this link: https://python-poetry.org/docs/#installation
+
+Go to the deseabel folder and enter this command line to install all the dependencies:
+```bash
+poetry install
+```
+
+
 # Installation
 In order to access to the same Python environment as the developers, you should follow the following steps (install pyenv, python, poetry)
 
@@ -28,3 +40,5 @@ python3 --version # Make sure that python3 version is 3.11.1
 Install poetry
 
 Follow [instructions](https://python-poetry.org/docs/#:~:text=Poetry%20requires%20Python%203.7%2B.)
+
+
