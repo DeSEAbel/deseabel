@@ -2,6 +2,7 @@
  *
  * @param {string} mapbox_api_key - Mapbox API Key
  */
+
 function loadMap(mapbox_api_key) {
     mapboxgl.accessToken = mapbox_api_key;
 
