@@ -124,3 +124,55 @@ function getHashCoordinatesXyToIndex(
     console.timeEnd("getHashCoordinatesXyToIndex");
     return hash_coordinates_xy_to_index;
 }
+
+/**
+ *
+ * @param {number} lat
+ * @param {number} lon
+ * @param {hash} hash_coordinates_lonlat_to_xy
+ * @param {number} precision - precision of the coordinates after the decimal point
+ * @returns null or [lon_west, lat_north, lon_east, lat_south]
+ */
+function findTileFromLonlat(
+    longitude,
+    latitude,
+    hash_coordinates_lonlat_to_xy,
+    precision = 5
+) {
+    var coordinates_lonlat = Object.keys(hash_coordinates_lonlat_to_xy).map((x) =>
+        x.split(",").map((y) => parseFloat(y).toFixed(precision))
+    );
+
+    for (let i = 0; i < coordinates_lonlat.length; i++) {
+        var longitude_west = coordinates_lonlat[i][0];
+        var latitude_north = coordinates_lonlat[i][1];
+        var longitude_east = coordinates_lonlat[i][2];
+        var latitude_south = coordinates_lonlat[i][3];
+        if (
+            longitude >= longitude_west &&
+            longitude <= longitude_east &&
+            latitude >= latitude_south &&
+            latitude <= latitude_north
+        ) {
+            return coordinates_lonlat[i];
+        }
+    }
+    return null;
+}
+
+function lonLatToScreen(map, lon, lat) {
+    var point = map.project(new mapboxgl.LngLat(lon, lat));
+    return [point.x, point.y];
+}
+function lonLatInWater(map, lon, lat) {
+    var point = lonLatToScreen(map, lon, lat);
+    return pointInScreenInWater(map, point);
+}
+function pointInScreenInWater(map, point) {
+    var features = map.queryRenderedFeatures(point, { layers: ["water"] });
+    return features.length > 0;
+}
+function pointsInScreenInWater(map, points) {
+    var features = map.queryRenderedFeatures(points, { layers: ["water"] });
+    return features.map()
+}
