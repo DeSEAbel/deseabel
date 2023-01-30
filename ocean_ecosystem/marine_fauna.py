@@ -1,7 +1,7 @@
 import numpy as np
 import geopandas
 from enum import Enum
-from ocean_ecosystem.utils import load_marine_fauna_config
+from utils import load_marine_fauna_config
 
 conf = load_marine_fauna_config()
 
@@ -61,8 +61,9 @@ class MarineFauna:
         assert (
             array_impact.shape[0] == self.array_impact.shape[0]
         ), f"The array must have a size of {self.array_impact.shape[0]} not {array_impact.shape[0]}."
+        from math import isclose
         assert (
-            np.sum(array_impact) == 1.0
+            isclose(np.sum(array_impact), 1.0, abs_tol=1e-8)
         ), "The sum of all the elements in array_impact must be equal to 1."
         self.array_impact = array_impact
 
@@ -91,7 +92,6 @@ def get_constructor_from_type(species):
         return Fish
     else:
         raise ValueError(f"Species {species} is not supported.")
-
 
 
 class Mysticetes(MarineFauna, species=Species.mysticetes.name):

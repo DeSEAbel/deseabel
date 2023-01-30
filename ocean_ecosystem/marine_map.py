@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
 import geopandas
-from ocean_ecosystem.noise_impactor import NoiseImpactor
-from ocean_ecosystem.marine_fauna import MarineFauna
+from noise_impactor import NoiseImpactor
+from marine_fauna import MarineFauna
 from typing import List, Tuple
 
-from ocean_ecosystem.matrix_conversion import (
+from matrix_conversion import (
     get_hash_coordinates_lonlat_to_xy,
     get_or_save_conversion_metadata_in_json_with_metadata_in_filename,
     get_hash_coordinates_lonlat_to_xy,
@@ -124,6 +124,9 @@ class MarineMap:
         """
         self.matrix_decibel.fill(0)
         for noise_impactor in list_noise_impactor:
+            print("AAAAAAAAAAAAaa")
+            print(noise_impactor.length)
+            print(noise_impactor.speed)
             # Get the x0 and y0 of the noise impactor
             x0, y0 = get_xy_from_hash_coordinates_lonlat(
                 noise_impactor.lon,
@@ -195,6 +198,11 @@ class MarineMap:
         self.matrix_decibel_impact_quantified_gpd = self.matrix_decibel_to_geopandas(
             self.matrix_decibel_impact_quantified
         )
+        self.matrix_decibel_impact_quantified_gpd = (
+            self.matrix_decibel_impact_quantified_gpd[
+                self.matrix_decibel_impact_quantified_gpd["value"] != 0
+            ]
+        )
 
     def get_coords_xy_from_geopandas(
         self, gdf: geopandas.GeoDataFrame
@@ -232,7 +240,7 @@ class MarineMap:
         coords = self.get_coords_xy_from_geopandas(marine_fauna.spot_gpd)
         if len(coords) == 0:
             return
-
+        print(coords)
         # Create the dictionary containing the counts
         unique, counts = np.unique(
             self.matrix_decibel_impact_quantified[coords[:, 0], coords[:, 1]],
@@ -240,6 +248,8 @@ class MarineMap:
         )
         dict_impact = dict(zip(unique, counts))
         # Create the array of impacts
+        print(dict_impact)
+
         array_impact = np.zeros(marine_fauna.array_impact.shape[0])
         # # Compute the marine impact for each level
         for level in range(len(array_impact)):
@@ -247,4 +257,5 @@ class MarineMap:
         # Compute the percentage of impact
         array_impact = array_impact / array_impact.sum()
         # Set the parameter in the object
+        print(array_impact)
         marine_fauna.set_array_impact(array_impact)

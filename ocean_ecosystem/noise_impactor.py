@@ -1,5 +1,5 @@
 import numpy as np
-from ocean_ecosystem.utils import load_noise_impactor_config
+from utils import load_noise_impactor_config
 from enum import Enum
 
 conf = load_noise_impactor_config()
