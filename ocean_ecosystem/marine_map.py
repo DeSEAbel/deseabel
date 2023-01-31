@@ -124,9 +124,6 @@ class MarineMap:
         """
         self.matrix_decibel.fill(0)
         for noise_impactor in list_noise_impactor:
-            print("AAAAAAAAAAAAaa")
-            print(noise_impactor.length)
-            print(noise_impactor.speed)
             # Get the x0 and y0 of the noise impactor
             x0, y0 = get_xy_from_hash_coordinates_lonlat(
                 noise_impactor.lon,
@@ -240,7 +237,6 @@ class MarineMap:
         coords = self.get_coords_xy_from_geopandas(marine_fauna.spot_gpd)
         if len(coords) == 0:
             return
-        print(coords)
         # Create the dictionary containing the counts
         unique, counts = np.unique(
             self.matrix_decibel_impact_quantified[coords[:, 0], coords[:, 1]],
@@ -248,7 +244,6 @@ class MarineMap:
         )
         dict_impact = dict(zip(unique, counts))
         # Create the array of impacts
-        print(dict_impact)
 
         array_impact = np.zeros(marine_fauna.array_impact.shape[0])
         # # Compute the marine impact for each level
@@ -257,5 +252,4 @@ class MarineMap:
         # Compute the percentage of impact
         array_impact = array_impact / array_impact.sum()
         # Set the parameter in the object
-        print(array_impact)
         marine_fauna.set_array_impact(array_impact)
