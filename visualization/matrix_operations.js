@@ -1,39 +1,4 @@
 /**
- *
- * @param {number} lat
- * @param {number} lon
- * @param {hash} hash_coordinates_lonlat_to_xy
- * @param {number} precision - precision of the coordinates after the decimal point
- * @returns null or [lon_west, lat_north, lon_east, lat_south]
- */
-function findTileFromLonlat(
-    longitude,
-    latitude,
-    hash_coordinates_lonlat_to_xy,
-    precision = 5
-) {
-    var coordinates_lonlat = Object.keys(hash_coordinates_lonlat_to_xy).map((x) =>
-        x.split(",").map((y) => parseFloat(y).toFixed(precision))
-    );
-
-    for (let i = 0; i < coordinates_lonlat.length; i++) {
-        var longitude_west = coordinates_lonlat[i][0];
-        var latitude_north = coordinates_lonlat[i][1];
-        var longitude_east = coordinates_lonlat[i][2];
-        var latitude_south = coordinates_lonlat[i][3];
-        if (
-            longitude >= longitude_west &&
-            longitude <= longitude_east &&
-            latitude >= latitude_south &&
-            latitude <= latitude_north
-        ) {
-            return coordinates_lonlat[i];
-        }
-    }
-    return null;
-}
-
-/**
  * This funciton compute the decibel matrix from a point (x0, y0) with a given decibel
  *  value.
  * @param {number} x0   - coordinates of the point

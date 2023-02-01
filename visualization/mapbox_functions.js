@@ -1,3 +1,25 @@
+function fitBounds(
+    map,
+    longitude_west,
+    latitude_north,
+    longitude_east,
+    latitude_south
+) {
+    map.fitBounds(
+        [
+            [longitude_west, latitude_north],
+            [longitude_east, latitude_south],
+        ],
+        {
+            padding: 20,
+        }
+    );
+    map.setMaxBounds([
+        [longitude_west, latitude_south],
+        [longitude_east, latitude_north],
+    ]);
+}
+
 function displayZoneOfInterest(
     map,
     longitude_west,
@@ -25,18 +47,6 @@ function displayZoneOfInterest(
         },
     });
 
-    // Add a new layer to visualize the polygon.
-    // map.addLayer({
-    //     id: "zone_of_interest",
-    //     type: "fill",
-    //     source: "zone_of_interest", // reference the data source
-    //     layout: {},
-    //     paint: {
-    //         "fill-color": "#0080ff", // blue color fill
-    //         "fill-opacity": 0.5,
-    //     },
-    // });
-
     // Add a black outline around the polygon.
     map.addLayer({
         id: "outline_of_zone_of_interest",
@@ -48,13 +58,6 @@ function displayZoneOfInterest(
             "line-width": 4,
         },
     });
-
-    // Center the map on the zone of interest
-    let epsilon = 0.05;
-    map.fitBounds([
-        [longitude_west, latitude_north + epsilon],
-        [longitude_east, latitude_south - epsilon],
-    ]);
 }
 
 function createPolygonFeature(
@@ -144,7 +147,11 @@ function updateDecibelLayer(
         let y = xy_sorted_by_distance[i][1];
         let decibel = decibel_matrix[y][x];
         let index = hash_coordinates_xy_to_index[xy_sorted_by_distance[i].join(",")];
-
+        // index can be undefined if the coordinates are not in the zone of interest or
+        // if the coordinates are not in the water
+        if (index == undefined) {
+            continue;
+        }
         features[index].properties.decibel = decibel;
     }
 
@@ -152,4 +159,14 @@ function updateDecibelLayer(
         type: "FeatureCollection",
         features: features,
     });
+}
+
+function createDivMarker(img_url = `../img/boat2.png`, width = 20, height = 20) {
+    var div = document.createElement("div");
+    div.className = "marker";
+    div.style.backgroundImage = `url(${img_url})`;
+    div.style.width = `${width}px`;
+    div.style.height = `${height}px`;
+    div.style.backgroundSize = "100%";
+    return div;
 }

@@ -1,5 +1,14 @@
 class ZoneOfInterest {
-    constructor(width, height, step, longitude_west, latitude_north, precision = 5) {
+    constructor(
+        map,
+        width,
+        height,
+        step,
+        longitude_west,
+        latitude_north,
+        precision = 5
+    ) {
+        this.map = map;
         this.width = width;
         this.height = height;
         this.step = step;
@@ -29,6 +38,11 @@ class ZoneOfInterest {
             this.hash_coordinates_lonlat_to_xy
         );
 
+        // filter this.hash_coordinates_lonlat_to_xy to only include tiles in water
+        // As other variables are based on this.hash_coordinates_lonlat_to_xy, we need
+        // to do it before
+        this.keepOnlyTilesInWater();
+
         this.longitude_east =
             this.longitude_west_to_east[this.longitude_west_to_east.length - 1];
         this.latitude_south =
@@ -50,8 +64,35 @@ class ZoneOfInterest {
         console.timeEnd("initZoneOfInterest");
     }
 
+    keepOnlyTilesInWater() {
+        console.time("keepOnlyTilesInWater");
+        var tiles_in_water = {};
+        // filter this.hash_coordinates_lonlat_to_xy to only include tiles in water
+        // Todo reduce time complexity by doing it with dichotomy
+        for (var key in this.hash_coordinates_lonlat_to_xy) {
+            var [x, y] = this.hash_coordinates_lonlat_to_xy[key];
+            var lonlat = key.split(",");
+            var longitude_center = lonlat[2] - (lonlat[2] - lonlat[0]) / 2;
+            var latitude_center = lonlat[3] - (lonlat[3] - lonlat[1]) / 2;
+            if (lonLatInWater(this.map, longitude_center, latitude_center)) {
+                tiles_in_water[key] = [x, y];
+            }
+        }
+
+        this.hash_coordinates_lonlat_to_xy = tiles_in_water;
+        console.timeEnd("keepOnlyTilesInWater");
+    }
+
     display(map) {
         console.time("zone_of_interest.display");
+
+        fitBounds(
+            map,
+            this.longitude_west,
+            this.latitude_north,
+            this.longitude_east,
+            this.latitude_south
+        );
 
         console.time("displayZoneOfInterest");
         displayZoneOfInterest(
@@ -86,7 +127,6 @@ class ZoneOfInterest {
         console.timeEnd("updateDecibelMatrix");
         this.decibel_matrix = decibel_matrix;
 
-        console.time("updateDecibelLayer");
         // Don't understand why logs in the function updateDecibelLayer are not displayed
         updateDecibelLayer(
             map,
@@ -94,7 +134,6 @@ class ZoneOfInterest {
             xy_sorted_by_distance,
             this.hash_coordinates_xy_to_index
         );
-        console.timeEnd("updateDecibelLayer");
 
         console.timeEnd("zone_of_interest.autoUpdateDecibelLayer");
     }
