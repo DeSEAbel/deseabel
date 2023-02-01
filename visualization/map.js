@@ -2,27 +2,29 @@
  *
  * @param {string} mapbox_api_key - Mapbox API Key
  */
-
 function loadMap(mapbox_api_key) {
     mapboxgl.accessToken = mapbox_api_key;
 
+    // Constants
+    list_markers = [];
+
     const map = new mapboxgl.Map({
         container: "map", // container ID
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: "mapbox://styles/mapbox/streets-v12", // style URL
-        //center: [-1.57, 46.02], // starting position [lng, lat]
         zoom: 7, // starting zoom
     });
 
-    map.setMaxBounds([
-        [-2.5, 45],
-        [-0.5, 47],
-    ]);
+    // Important for the app. I don't figured out why. Don't remove.
     map.jumpTo({
         center: [-1.57, 46.02],
         zoom: 7,
         essential: true,
     });
+
+    // Change the cursor to a pointer
+    map.getCanvas().style.cursor = "pointer";
+
+    // Disable zoom and rotation
     map.addControl(
         new mapboxgl.NavigationControl({
             showCompass: false,
@@ -33,6 +35,7 @@ function loadMap(mapbox_api_key) {
     map.dragRotate.disable();
     map.doubleClickZoom.disable();
 
+    // Add sidebar for the animals
     var toggleAnimals = document.querySelector(".toggle-sidebar-animals");
     var sidebarAnimals = document.querySelector(".sidebar-animals");
 
@@ -41,117 +44,16 @@ function loadMap(mapbox_api_key) {
         toggleAnimals.classList.toggle("toggle-animals");
     });
 
-    /*/ create a marker for the whales's location
-  const whaleMarker = new mapboxgl.Marker()
-  .setLngLat([-1.32, 46.13]) // set the marker's position
-  .addTo(map); // add the marker to the map
-  
-  // listen for clicks on the whale marker
-  whaleMarker.on('click', function() {
-    // when the marker is clicked, add some data to the div that has "sound-effect" as an id
-    console.log("Whale clicked");
-    //document.getElementById('markerInfo').innerHTML = "Whale sound";
-    document.querySelector('#markerInfo').innerHTML = 'Hello, I am a whale!';
-  })
-  */
-
-    // Create a marker and set its coordinates.
-    // const whaleMarker = new mapboxgl.Marker()
-    //   .setLngLat([-1.8, 45.73])
-    //   .addTo(map);
-
-    list_markers = [];
-
-    const markerBoatSize = 20; // minimum size of the boat marker in pixels
-    function create_div_marker(
-        img_url = `../img/boat2.png`,
-        width = markerBoatSize,
-        height = markerBoatSize
-    ) {
-        var div = document.createElement("div");
-        div.className = "marker";
-        div.style.backgroundImage = `url(${img_url})`;
-        div.style.width = `${width}px`;
-        div.style.height = `${height}px`;
-        div.style.backgroundSize = "100%";
-        return div;
-    }
-
-    var div_boat = create_div_marker();
-
-    // Add markers to the map.
-    // var marker_boat = new mapboxgl.Marker(div_boat).setLngLat([-1.9, 45.9]).addTo(map);
-    // list_markers.push(marker_boat);
-
-    /* POPUP
-  // Create a popup and set its content.
-  const popup = new mapboxgl.Popup()
-  .setHTML("<p>Hello World!</p>")
-  .addTo(map);
-  
-  // Set the marker's popup.
-  whaleMarker.setPopup(popup);
-  */
-
-    // map.on('load', function () {
-    //   map.addSource('random_decibels_geojson', {
-    //       type: 'geojson',
-    //       data: '../ocean_ecosystem/data/decibels_100000x100000_1000m_-2.4095_46.4181.geojson' // URL du fichier GeoJSON
-    //   });
-
-    //   // Ajout du calque de polygones à la carte
-    //   map.addLayer({
-    //       id: 'random_decibels',
-    //       type: 'fill',
-    //       source: 'random_decibels_geojson',
-    //       paint: {
-    //         'fill-color': {
-    //           property: 'decibel',
-    //           type: 'interval',
-    //           stops: [
-    //             [40, '#99ddff'], // Bleu transparent
-    //             [50, '#ffff00'], // Jaune
-    //             [100, '#ffa500'], // Orange
-    //             [200, '#ff0000'] // Rouge
-    //           ]
-    //         },// Utilisation de la propriété 'fill' pour la couleur de remplissage
-    //         'fill-outline-color': 'black', // Couleur de bordure des polygones
-    //         'fill-opacity': {
-    //           property: 'decibel',
-    //           type: 'interval',
-    //           stops: [
-    //               [50, 0], // Si la valeur est inférieure à 50, opacité à 0 (polygone invisible)
-    //               [100, 0.5], // Si la valeur est comprise entre 50 et 100, opacité à 0.5
-    //               [160, 0.8], // Si la valeur est comprise entre 100 et 160, opacité à 0.8
-    //               [200, 1]
-    //           ]
-    //       }
-    //       }
-    //   });
-    // });
-
     map.on("load", () => {
-        map.addSource("bathymetry", {
-            type: "vector",
-            url: "mapbox://mapbox.mapbox-bathymetry-v2",
-        });
-        // Add a custom vector tileset source. This tileset contains
-        // point features representing museums. Each feature contains
-        // three properties. For example:
-        // {
-        //     alt_name: "Museo Arqueologico",
-        //     name: "Museo Inka",
-        //     tourism: "museum"
-        // }
-        // Add the Mapbox Terrain v2 vector tileset. Read more about
-        // the structure of data in this tileset in the documentation:
-        // https://docs.mapbox.com/vector-tiles/reference/mapbox-terrain-v2/
+        // map.addSource("bathymetry", {
+        //     type: "vector",
+        //     url: "mapbox://mapbox.mapbox-bathymetry-v2",
+        // });
 
         map.addSource("fish", {
             type: "geojson",
             data: "../data/fish.geojson",
         });
-        /* Add Layer for heatmap points */
 
         map.addLayer({
             id: "Poissons",
@@ -234,96 +136,49 @@ function loadMap(mapbox_api_key) {
         }
     });
 
-    // Add geolocate control to the map.
+    // Add sonor element to the map when the user click right on it
     map.on("contextmenu", function (e) {
         if (typeof zone_of_interest !== "undefined") {
             longitude = e.lngLat.lng;
             latitude = e.lngLat.lat;
             console.log("lat: " + latitude + "\nlon: " + longitude);
-            if (
-                longitude > zone_of_interest.longitude_west &&
-                longitude < zone_of_interest.longitude_east &&
-                latitude > zone_of_interest.latitude_south &&
-                latitude < zone_of_interest.latitude_north
-            ) {
-                coordinates_lonlat = findTileFromLonlat(
-                    (longitude = longitude),
-                    (latitude = latitude),
-                    (hash_coordinates_lonlat_to_xy =
-                        zone_of_interest.hash_coordinates_lonlat_to_xy)
-                );
-                if (coordinates_lonlat != null) {
-                    // e.lngLat contains the geographical position of the point on the map
-                    var div_boat = create_div_marker();
-                    var marker_boat = new mapboxgl.Marker(div_boat)
-                        .setLngLat(e.lngLat)
-                        .addTo(map);
-
-                    list_markers.push(marker_boat);
-                    console.log("Tile coordinates: " + coordinates_lonlat);
-                    console.log("autoUpdateDecibelLayer");
-                    zone_of_interest.autoUpdateDecibelLayer(
-                        map,
-                        coordinates_lonlat,
-                        120
+            console.log(lonLatInWater(map, longitude, latitude));
+            if (pointInScreenInWater(map, e.point)) {
+                if (
+                    longitude > zone_of_interest.longitude_west &&
+                    longitude < zone_of_interest.longitude_east &&
+                    latitude > zone_of_interest.latitude_south &&
+                    latitude < zone_of_interest.latitude_north
+                ) {
+                    coordinates_lonlat = findTileFromLonlat(
+                        (longitude = longitude),
+                        (latitude = latitude),
+                        (hash_coordinates_lonlat_to_xy =
+                            zone_of_interest.hash_coordinates_lonlat_to_xy)
                     );
+                    console.log("coordinates_lonlat" + coordinates_lonlat);
+                    if (coordinates_lonlat != null) {
+                        // e.lngLat contains the geographical position of the point on the map
+                        var div_boat = createDivMarker();
+                        var marker_boat = new mapboxgl.Marker(div_boat)
+                            .setLngLat(e.lngLat)
+                            .addTo(map);
+
+                        list_markers.push(marker_boat);
+                        console.log("Tile coordinates: " + coordinates_lonlat);
+                        console.log("autoUpdateDecibelLayer");
+                        zone_of_interest.autoUpdateDecibelLayer(
+                            map,
+                            coordinates_lonlat,
+                            120
+                        );
+                    }
                 }
             }
         }
     });
-    
-    // TODO use it with API but need to reformat the geojson
-    
-    // url_api = "http://0.0.0.0:8080/";
-    // id = 0;
-    
-    // // Add geolocate control to the map.
-    // map.on("contextmenu", function (e) {
-    //     if (typeof zone_of_interest !== "undefined") {
-    //         longitude = e.lngLat.lng;
-    //         latitude = e.lngLat.lat;
-    //         console.log("lat: " + latitude + "\nlon: " + longitude);
-    //         if (
-    //             longitude > zone_of_interest.longitude_west &&
-    //             longitude < zone_of_interest.longitude_east &&
-    //             latitude > zone_of_interest.latitude_south &&
-    //             latitude < zone_of_interest.latitude_north
-    //         ) {
-    //             var boat_type = "fishing_boat";
-    //             var species = "fish";
-    //             var zone = "la_rochelle";
-    //             var speed = 20;
-    //             var length = 23;
-                
-    //             // Add boat in the system
-    //             add_boat(headers, id++, boat_type, latitude, longitude, zone, speed, length);
-                
-    //             // Update impact
-    //             update_impact_marine_fauna_impact(headers, zone, species);
-                
-    //             // Get matrix impact
-    //             matrix_decibel_impact = get_matrix_decibel_impact(headers, zone);
-                
-    //             var div_boat = create_div_marker();
-    //             var marker_boat = new mapboxgl.Marker(div_boat)
-    //                 .setLngLat(e.lngLat)
-    //                 .addTo(map);
 
-    //             list_markers.push(marker_boat);
-                
-    //             // show matrix impact_geojson on the map
-    //             Promise.all([matrix_decibel_impact]).then((results) => {
-    //                 // all async functions has completed
-    //                 // results is an array of results of the async functions
-    //                 console.log("matrix_decibel_impact is computed");
-    //                 show_matrix_impact_geojson(map, matrix_decibel_impact);
-    //                 array_impact = get_array_impact(headers, zone, species);
-    //             });
-    //         }
-    //     }
-    // });
-
-    // Delete marker on the map when click on it
+    // Delete marker on the map when left click on it
     map.on("click", function (e) {
         console.log("lat: " + e.lngLat.lat + "\nlon: " + e.lngLat.lng);
         for (var i = 0; i < list_markers.length; i++) {
@@ -339,7 +194,6 @@ function loadMap(mapbox_api_key) {
     map.on("load", function () {
         // TODO Put in a function to be called when the user select the zone of interest
         // Create zone of interest
-        // headers = init_user();
 
         var longitude_west = -2.3595;
         var latitude_north = 46.4181;
@@ -347,15 +201,18 @@ function loadMap(mapbox_api_key) {
         // Make the zone of interest available in the global scope to be able to use it
         //in the context menu. Don't use let, var or const to make it global
         zone_of_interest = new ZoneOfInterest(
+            map,
             (width = 100000),
             (height = 100000),
             (step = 1000),
             (longitude_west = longitude_west),
             (latitude_north = latitude_north)
         );
+
         zone_of_interest.display(map);
     });
 }
+
 
 function show_matrix_impact_geojson(map, matrix_decibel_impact) {
     // remove source named matrix_impact_geojson if it exists
@@ -418,7 +275,7 @@ async function add_boat(headers, id, boat_type, latitude, longitude, zone, speed
       .then(data => console.log(data))
       .catch(error => console.error(error));
     }
-    
+
 // Update marine fauna impact
 async function update_impact_marine_fauna_impact(headers, zone, species) {
     var url_update_impact = url_api.concat("update_marine_fauna_impact?zone=", zone, "&species=", species);
