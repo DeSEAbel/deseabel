@@ -235,47 +235,6 @@ function loadMap(mapbox_api_key) {
     });
 
     // Add geolocate control to the map.
-    // map.on("contextmenu", function (e) {
-    //     if (typeof zone_of_interest !== "undefined") {
-    //         longitude = e.lngLat.lng;
-    //         latitude = e.lngLat.lat;
-    //         console.log("lat: " + latitude + "\nlon: " + longitude);
-    //         if (
-    //             longitude > zone_of_interest.longitude_west &&
-    //             longitude < zone_of_interest.longitude_east &&
-    //             latitude > zone_of_interest.latitude_south &&
-    //             latitude < zone_of_interest.latitude_north
-    //         ) {
-    //             coordinates_lonlat = findTileFromLonlat(
-    //                 (longitude = longitude),
-    //                 (latitude = latitude),
-    //                 (hash_coordinates_lonlat_to_xy =
-    //                     zone_of_interest.hash_coordinates_lonlat_to_xy)
-    //             );
-    //             if (coordinates_lonlat != null) {
-    //                 // e.lngLat contains the geographical position of the point on the map
-    //                 var div_boat = create_div_marker();
-    //                 var marker_boat = new mapboxgl.Marker(div_boat)
-    //                     .setLngLat(e.lngLat)
-    //                     .addTo(map);
-
-    //                 list_markers.push(marker_boat);
-    //                 console.log("Tile coordinates: " + coordinates_lonlat);
-    //                 console.log("autoUpdateDecibelLayer");
-    //                 zone_of_interest.autoUpdateDecibelLayer(
-    //                     map,
-    //                     coordinates_lonlat,
-    //                     120
-    //                 );
-    //             }
-    //         }
-    //     }
-    // });
-    
-    url_api = "http://0.0.0.0:8080/";
-    id = 0;
-    
-    // Add geolocate control to the map.
     map.on("contextmenu", function (e) {
         if (typeof zone_of_interest !== "undefined") {
             longitude = e.lngLat.lng;
@@ -287,39 +246,82 @@ function loadMap(mapbox_api_key) {
                 latitude > zone_of_interest.latitude_south &&
                 latitude < zone_of_interest.latitude_north
             ) {
-                var boat_type = "fishing_boat";
-                var species = "fish";
-                var zone = "la_rochelle";
-                var speed = 20;
-                var length = 23;
-                
-                // Add boat in the system
-                add_boat(headers, id++, boat_type, latitude, longitude, zone, speed, length);
-                
-                // Update impact
-                update_impact_marine_fauna_impact(headers, zone, species);
-                
-                // Get matrix impact
-                matrix_decibel_impact = get_matrix_decibel_impact(headers, zone);
-                
-                var div_boat = create_div_marker();
-                var marker_boat = new mapboxgl.Marker(div_boat)
-                    .setLngLat(e.lngLat)
-                    .addTo(map);
+                coordinates_lonlat = findTileFromLonlat(
+                    (longitude = longitude),
+                    (latitude = latitude),
+                    (hash_coordinates_lonlat_to_xy =
+                        zone_of_interest.hash_coordinates_lonlat_to_xy)
+                );
+                if (coordinates_lonlat != null) {
+                    // e.lngLat contains the geographical position of the point on the map
+                    var div_boat = create_div_marker();
+                    var marker_boat = new mapboxgl.Marker(div_boat)
+                        .setLngLat(e.lngLat)
+                        .addTo(map);
 
-                list_markers.push(marker_boat);
-                
-                // show matrix impact_geojson on the map
-                Promise.all([matrix_decibel_impact]).then((results) => {
-                    // all async functions has completed
-                    // results is an array of results of the async functions
-                    console.log("matrix_decibel_impact is computed");
-                    show_matrix_impact_geojson(map, matrix_decibel_impact);
-                    array_impact = get_array_impact(headers, zone, species);
-                });
+                    list_markers.push(marker_boat);
+                    console.log("Tile coordinates: " + coordinates_lonlat);
+                    console.log("autoUpdateDecibelLayer");
+                    zone_of_interest.autoUpdateDecibelLayer(
+                        map,
+                        coordinates_lonlat,
+                        120
+                    );
+                }
             }
         }
     });
+    
+    // TODO use it with API but need to reformat the geojson
+    
+    // url_api = "http://0.0.0.0:8080/";
+    // id = 0;
+    
+    // // Add geolocate control to the map.
+    // map.on("contextmenu", function (e) {
+    //     if (typeof zone_of_interest !== "undefined") {
+    //         longitude = e.lngLat.lng;
+    //         latitude = e.lngLat.lat;
+    //         console.log("lat: " + latitude + "\nlon: " + longitude);
+    //         if (
+    //             longitude > zone_of_interest.longitude_west &&
+    //             longitude < zone_of_interest.longitude_east &&
+    //             latitude > zone_of_interest.latitude_south &&
+    //             latitude < zone_of_interest.latitude_north
+    //         ) {
+    //             var boat_type = "fishing_boat";
+    //             var species = "fish";
+    //             var zone = "la_rochelle";
+    //             var speed = 20;
+    //             var length = 23;
+                
+    //             // Add boat in the system
+    //             add_boat(headers, id++, boat_type, latitude, longitude, zone, speed, length);
+                
+    //             // Update impact
+    //             update_impact_marine_fauna_impact(headers, zone, species);
+                
+    //             // Get matrix impact
+    //             matrix_decibel_impact = get_matrix_decibel_impact(headers, zone);
+                
+    //             var div_boat = create_div_marker();
+    //             var marker_boat = new mapboxgl.Marker(div_boat)
+    //                 .setLngLat(e.lngLat)
+    //                 .addTo(map);
+
+    //             list_markers.push(marker_boat);
+                
+    //             // show matrix impact_geojson on the map
+    //             Promise.all([matrix_decibel_impact]).then((results) => {
+    //                 // all async functions has completed
+    //                 // results is an array of results of the async functions
+    //                 console.log("matrix_decibel_impact is computed");
+    //                 show_matrix_impact_geojson(map, matrix_decibel_impact);
+    //                 array_impact = get_array_impact(headers, zone, species);
+    //             });
+    //         }
+    //     }
+    // });
 
     // Delete marker on the map when click on it
     map.on("click", function (e) {
@@ -359,7 +361,7 @@ function show_matrix_impact_geojson(map, matrix_decibel_impact) {
     // remove source named matrix_impact_geojson if it exists
     if (map.getSource("matrix_decibel_impact")) {
         // remove layers that use the source
-        map.removeLayer("matrix_decibel_impact");
+        map.removeLayer("decibel_impact");
         map.removeSource("matrix_decibel_impact");
     }
     map.addSource("matrix_decibel_impact", {
@@ -367,7 +369,7 @@ function show_matrix_impact_geojson(map, matrix_decibel_impact) {
         data: matrix_decibel_impact
     });
     map.addLayer({
-        id: "matrix_decibel_impact",
+        id: "decibel_impact",
         type: "fill",
         source: "matrix_decibel_impact",
         paint: {
