@@ -36,11 +36,11 @@ class Simulator:
             set_marine_fauna.add(marine_fauna._species)
         self.map = map
         self.update_and_add_heatmaps()
-            
+
     def check_marine_fauna_exists(self, species: str) -> bool:
         """
         Checks if a marine fauna species exists in the environment.
-    
+
         Args:
             species (str): The noise impactor we want to check if it exists.
 
@@ -50,12 +50,12 @@ class Simulator:
         for marine_fauna in self.list_marine_fauna:
             if marine_fauna._species == species:
                 return True
-        return False        
-    
+        return False
+
     def check_noise_impactor_exists(self, id: int) -> bool:
         """
         Checks if a noise impactor exists in the environment.
-    
+
         Args:
             id (int): The id of the noise impactor we want to check if it exists.
 

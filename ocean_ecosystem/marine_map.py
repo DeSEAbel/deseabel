@@ -195,6 +195,11 @@ class MarineMap:
         self.matrix_decibel_impact_quantified_gpd = self.matrix_decibel_to_geopandas(
             self.matrix_decibel_impact_quantified
         )
+        self.matrix_decibel_impact_quantified_gpd = (
+            self.matrix_decibel_impact_quantified_gpd[
+                self.matrix_decibel_impact_quantified_gpd["value"] != 0
+            ]
+        )
 
     def get_coords_xy_from_geopandas(
         self, gdf: geopandas.GeoDataFrame
@@ -232,7 +237,6 @@ class MarineMap:
         coords = self.get_coords_xy_from_geopandas(marine_fauna.spot_gpd)
         if len(coords) == 0:
             return
-
         # Create the dictionary containing the counts
         unique, counts = np.unique(
             self.matrix_decibel_impact_quantified[coords[:, 0], coords[:, 1]],
@@ -240,6 +244,7 @@ class MarineMap:
         )
         dict_impact = dict(zip(unique, counts))
         # Create the array of impacts
+
         array_impact = np.zeros(marine_fauna.array_impact.shape[0])
         # # Compute the marine impact for each level
         for level in range(len(array_impact)):
