@@ -35,9 +35,17 @@ function loadMap(mapbox_api_key) {
     map.dragRotate.disable();
     map.doubleClickZoom.disable();
 
-    // Add sidebar for the animals
+    // Add sidebar
+
+    var toggleZones = document.querySelector(".toggle-sidebar-zones");
+    var sidebarZones = document.querySelector(".sidebar-zones");
     var toggleAnimals = document.querySelector(".toggle-sidebar-animals");
     var sidebarAnimals = document.querySelector(".sidebar-animals");
+
+    toggleZones.addEventListener("click", function () {
+        sidebarZones.classList.toggle("show-sidebar-zones");
+        toggleZones.classList.toggle("toggle-zones");
+    });
 
     toggleAnimals.addEventListener("click", function () {
         sidebarAnimals.classList.toggle("show-sidebar-animals");
@@ -56,7 +64,7 @@ function loadMap(mapbox_api_key) {
         });
 
         map.addLayer({
-            id: "Poissons",
+            id: "fish",
             type: "fill",
             source: "fish",
             layout: {},
@@ -72,7 +80,7 @@ function loadMap(mapbox_api_key) {
         });
 
         map.addLayer({
-            id: "Mammifères marins",
+            id: "marine_mammal",
             type: "fill",
             source: "marine_mammal",
             layout: {},
@@ -82,22 +90,24 @@ function loadMap(mapbox_api_key) {
             },
         });
 
-        map.setLayoutProperty("Poissons", "visibility", "none");
-        map.setLayoutProperty("Mammifères marins", "visibility", "none");
+        map.setLayoutProperty("fish", "visibility", "none");
+        map.setLayoutProperty("marine_mammal", "visibility", "none");
     });
 
     // After the last frame rendered before the map enters an "idle" state.
     map.on("idle", () => {
         // If these two layers were not added to the map, abort
-        if (!map.getLayer("Poissons") || !map.getLayer("Mammifères marins")) {
+        if (!map.getLayer("fish") || !map.getLayer("marine_mammal")) {
             return;
         }
 
         // Enumerate ids of the layers.
-        const toggleableLayerIds = ["Poissons", "Mammifères marins"];
+        const toggleableLayerIds = ["fish", "marine_mammal"];
 
-        // define a variable to track the current state of the layers
-        let layersVisible = false;
+        var fauna_id_to_name = {
+            fish: "Fish",
+            marine_mammal: "Marine Mammal",
+        };
 
         // Set up the corresponding toggle button for each layer.
         for (const id of toggleableLayerIds) {
@@ -110,14 +120,14 @@ function loadMap(mapbox_api_key) {
             const link = document.createElement("a");
             link.id = id;
             link.href = "#";
-            link.textContent = id;
+            link.textContent = fauna_id_to_name[id];
             link.className = "";
 
             // Show or hide layer when the toggle is clicked.
             link.onclick = function (e) {
-                const clickedLayer = this.textContent;
-                e.preventDefault();
-                e.stopPropagation();
+                const clickedLayer = this.id;
+                // e.preventDefault();
+                // e.stopPropagation();
 
                 const visibility = map.getLayoutProperty(clickedLayer, "visibility");
 
@@ -128,10 +138,55 @@ function loadMap(mapbox_api_key) {
                 } else {
                     this.className = "active";
                     map.setLayoutProperty(clickedLayer, "visibility", "visible");
+                    // set the other layers to inactive
+                    for (const id of toggleableLayerIds) {
+                        if (id !== clickedLayer) {
+                            document.getElementById(id).className = "";
+                            map.setLayoutProperty(id, "visibility", "none");
+                        }
+                    }
                 }
             };
 
-            const layers = document.getElementById("menu");
+            const layers = document.getElementById("menu-animals");
+            layers.appendChild(link);
+        }
+
+        // Add the zones buttons
+        var toggleableZoneIds = Object.keys(zones);
+        for (var id of toggleableZoneIds) {
+            if (document.getElementById(id)) {
+                continue;
+            }
+
+            var link = document.createElement("a");
+            link.id = id;
+            link.href = "#";
+            link.textContent = zones[id].name;
+            link.className = "";
+
+            link.onclick = function (e) {
+                const clickedZone = this.id;
+                e.preventDefault();
+                e.stopPropagation();
+
+                const visibility = this.className;
+
+                // Toggle layer visibility by changing the layout object's visibility property.
+                if (visibility === "active") {
+                    this.className = "";
+                } else {
+                    this.className = "active";
+                    // set the other zones to inactive
+                    for (var id of toggleableZoneIds) {
+                        if (id !== clickedZone) {
+                            document.getElementById(id).className = "";
+                        }
+                    }
+                }
+            };
+
+            var layers = document.getElementById("menu-zones");
             layers.appendChild(link);
         }
     });
@@ -213,7 +268,6 @@ function loadMap(mapbox_api_key) {
     });
 }
 
-
 function show_matrix_impact_geojson(map, matrix_decibel_impact) {
     // remove source named matrix_impact_geojson if it exists
     if (map.getSource("matrix_decibel_impact")) {
@@ -223,7 +277,7 @@ function show_matrix_impact_geojson(map, matrix_decibel_impact) {
     }
     map.addSource("matrix_decibel_impact", {
         type: "geojson",
-        data: matrix_decibel_impact
+        data: matrix_decibel_impact,
     });
     map.addLayer({
         id: "decibel_impact",
@@ -231,81 +285,103 @@ function show_matrix_impact_geojson(map, matrix_decibel_impact) {
         source: "matrix_decibel_impact",
         paint: {
             "fill-color": {
-            "property": "value",
-            "stops": [
-                // yellow to red for 1 to 5
-                [1, "#ffffcc"],
-                [2, "#ffeda0"],
-                [3, "#fed976"],
-                [4, "#feb24c"],
-                [5, "#fd8d3c"]
-            ]
+                property: "value",
+                stops: [
+                    // yellow to red for 1 to 5
+                    [1, "#ffffcc"],
+                    [2, "#ffeda0"],
+                    [3, "#fed976"],
+                    [4, "#feb24c"],
+                    [5, "#fd8d3c"],
+                ],
             },
-            "fill-opacity": 0.5
-        }
+            "fill-opacity": 0.5,
+        },
     });
 }
 
-
 // create and get token user name from API
 async function init_user() {
-    const response = await fetch('http://0.0.0.0:8080/initialize_user', {
-        method: 'GET',
+    const response = await fetch("http://0.0.0.0:8080/initialize_user", {
+        method: "GET",
         headers: {
-            'Content-Type': 'application/json'
-        }
+            "Content-Type": "application/json",
+        },
     });
     headers = await response.json();
     return headers;
 }
 
 // Add boat
-async function add_boat(headers, id, boat_type, latitude, longitude, zone, speed, length) {
+async function add_boat(
+    headers,
+    id,
+    boat_type,
+    latitude,
+    longitude,
+    zone,
+    speed,
+    length
+) {
     var json_boat = {
-        "id": id, "lat": latitude, 
-        "lon": longitude, "speed": speed, "length": length
+        id: id,
+        lat: latitude,
+        lon: longitude,
+        speed: speed,
+        length: length,
     };
     var url_add_boat = url_api.concat("add_boat/", boat_type, "?zone=", zone);
     fetch(url_add_boat, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(json_boat),
-        headers: Object.assign(headers, { 'Content-Type': 'application/json' })
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
-    }
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
+    })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+}
 
 // Update marine fauna impact
 async function update_impact_marine_fauna_impact(headers, zone, species) {
-    var url_update_impact = url_api.concat("update_marine_fauna_impact?zone=", zone, "&species=", species);
+    var url_update_impact = url_api.concat(
+        "update_marine_fauna_impact?zone=",
+        zone,
+        "&species=",
+        species
+    );
     fetch(url_update_impact, {
-        method: 'POST',
-        headers: Object.assign(headers, { 'Content-Type': 'application/json' })
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+        method: "POST",
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
+    })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
 }
 
 async function get_matrix_decibel_impact(headers, zone) {
-    const url_decibel_impact = url_api.concat("decibel_matrix_impact_quantified/?zone=", zone);
+    const url_decibel_impact = url_api.concat(
+        "decibel_matrix_impact_quantified/?zone=",
+        zone
+    );
     const response = await fetch(url_decibel_impact, {
-        method: 'GET',
-        headers: Object.assign(headers, { 'Content-Type': 'application/json' })
+        method: "GET",
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
     });
     matrix_decibel_impact = await response.json();
     return matrix_decibel_impact;
 }
 
-
 async function get_array_impact(headers, zone, species) {
-    const url_percentage_marine_fauna_impact_by_level = url_api.concat("percentage_marine_fauna_impact_by_level?zone=", zone, "&species=", species);
+    const url_percentage_marine_fauna_impact_by_level = url_api.concat(
+        "percentage_marine_fauna_impact_by_level?zone=",
+        zone,
+        "&species=",
+        species
+    );
     const response = await fetch(url_percentage_marine_fauna_impact_by_level, {
-        method: 'GET',
-        headers: Object.assign(headers, { 'Content-Type': 'application/json' })
+        method: "GET",
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
     });
     array_impact = await response.json();
     return array_impact;
 }
-

@@ -41,7 +41,7 @@ class ZoneOfInterest {
         // filter this.hash_coordinates_lonlat_to_xy to only include tiles in water
         // As other variables are based on this.hash_coordinates_lonlat_to_xy, we need
         // to do it before
-        this.keepOnlyTilesInWater();
+        //this.keepOnlyTilesInWater();
 
         this.longitude_east =
             this.longitude_west_to_east[this.longitude_west_to_east.length - 1];
