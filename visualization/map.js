@@ -9,7 +9,7 @@ function loadMap(mapbox_api_key) {
     list_markers = [];
 
     map = new mapboxgl.Map({
-        container: "map", // container ID
+        container: "map-div", // container ID
         style: "mapbox://styles/mapbox/streets-v12", // style URL
         zoom: 7, // starting zoom
     });
@@ -57,7 +57,6 @@ function loadMap(mapbox_api_key) {
         sidebarAnimals.classList.toggle("show-sidebar-animals");
         toggleAnimals.classList.toggle("toggle-animals");
     });
-    zones_of_interest = {};
 
     map.on("load", () => {
         // map.addSource("bathymetry", {
@@ -100,17 +99,19 @@ function loadMap(mapbox_api_key) {
         map.setLayoutProperty("fish", "visibility", "none");
         map.setLayoutProperty("marine_mammal", "visibility", "none");
 
+        zones_of_interest = {};
         function sleep(ms) {
             return new Promise((resolve) => setTimeout(resolve, ms));
         }
 
         async function initZones() {
+            var map_div = document.getElementById("map-div");
             var loading = document.createElement("div");
             loading.innerHTML = "Loading zones...";
             loading.classList.add("loading-bar");
-            document.body.appendChild(loading);
+            map_div.appendChild(loading);
             var idx = 0;
-            for (var zone_id in zones) {
+            for (zone_id in zones) {
                 idx += 1;
                 var zone = zones[zone_id];
                 var zone_name = zone.name;
@@ -134,7 +135,9 @@ function loadMap(mapbox_api_key) {
                 );
                 await sleep(1000);
             }
-            document.body.removeChild(loading);
+            map_div.removeChild(loading);
+            // Simulate a click on the first zone to be able to interact with the map
+            document.getElementById(zone_id).click();
         }
 
         initZones();
@@ -198,7 +201,6 @@ function loadMap(mapbox_api_key) {
             layers.appendChild(link);
         }
 
-        // Add the zones buttons
         var toggleableZoneIds = Object.keys(zones);
         for (var id of toggleableZoneIds) {
             if (document.getElementById(id)) {
@@ -276,7 +278,7 @@ function loadMap(mapbox_api_key) {
                         zone_of_interest.autoUpdateDecibelLayer(
                             map,
                             coordinates_lonlat,
-                            120
+                            150
                         );
                     }
                 }

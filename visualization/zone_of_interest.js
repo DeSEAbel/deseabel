@@ -46,6 +46,14 @@ class ZoneOfInterest {
             this.longitude_east,
             this.latitude_south
         );
+        displayZoneOfInterest(
+            this.map,
+            this.longitude_west,
+            this.latitude_north,
+            this.longitude_east,
+            this.latitude_south,
+            this.zone_id
+        );
 
         // IMPORTANT Sleep 1 sec in order to wait for map to be loaded. Use only for
         // keepOnlyTilesInWater() because it needs map to be loaded. It is because the

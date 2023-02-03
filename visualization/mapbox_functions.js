@@ -15,6 +15,7 @@ function fitBounds(
     map.jumpTo({
         center: [center_longitude, center_latitude],
     });
+
     map.fitBounds(
         [
             [longitude_west, latitude_north],
@@ -22,6 +23,7 @@ function fitBounds(
         ],
         {
             padding: 20,
+            animate: false,
         }
     );
 }
@@ -114,23 +116,23 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
             paint: {
                 "fill-color": {
                     property: "decibel",
-                    type: "interval",
+                    type: "exponential",
                     stops: [
-                        [20, "#00ff00"], // Green
-                        [50, "#ffff00"], // Jaune
-                        [100, "#ffa500"], // Orange
-                        [200, "#ff0000"], // Rouge
+                        [50, "#00ff00"],
+                        [80, "#ffff00"],
+                        [100, "#ffa500"],
+                        [150, "#ff0000"],
                     ],
-                }, // Utilisation de la propriété 'fill' pour la couleur de remplissage
-                //"fill-outline-color": "black", // Couleur de bordure des polygones
+                    colorSpace: "lab",
+                },
                 "fill-opacity": {
                     property: "decibel",
                     type: "interval",
                     stops: [
-                        [20, 0], // Si la valeur est inférieure à 50, opacité à 0 (polygone invisible)
-                        [50, 0.5], // Si la valeur est comprise entre 50 et 100, opacité à 0.5
-                        [100, 0.8], // Si la valeur est comprise entre 100 et 160, opacité à 0.8
-                        [200, 1],
+                        [50, 0],
+                        [80, 0.5],
+                        [100, 0.8],
+                        [150, 1],
                     ],
                 },
             },
