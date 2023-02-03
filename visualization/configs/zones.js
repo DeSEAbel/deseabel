@@ -20,10 +20,10 @@ zones = {
     },
     noumea: {
         name: "Nouméa",
-        width: 100000,
-        height: 100000,
-        step: 1000,
-        longitude_west: 166.4564,
-        latitude_north: -22.2763,
+        width: 50000,
+        height: 50000,
+        step: 500,
+        longitude_west: 166.18065,
+        latitude_north: -22.12094,
     },
 };
