@@ -8,18 +8,24 @@ function loadMap(mapbox_api_key) {
     // Constants
     list_markers = [];
 
-    const map = new mapboxgl.Map({
+    map = new mapboxgl.Map({
         container: "map", // container ID
         style: "mapbox://styles/mapbox/streets-v12", // style URL
         zoom: 7, // starting zoom
     });
 
     // Important for the app. I don't figured out why. Don't remove.
-    map.jumpTo({
-        center: [-1.57, 46.02],
-        zoom: 7,
-        essential: true,
-    });
+    // map.jumpTo({
+    //     center: [-1.57, 46.02],
+    //     zoom: 7,
+    //     essential: true,
+    // });
+    // map.jumpTo({
+    //     center: [-10.57, 46.02],
+    //     zoom: 7,
+    //     essential: true,
+    // });
+    // console.log("map0", map.getBounds());
 
     // Change the cursor to a pointer
     map.getCanvas().style.cursor = "pointer";
@@ -51,6 +57,7 @@ function loadMap(mapbox_api_key) {
         sidebarAnimals.classList.toggle("show-sidebar-animals");
         toggleAnimals.classList.toggle("toggle-animals");
     });
+    zones_of_interest = {};
 
     map.on("load", () => {
         // map.addSource("bathymetry", {
@@ -92,6 +99,45 @@ function loadMap(mapbox_api_key) {
 
         map.setLayoutProperty("fish", "visibility", "none");
         map.setLayoutProperty("marine_mammal", "visibility", "none");
+
+        function sleep(ms) {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+        }
+
+        async function initZones() {
+            var loading = document.createElement("div");
+            loading.innerHTML = "Loading zones...";
+            loading.classList.add("loading-bar");
+            document.body.appendChild(loading);
+            var idx = 0;
+            for (var zone_id in zones) {
+                idx += 1;
+                var zone = zones[zone_id];
+                var zone_name = zone.name;
+                loading.innerHTML =
+                    "Loading zone " +
+                    zone_name +
+                    "... (" +
+                    idx +
+                    "/" +
+                    Object.keys(zones).length +
+                    ")";
+                zones_of_interest[zone_id] = new ZoneOfInterest(
+                    map,
+                    (width = zone.width),
+                    (height = zone.height),
+                    (step = zone.step),
+                    (longitude_west = zone.longitude_west),
+                    (latitude_north = zone.latitude_north),
+                    (precision = 5),
+                    (zone_id = zone_id)
+                );
+                await sleep(1000);
+            }
+            document.body.removeChild(loading);
+        }
+
+        initZones();
     });
 
     // After the last frame rendered before the map enters an "idle" state.
@@ -166,7 +212,7 @@ function loadMap(mapbox_api_key) {
             link.className = "";
 
             link.onclick = function (e) {
-                const clickedZone = this.id;
+                var clicked_zone_id = this.id;
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -174,15 +220,19 @@ function loadMap(mapbox_api_key) {
 
                 // Toggle layer visibility by changing the layout object's visibility property.
                 if (visibility === "active") {
-                    this.className = "";
+                    console.log("already active");
+                    return;
                 } else {
                     this.className = "active";
                     // set the other zones to inactive
                     for (var id of toggleableZoneIds) {
-                        if (id !== clickedZone) {
+                        if (id !== clicked_zone_id) {
                             document.getElementById(id).className = "";
                         }
                     }
+                    current_zone_id = clicked_zone_id;
+                    zone_of_interest = zones_of_interest[current_zone_id];
+                    zone_of_interest.display(map);
                 }
             };
 
@@ -222,6 +272,7 @@ function loadMap(mapbox_api_key) {
                         list_markers.push(marker_boat);
                         console.log("Tile coordinates: " + coordinates_lonlat);
                         console.log("autoUpdateDecibelLayer");
+
                         zone_of_interest.autoUpdateDecibelLayer(
                             map,
                             coordinates_lonlat,
@@ -246,26 +297,26 @@ function loadMap(mapbox_api_key) {
         }
     });
 
-    map.on("load", function () {
-        // TODO Put in a function to be called when the user select the zone of interest
-        // Create zone of interest
+    // map.on("load", function () {
+    //     // TODO Put in a function to be called when the user select the zone of interest
+    //     // Create zone of interest
 
-        var longitude_west = -2.3595;
-        var latitude_north = 46.4181;
+    //     var longitude_west = -2.3595;
+    //     var latitude_north = 46.4181;
 
-        // Make the zone of interest available in the global scope to be able to use it
-        //in the context menu. Don't use let, var or const to make it global
-        zone_of_interest = new ZoneOfInterest(
-            map,
-            (width = 100000),
-            (height = 100000),
-            (step = 1000),
-            (longitude_west = longitude_west),
-            (latitude_north = latitude_north)
-        );
+    //     // Make the zone of interest available in the global scope to be able to use it
+    //     //in the context menu. Don't use let, var or const to make it global
+    //     zone_of_interest = new ZoneOfInterest(
+    //         map,
+    //         (width = 100000),
+    //         (height = 100000),
+    //         (step = 1000),
+    //         (longitude_west = longitude_west),
+    //         (latitude_north = latitude_north)
+    //     );
 
-        zone_of_interest.display(map);
-    });
+    //     zone_of_interest.display(map);
+    // });
 }
 
 function show_matrix_impact_geojson(map, matrix_decibel_impact) {

@@ -172,7 +172,3 @@ function pointInScreenInWater(map, point) {
     var features = map.queryRenderedFeatures(point, { layers: ["water"] });
     return features.length > 0;
 }
-function pointsInScreenInWater(map, points) {
-    var features = map.queryRenderedFeatures(points, { layers: ["water"] });
-    return features.map()
-}
