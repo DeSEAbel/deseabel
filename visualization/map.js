@@ -58,47 +58,36 @@ function loadMap(mapbox_api_key) {
         toggleAnimals.classList.toggle("toggle-animals");
     });
 
+    function addSourceAndLayerFromGeojson(map, id, data, color = "#088") {
+        // If the source not exist, add it
+        if (!map.getSource(id)) {
+            map.addSource(id, {
+                type: "geojson",
+                data: data,
+            });
+        }
+
+        if (!map.getLayer(id)) {
+            map.addLayer({
+                id: id,
+                type: "fill",
+                source: id,
+                layout: {},
+                paint: {
+                    "fill-color": color,
+                    "fill-opacity": 0.5,
+                },
+            });
+        }
+        map.setLayoutProperty(id, "visibility", "none");
+    }
+    function addsourceAndLayerFromConfig(map, marine_fauna, color = "#088") {
+        for (var animal in marine_fauna) {
+            addSourceAndLayerFromGeojson(map, animal, marine_fauna[animal], color);
+        }
+    }
+
     map.on("load", () => {
-        // map.addSource("bathymetry", {
-        //     type: "vector",
-        //     url: "mapbox://mapbox.mapbox-bathymetry-v2",
-        // });
-
-        map.addSource("fish", {
-            type: "geojson",
-            data: "../data/fish.geojson",
-        });
-
-        map.addLayer({
-            id: "fish",
-            type: "fill",
-            source: "fish",
-            layout: {},
-            paint: {
-                "fill-color": "#088",
-                "fill-opacity": 0.5,
-            },
-        });
-
-        map.addSource("marine_mammal", {
-            type: "geojson",
-            data: "../data/marine_mammal.geojson",
-        });
-
-        map.addLayer({
-            id: "marine_mammal",
-            type: "fill",
-            source: "marine_mammal",
-            layout: {},
-            paint: {
-                "fill-color": "#800080",
-                "fill-opacity": 0.5,
-            },
-        });
-
-        map.setLayoutProperty("fish", "visibility", "none");
-        map.setLayoutProperty("marine_mammal", "visibility", "none");
-
         zones_of_interest = {};
         function sleep(ms) {
             return new Promise((resolve) => setTimeout(resolve, ms));
@@ -133,73 +122,85 @@ function loadMap(mapbox_api_key) {
                     (precision = 5),
                     (zone_id = zone_id)
                 );
-                await sleep(1000);
+                await sleep(2000);
             }
             map_div.removeChild(loading);
-            // Simulate a click on the first zone to be able to interact with the map
             document.getElementById(zone_id).click();
         }
 
         initZones();
+        // Simulate a click on the first zone to be able to interact with the map
+
+        // initZones().then(function () {
+        //     var element = document.getElementById(zone_id);
+        //     if (element) {
+        //         element.click();
+        //     } else {
+        //         console.error("Element with ID " + zone_id + " not found");
+        //     }
+        // });
     });
+
+    function formatString(str) {
+        let words = str.split("_");
+        let formattedWords = [];
+        for (let word of words) {
+            formattedWords.push(word.charAt(0).toUpperCase() + word.slice(1));
+        }
+        return formattedWords.join(" ");
+    }
+
+    function createLayerButton(id, ids) {
+        var text_content = formatString(id);
+        var link = document.createElement("a");
+        link.id = id;
+        link.href = "#";
+        link.textContent = text_content;
+        link.className = "";
+
+        link.onclick = function (e) {
+            var clickedLayer = this.id;
+            e.preventDefault();
+            e.stopPropagation();
+
+            var visibility = map.getLayoutProperty(clickedLayer, "visibility");
+
+            // Toggle layer visibility by changing the layout object's visibility property.
+            if (visibility === "visible") {
+                map.setLayoutProperty(clickedLayer, "visibility", "none");
+                this.className = "";
+            } else {
+                this.className = "active";
+                map.setLayoutProperty(clickedLayer, "visibility", "visible");
+                // Set the other layers to invisible
+                for (var layer of ids) {
+                    if (layer != clickedLayer) {
+                        map.setLayoutProperty(layer, "visibility", "none");
+                        document.getElementById(layer).className = "";
+                    }
+                }
+            }
+        };
+
+        return link;
+    }
+
+    function createLayersButton(ids) {
+        var marine_fauna_layers = document.getElementById("menu-animals");
+        // First remove all children
+        while (marine_fauna_layers.firstChild) {
+            marine_fauna_layers.removeChild(marine_fauna_layers.firstChild);
+        }
+
+        for (const id of ids) {
+            console.log(ids);
+            var link = createLayerButton(id, ids);
+            marine_fauna_layers.appendChild(link);
+        }
+    }
 
     // After the last frame rendered before the map enters an "idle" state.
     map.on("idle", () => {
-        // If these two layers were not added to the map, abort
-        if (!map.getLayer("fish") || !map.getLayer("marine_mammal")) {
-            return;
-        }
-
-        // Enumerate ids of the layers.
-        const toggleableLayerIds = ["fish", "marine_mammal"];
-
-        var fauna_id_to_name = {
-            fish: "Fish",
-            marine_mammal: "Marine Mammal",
-        };
-
-        // Set up the corresponding toggle button for each layer.
-        for (const id of toggleableLayerIds) {
-            // Skip layers that already have a button set up.
-            if (document.getElementById(id)) {
-                continue;
-            }
-
-            // Create a link.
-            const link = document.createElement("a");
-            link.id = id;
-            link.href = "#";
-            link.textContent = fauna_id_to_name[id];
-            link.className = "";
-
-            // Show or hide layer when the toggle is clicked.
-            link.onclick = function (e) {
-                const clickedLayer = this.id;
-                // e.preventDefault();
-                // e.stopPropagation();
-
-                const visibility = map.getLayoutProperty(clickedLayer, "visibility");
-
-                // Toggle layer visibility by changing the layout object's visibility property.
-                if (visibility === "visible") {
-                    map.setLayoutProperty(clickedLayer, "visibility", "none");
-                    this.className = "";
-                } else {
-                    this.className = "active";
-                    map.setLayoutProperty(clickedLayer, "visibility", "visible");
-                    // set the other layers to inactive
-                    for (const id of toggleableLayerIds) {
-                        if (id !== clickedLayer) {
-                            document.getElementById(id).className = "";
-                            map.setLayoutProperty(id, "visibility", "none");
-                        }
-                    }
-                }
-            };
-
-            const layers = document.getElementById("menu-animals");
-            layers.appendChild(link);
-        }
 
         var toggleableZoneIds = Object.keys(zones);
         for (var id of toggleableZoneIds) {
@@ -232,9 +233,28 @@ function loadMap(mapbox_api_key) {
                             document.getElementById(id).className = "";
                         }
                     }
+                    var previous_marine_fauna = [];
+                    if (typeof current_zone_id != "undefined") {
+                        var previous_marine_fauna = zones[current_zone_id].marine_fauna;
+                        // Set to invisible all previous_marine fauna
+                        for (var animal in previous_marine_fauna) {
+                            map.setLayoutProperty(animal, "visibility", "none");
+                        }
+                    }
                     current_zone_id = clicked_zone_id;
                     zone_of_interest = zones_of_interest[current_zone_id];
                     zone_of_interest.display(map);
+                    // Create layers buttons for the zone of interest
+                    var marine_fauna = zones[current_zone_id].marine_fauna;
+                    if ((typeof marine_fauna != "undefined") & (marine_fauna != {})) {
+                        marine_fauna_layer_ids = Object.keys(marine_fauna);
+                        createLayersButton(marine_fauna_layer_ids);
+                        addsourceAndLayerFromConfig(
+                            map,
+                            marine_fauna,
+                            previous_marine_fauna
+                        );
+                    }
                 }
             };
 
@@ -299,26 +319,6 @@ function loadMap(mapbox_api_key) {
         }
     });
 
-    // map.on("load", function () {
-    //     // TODO Put in a function to be called when the user select the zone of interest
-    //     // Create zone of interest
-
-    //     var longitude_west = -2.3595;
-    //     var latitude_north = 46.4181;
-
-    //     // Make the zone of interest available in the global scope to be able to use it
-    //     //in the context menu. Don't use let, var or const to make it global
-    //     zone_of_interest = new ZoneOfInterest(
-    //         map,
-    //         (width = 100000),
-    //         (height = 100000),
-    //         (step = 1000),
-    //         (longitude_west = longitude_west),
-    //         (latitude_north = latitude_north)
-    //     );
-
-    //     zone_of_interest.display(map);
-    // });
 }
 
 function show_matrix_impact_geojson(map, matrix_decibel_impact) {

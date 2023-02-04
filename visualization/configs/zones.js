@@ -7,7 +7,8 @@ zones = {
         longitude_west: -2.3595,
         latitude_north: 46.4181,
         marine_fauna: {
-            fish: "s3://deseabel/marine_fauna/fish.geojson",
+            fish: "configs/marine_fauna/fish.geojson",
+            marine_mammal: "configs/marine_fauna/marine_mammal.geojson",
         },
     },
     brest: {

@@ -118,7 +118,7 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
                     property: "decibel",
                     type: "exponential",
                     stops: [
-                        [50, "#00ff00"],
+                        [60, "#00ff00"],
                         [80, "#ffff00"],
                         [100, "#ffa500"],
                         [150, "#ff0000"],
@@ -130,6 +130,7 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
                     type: "interval",
                     stops: [
                         [50, 0],
+                        [60, 0.2],
                         [80, 0.5],
                         [100, 0.8],
                         [150, 1],

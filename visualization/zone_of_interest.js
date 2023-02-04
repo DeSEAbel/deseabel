@@ -61,7 +61,7 @@ class ZoneOfInterest {
         // Not really understand. TODO clean this
         setTimeout(() => {
             this.initZoneOfInterest();
-        }, 1000);
+        }, 2000);
     }
     initZoneOfInterest() {
         console.time("initZoneOfInterest");
