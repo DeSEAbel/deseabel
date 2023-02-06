@@ -41,7 +41,7 @@ class ZoneOfInterest {
         // filter this.hash_coordinates_lonlat_to_xy to only include tiles in water
         // As other variables are based on this.hash_coordinates_lonlat_to_xy, we need
         // to do it before
-        this.keepOnlyTilesInWater();
+        // this.keepOnlyTilesInWater();
 
         this.longitude_east =
             this.longitude_west_to_east[this.longitude_west_to_east.length - 1];
@@ -110,8 +110,8 @@ class ZoneOfInterest {
 
         console.timeEnd("zone_of_interest.display");
     }
-
-    autoUpdateDecibelLayer(map, coordinates_lonlat, decibel) {
+    
+    autoUpdateDecibelLayer(map, coordinates_lonlat, decibel, operation="add") {
         console.time("zone_of_interest.autoUpdateDecibelLayer");
 
         console.time("updateDecibelMatrix");
@@ -122,7 +122,8 @@ class ZoneOfInterest {
             this.hash_coordinates_lonlat_to_xy,
             this.width,
             this.height,
-            this.step
+            this.step,
+            operation=operation
         );
         console.timeEnd("updateDecibelMatrix");
         this.decibel_matrix = decibel_matrix;

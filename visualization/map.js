@@ -85,7 +85,8 @@ function loadMap(mapbox_api_key) {
         map.setLayoutProperty("Poissons", "visibility", "none");
         map.setLayoutProperty("Mammifères marins", "visibility", "none");
     });
-
+        
+    
     // After the last frame rendered before the map enters an "idle" state.
     map.on("idle", () => {
         // If these two layers were not added to the map, abort
@@ -95,9 +96,6 @@ function loadMap(mapbox_api_key) {
 
         // Enumerate ids of the layers.
         const toggleableLayerIds = ["Poissons", "Mammifères marins"];
-
-        // define a variable to track the current state of the layers
-        let layersVisible = false;
 
         // Set up the corresponding toggle button for each layer.
         for (const id of toggleableLayerIds) {
@@ -137,7 +135,7 @@ function loadMap(mapbox_api_key) {
     });
 
     // Add sonor element to the map when the user click right on it
-    map.on("contextmenu", function (e) {
+    map.on("dblclick", function (e) {
         if (typeof zone_of_interest !== "undefined") {
             longitude = e.lngLat.lng;
             latitude = e.lngLat.lat;
@@ -150,46 +148,108 @@ function loadMap(mapbox_api_key) {
                     latitude > zone_of_interest.latitude_south &&
                     latitude < zone_of_interest.latitude_north
                 ) {
-                    coordinates_lonlat = findTileFromLonlat(
+                    var coordinates_lonlat = findTileFromLonlat(
                         (longitude = longitude),
                         (latitude = latitude),
                         (hash_coordinates_lonlat_to_xy =
                             zone_of_interest.hash_coordinates_lonlat_to_xy)
                     );
                     console.log("coordinates_lonlat" + coordinates_lonlat);
+                    // Create the marker
                     if (coordinates_lonlat != null) {
+                        
+                        // Create marker boat
                         // e.lngLat contains the geographical position of the point on the map
                         var div_boat = createDivMarker();
                         var marker_boat = new mapboxgl.Marker(div_boat)
                             .setLngLat(e.lngLat)
                             .addTo(map);
+                        // marker_boat.setDraggable(true);
+                        marker_boat.speed = 10;
+                        marker_boat.length = 6;
+                        
+                        // Create popup for the marker boat
+                        console.log('create_popup');
+                        var popup = new mapboxgl.Popup({
+                                        closeButton: false,
+                                        closeOnClick: true,
+                                        })
+                            //.setHTML('<h3>Settings</h3>Speed<div id="slider"><input type="range" value="'+ marker_boat.speed + '" min="0" max="40" class="slider" id="slider_speed" oninput="this.nextElementSibling.value = this.value"><output id="slider_boat_speed">' + marker_boat.speed + '</output></div>')
+                            .setHTML('<h3>Settings</h3>\
+                            Speed\
+                            <div id="slider"><input type="range" value="'+ marker_boat.speed + '" min="0" max="40" class="slider" id="slider_speed" oninput="this.nextElementSibling.value = this.value">\
+                            <output id="slider_boat_speed">' + marker_boat.speed + '</output>\
+                            </div>\
+                            Length\
+                            <div id="slider"><input type="range" value="'+ marker_boat.length + '" min="0" max="40" class="slider" id="slider_length" oninput="this.nextElementSibling.value = this.value">\
+                            <output id="slider_boat_length">' + marker_boat.length + '</output>\
+                            </div>\
+                            <div id="delete_button"><button type="button">Delete</button>\
+                            </div>')
+                            .addTo(map);
+                        }
+        
+                        popup.once('close', function () {
+                            var popupContent = popup._content;
+                            var slider_speed = popupContent.querySelector('#slider_speed');
+                            var slider_length = popupContent.querySelector('#slider_length');
+                            var delete_button = popupContent.querySelector('#delete_button');
+                            // Add an event listener to the slider
+                            slider_speed.addEventListener('input', function () {
+                                marker_boat.speed = slider_speed.value;
+                                var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
+                                zone_of_interest.autoUpdateDecibelLayer(
+                                    map,
+                                    coordinates_lonlat,
+                                    decibel
+                                );
+                            });
+                            slider_length.addEventListener('input', function () {
+                                marker_boat.length = slider_length.value;
+                                var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
+                                zone_of_interest.autoUpdateDecibelLayer(
+                                    map,
+                                    coordinates_lonlat,
+                                    decibel
+                                );
+                            });
+                            delete_button.addEventListener('click', function () {
+                                var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
+                                marker_boat.remove();
+                                zone_of_interest.autoUpdateDecibelLayer(
+                                    map,
+                                    coordinates_lonlat,
+                                    decibel,
+                                    "delete"
+                                );
+                            });
+                                    
+                        });
+                        console.log('popup created');
+          
+                        // Add popup to the marker boat on click
+                        marker_boat.getElement().addEventListener('click', function() {
+                            marker_boat.setPopup(popup).togglePopup();
+                        });
 
-                        list_markers.push(marker_boat);
+                        // Compute the decibel of the marker boat
+                        var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
+
+                        // Add the marker and the decibel to the list
+                        list_markers.push([marker_boat, decibel]);
                         console.log("Tile coordinates: " + coordinates_lonlat);
                         console.log("autoUpdateDecibelLayer");
                         zone_of_interest.autoUpdateDecibelLayer(
                             map,
                             coordinates_lonlat,
-                            120
+                            decibel
                         );
                     }
                 }
             }
         }
-    });
-
-    // Delete marker on the map when left click on it
-    map.on("click", function (e) {
-        console.log("lat: " + e.lngLat.lat + "\nlon: " + e.lngLat.lng);
-        for (var i = 0; i < list_markers.length; i++) {
-            difference_lat = Math.abs(list_markers[i].getLngLat().lat - e.lngLat.lat);
-            difference_lon = Math.abs(list_markers[i].getLngLat().lng - e.lngLat.lng);
-            if (difference_lat < 0.01 && difference_lon < 0.01) {
-                list_markers[i].remove();
-                list_markers.splice(i, 1);
-            }
-        }
-    });
+    );
+    
 
     map.on("load", function () {
         // TODO Put in a function to be called when the user select the zone of interest
