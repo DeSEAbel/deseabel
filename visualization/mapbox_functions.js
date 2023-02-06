@@ -179,3 +179,151 @@ function createDivMarker(img_url = `../img/boat2.png`, width = 20, height = 20) 
     div.style.backgroundSize = "100%";
     return div;
 }
+
+function addSourceAndLayerFromGeojson(map, id, data, color = "#088") {
+    // If the source not exist, add it
+    if (!map.getSource(id)) {
+        map.addSource(id, {
+            type: "geojson",
+            data: data,
+        });
+    }
+
+    if (!map.getLayer(id)) {
+        map.addLayer({
+            id: id,
+            type: "fill",
+            source: id,
+            layout: {},
+            paint: {
+                "fill-color": color,
+                "fill-opacity": 0.5,
+            },
+        });
+    }
+    map.setLayoutProperty(id, "visibility", "none");
+    map.moveLayer(id, "decibel_polygons_layer_" + current_zone_id);
+}
+function addsourceAndLayerFromConfig(map, marine_fauna, color = "#088") {
+    for (var animal in marine_fauna) {
+        addSourceAndLayerFromGeojson(map, animal, marine_fauna[animal], color);
+    }
+}
+
+function show_matrix_impact_geojson(map, matrix_decibel_impact) {
+    // remove source named matrix_impact_geojson if it exists
+    if (map.getSource("matrix_decibel_impact")) {
+        // remove layers that use the source
+        map.removeLayer("decibel_impact");
+        map.removeSource("matrix_decibel_impact");
+    }
+    map.addSource("matrix_decibel_impact", {
+        type: "geojson",
+        data: matrix_decibel_impact,
+    });
+    map.addLayer({
+        id: "decibel_impact",
+        type: "fill",
+        source: "matrix_decibel_impact",
+        paint: {
+            "fill-color": {
+                property: "value",
+                stops: [
+                    // yellow to red for 1 to 5
+                    [1, "#ffffcc"],
+                    [2, "#ffeda0"],
+                    [3, "#fed976"],
+                    [4, "#feb24c"],
+                    [5, "#fd8d3c"],
+                ],
+            },
+            "fill-opacity": 0.5,
+        },
+    });
+}
+
+// create and get token user name from API
+async function init_user() {
+    const response = await fetch("http://0.0.0.0:8080/initialize_user", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    headers = await response.json();
+    return headers;
+}
+
+// Add boat
+async function add_boat(
+    headers,
+    id,
+    boat_type,
+    latitude,
+    longitude,
+    zone,
+    speed,
+    length
+) {
+    var json_boat = {
+        id: id,
+        lat: latitude,
+        lon: longitude,
+        speed: speed,
+        length: length,
+    };
+    var url_add_boat = url_api.concat("add_boat/", boat_type, "?zone=", zone);
+    fetch(url_add_boat, {
+        method: "POST",
+        body: JSON.stringify(json_boat),
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
+    })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+}
+
+// Update marine fauna impact
+async function update_impact_marine_fauna_impact(headers, zone, species) {
+    var url_update_impact = url_api.concat(
+        "update_marine_fauna_impact?zone=",
+        zone,
+        "&species=",
+        species
+    );
+    fetch(url_update_impact, {
+        method: "POST",
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
+    })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error(error));
+}
+
+async function get_matrix_decibel_impact(headers, zone) {
+    const url_decibel_impact = url_api.concat(
+        "decibel_matrix_impact_quantified/?zone=",
+        zone
+    );
+    const response = await fetch(url_decibel_impact, {
+        method: "GET",
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
+    });
+    matrix_decibel_impact = await response.json();
+    return matrix_decibel_impact;
+}
+
+async function get_array_impact(headers, zone, species) {
+    const url_percentage_marine_fauna_impact_by_level = url_api.concat(
+        "percentage_marine_fauna_impact_by_level?zone=",
+        zone,
+        "&species=",
+        species
+    );
+    const response = await fetch(url_percentage_marine_fauna_impact_by_level, {
+        method: "GET",
+        headers: Object.assign(headers, { "Content-Type": "application/json" }),
+    });
+    array_impact = await response.json();
+    return array_impact;
+}

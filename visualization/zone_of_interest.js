@@ -19,6 +19,7 @@ class ZoneOfInterest {
         this.zone_id = zone_id;
 
         this.preInitZoneOfInterest();
+        this.keep_only_tiles_in_water_done = false;
     }
 
     preInitZoneOfInterest() {
@@ -54,14 +55,11 @@ class ZoneOfInterest {
             this.latitude_south,
             this.zone_id
         );
+        // this.display(this.map);
+        this.decibel_matrix = initMatrix(this.width, this.height, this.step);
 
-        // IMPORTANT Sleep 1 sec in order to wait for map to be loaded. Use only for
-        // keepOnlyTilesInWater() because it needs map to be loaded. It is because the
-        // projection of the map is not available before the map is loaded.
-        // Not really understand. TODO clean this
-        setTimeout(() => {
-            this.initZoneOfInterest();
-        }, 2000);
+        this.initZoneOfInterest();
+
     }
     initZoneOfInterest() {
         console.time("initZoneOfInterest");
@@ -69,7 +67,7 @@ class ZoneOfInterest {
         // filter this.hash_coordinates_lonlat_to_xy to only include tiles in water
         // As other variables are based on this.hash_coordinates_lonlat_to_xy, we need
         // to do it before
-        this.keepOnlyTilesInWater();
+        // this.keepOnlyTilesInWater();
 
         this.hash_coordinates_xy_to_lonlat = getHashCoordinatesXyToLonlat(
             this.hash_coordinates_lonlat_to_xy
@@ -87,7 +85,6 @@ class ZoneOfInterest {
             this.hash_coordinates_lonlat_to_index
         );
 
-        this.decibel_matrix = initMatrix(this.width, this.height, this.step);
         this.decibel_polygon_features = [];
         for (let i = 0; i < this.coordinates_lonlat_list.length; i++) {
             this.decibel_polygon_features.push(
@@ -104,6 +101,10 @@ class ZoneOfInterest {
     }
 
     keepOnlyTilesInWater() {
+        if (this.keep_only_tiles_in_water_done) {
+            return;
+        }
+
         console.time("keepOnlyTilesInWater");
         var tiles_in_water = {};
         // filter this.hash_coordinates_lonlat_to_xy to only include tiles in water
@@ -120,8 +121,11 @@ class ZoneOfInterest {
         }
 
         this.hash_coordinates_lonlat_to_xy = tiles_in_water;
+        this.initZoneOfInterest();
+        this.keep_only_tiles_in_water_done = true;
         console.timeEnd("keepOnlyTilesInWater");
     }
+
 
     display(map) {
         console.time("zone_of_interest.display");
