@@ -146,7 +146,7 @@ function loadMap(mapbox_api_key) {
                                     map,
                                     coordinates_lonlat,
                                     decibel,
-                                    "delete"
+                                    "subtract"
                                 );
                             });
                                     
