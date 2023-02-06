@@ -165,7 +165,7 @@ async function add_zones_menu(map) {
                     // Set to invisible all previous_marine fauna
                     for (var animal in previous_marine_fauna) {
                         map.setLayoutProperty(
-                            clicked_zone_id + "-" + animal,
+                            current_zone_id + "-" + animal,
                             "visibility",
                             "none"
                         );
