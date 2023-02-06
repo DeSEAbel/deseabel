@@ -67,9 +67,9 @@ function calculateDecibelMatrices(m1, m2, operation = add) {
 }
 
 // define global variables that define the last xy and decibel updated
-var last_xy_updated = null;
-var last_new_decibel_matrix = null;
-var last_operation = null;
+last_xy_updated = null;
+last_new_decibel_matrix = null;
+last_operation = null;
 /**
  *
  * @param {list} decibel_matrix
@@ -105,6 +105,10 @@ function updateDecibelMatrix(
     
     // check if x0 and y0 are the same as the last updated
     if (last_xy_updated != null && last_xy_updated[0] == x0 && last_xy_updated[1] == y0 && operation == add){
+        console.log(last_xy_updated);
+        console.log(x0);
+        console.log(y0);
+        console.log("AAAAAAAAAAAAAAAAAAAAAA");
         decibel_matrix = calculateDecibelMatrices(
             decibel_matrix,
             last_new_decibel_matrix,

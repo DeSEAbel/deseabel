@@ -5,9 +5,6 @@
 function loadMap(mapbox_api_key) {
     mapboxgl.accessToken = mapbox_api_key;
 
-    // Constants
-    list_markers = [];
-
     map = new mapboxgl.Map({
         container: "map-div", // container ID
         style: "mapbox://styles/mapbox/streets-v12", // style URL
@@ -74,7 +71,7 @@ function loadMap(mapbox_api_key) {
                     // zone_of_interest.keepOnlyTilesInWater();
                     // console.log("Keep only tiles in water done");
                     console.log("Find tile from lonlat");
-                    coordinates_lonlat = findTileFromLonlat( main
+                    coordinates_lonlat = findTileFromLonlat(
                         (longitude = longitude),
                         (latitude = latitude),
                         (hash_coordinates_lonlat_to_xy =
@@ -85,7 +82,6 @@ function loadMap(mapbox_api_key) {
                     console.log("coordinates_lonlat" + coordinates_lonlat);
                     // Create the marker
                     if (coordinates_lonlat != null) {
-                        
                         // Create marker boat
                         // e.lngLat contains the geographical position of the point on the map
                         var div_boat = createDivMarker();
@@ -126,6 +122,8 @@ function loadMap(mapbox_api_key) {
                             slider_speed.addEventListener('input', function () {
                                 marker_boat.speed = slider_speed.value;
                                 var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
+                                console.log("XXXXXXXXXXXXXXXXXXX");
+                                console.log(hash_coordinates_lonlat_to_xy[coordinates_lonlat.join(",")]);
                                 zone_of_interest.autoUpdateDecibelLayer(
                                     map,
                                     coordinates_lonlat,
@@ -163,8 +161,6 @@ function loadMap(mapbox_api_key) {
                         // Compute the decibel of the marker boat
                         var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
 
-                        // Add the marker and the decibel to the list
-                        list_markers.push([marker_boat, decibel]);
                         console.log("Tile coordinates: " + coordinates_lonlat);
                         console.log("autoUpdateDecibelLayer");
 
@@ -173,9 +169,8 @@ function loadMap(mapbox_api_key) {
                             coordinates_lonlat,
                             decibel
                         );
-                    }
                 }
             }
         }
-
+    });
 }
