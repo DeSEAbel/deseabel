@@ -42,13 +42,23 @@
         </div>
 
         <div class="sidebar-animals">
-          <h3>Marine animals</h3>
-          <div class="first-theme" id="menu"></div>
-          <h3>Noise impactors</h3>
+          <h3>Marine fauna</h3>
+          <div class="first-theme" id="menu-animals"></div>
           <img id="logoSidebar" src="../img/deSEAbel.png" />
         </div>
+
+        <div class="toggle-sidebar-zones">
+          <i class="fas fa-map-marked-alt"></i>
+        </div>
+
+        <div class="sidebar-zones">
+          <h3>Zones</h3>
+          <div class="first-theme" id="menu-zones"></div>
+          <img id="logoSidebar" src="../img/deSEAbel.png" /> 
+        </div>
         
-        <div id="map"></div>
+        
+        <div id="map-div"></div>
       </div>
       
       <div id="right-container">
@@ -161,7 +171,8 @@
   </div>
 
   <!-- Import files for the matrix operations -->
-  
+  <script src="configs/zones.js"></script>
+  <script src="html_from_javascript.js"></script>
   <script src="matrix_operations.js"></script>
   <script src="matrix_conversion.js"></script>
   <script src="zone_of_interest.js"></script>

@@ -5,13 +5,13 @@ body {
   "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-html,body,#container,#map {
+html,body,#container,#map-div {
   height:100%;
   min-height:100%;
   max-height:100%;
 }
 
-html,body,#container,#map {
+html,body,#container,#map-div {
   height:100%;
   min-height:100%;
   max-height:100%;
@@ -77,9 +77,9 @@ nav {
 }
 
 /*Sidebar for buttons */
-.sidebar, .sidebar-animals {
+.sidebar, .sidebar-animals, .sidebar-zones {
   width: 150px;
-  z-index: 2;
+  z-index: 3;
   background-color: #F4F2F2;
   position: fixed;
   left: 0;
@@ -87,17 +87,6 @@ nav {
   bottom: 0;
   display: none;
   text-align: center;
-}
-
-.toggle-sidebar-knots {
-  position: absolute;
-  z-index: 2;
-  top: 200px;
-  left: 0;
-  cursor: pointer;
-  background-color: #3378aa;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
 }
 
 .toggle-sidebar-animals {
@@ -111,14 +100,24 @@ nav {
   border-bottom-right-radius: 10px;
 }
 
-.fa-layer-group, .fa-fish {
+.toggle-sidebar-zones {
+  position: absolute;
+  z-index: 2;
+  top: 400px;
+  left: 0;
+  cursor: pointer;
+  background-color: #3378aa;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.fa-layer-group, .fa-fish, .fa-map-marked-alt{
   color: #fff;
   font-size: 30px;
   padding: 20px;
 }
 
 
-.show-sidebar, .show-sidebar-animals {
+.show-sidebar, .show-sidebar-animals, .show-sidebar-zones {
   display: block;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
@@ -135,6 +134,10 @@ nav {
   left: 150px;
 }
 
+.toggle-zones {
+  left: 150px;
+}
+
 .click-toggle-theme {
   background-color: #fff;
 }
@@ -144,14 +147,14 @@ nav {
 }
 
 /*Buttons */
-#menu, #toggleLayer5knots, #toggleLayer10knots {
+#menu-animals, #menu-zones {
   z-index: 1;
   top: 10px;
   left: 10px;
   font-family: "Open Sans", sans-serif;
 }
 
-#menu a, #toggleLayer5knots a, #toggleLayer10knots a {
+#menu-animals a, #menu-zones a {
   font-size: 20x;
   border-radius: 10px;
   color: #404040;
@@ -164,17 +167,17 @@ nav {
   text-align: center;
 }
 
-#menu a:hover, #toggleLayer5knots a:hover, #toggleLayer10knots a:hover {
-  background-color: #f8f8f8;
-  color: #404040;
+#menu-animals a:hover, #menu-zones a:hover {
+  background-color: #ececec78;
+  color: #000000;
 }
 
-#menu a.active, #toggleLayer5knots a.active, #toggleLayer10knots a.active {
+#menu-animals a.active, #menu-zones a.active {
   background-color: #3887be;
-  color: #ffffff;
+  color: #1b1a1a;
 }
 
-#menu a.active:hover, #toggleLayer5knots a.active:hover, #toggleLayer10knots a.active:hover {
+#menu-animals a.active:hover, #menu-zones a.active:hover {
   background: #3074a4;
 }
 
@@ -448,4 +451,19 @@ td {
   background-color: #fff; /* set the background color of the element */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* add a box shadow to the element */
   z-index: 4; /* position the element above the page background */
+}
+
+.loading-bar {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
 }
