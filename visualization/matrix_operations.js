@@ -66,6 +66,10 @@ function calculateDecibelMatrices(m1, m2, operation = add) {
     return decibel_matrix;
 }
 
+// define global variables that define the last xy and decibel updated
+var last_xy_updated = null;
+var last_new_decibel_matrix = null;
+var last_operation = null;
 /**
  *
  * @param {list} decibel_matrix
@@ -85,13 +89,29 @@ function updateDecibelMatrix(
     width,
     height,
     step,
-    operation = add
-) {
+    operation = "add"
+) { 
+    last_decibel_used = decibel;
+    
+    if (operation == "add"){
+        operation = add;
+    }else{
+        operation = substract;
+    }
     if (coordinates_lonlat == null) {
         return decibel_matrix;
     }
     [x0, y0] = hash_coordinates_lonlat_to_xy[coordinates_lonlat.join(",")];
-
+    
+    // check if x0 and y0 are the same as the last updated
+    if (last_xy_updated != null && last_xy_updated[0] == x0 && last_xy_updated[1] == y0 && operation == add){
+        decibel_matrix = calculateDecibelMatrices(
+            decibel_matrix,
+            last_new_decibel_matrix,
+            substract
+        );
+    }
+    
     var [new_decibel_matrix, xy_sorted_by_distance] = computeDecibelMatrixFromXy(
         (x0 = x0),
         (y0 = y0),
@@ -100,12 +120,56 @@ function updateDecibelMatrix(
         (height = height),
         (step = step)
     );
-
+    
     updated_decibel_matrix = calculateDecibelMatrices(
         decibel_matrix,
         new_decibel_matrix,
         operation
     );
-
+    
+    // set the last variables
+    last_new_decibel_matrix = new_decibel_matrix;
+    last_operation = operation;
+    last_xy_updated = [x0, y0];
+        
     return [updated_decibel_matrix, xy_sorted_by_distance];
 }
+
+
+function computeSoundLevel(length, speed) {
+    let SLi = [];
+    let dl = Math.pow(length, 1.15) / 3643;
+    let D13 = Math.pow(2, 1/3);
+    let Fc = [12.4];
+    let f = Fc[0];
+    let df = 8.1;
+    let SLs0 = -10 * Math.log10(
+      Math.pow(10, -1.06 * Math.log10(f) - 14.34) +
+      Math.pow(10, 3.32 * Math.log10(f) - 24.425)
+    );
+  
+    for (let ii = 0; ii < 16; ii++) {
+      Fc.push(Fc[ii] * D13);
+      f = Fc[ii + 1];
+      SLs0 = -10 * Math.log10(
+        Math.pow(10, -1.06 * Math.log10(f) - 14.34) +
+        Math.pow(10, 3.32 * Math.log10(f) - 24.425)
+      );
+      if (f <= 28.4) {
+        df = 8.1;
+      } else {
+        df = 22.3 - 9.77 * Math.log10(f);
+      }
+      SLi.push(
+        SLs0 + 60 * Math.log10(speed / 12) +
+        20 * Math.log10(length / 300) + df * dl + 3
+      );
+    }
+  
+    return SLi.reduce((sum, item) => sum + item) / SLi.length;
+  }
+  
+  
+  
+  
+  
