@@ -180,20 +180,21 @@ function createDivMarker(img_url = `../img/boat2.png`, width = 20, height = 20) 
     return div;
 }
 
-function addSourceAndLayerFromGeojson(map, id, data, color = "#088") {
+function addSourceAndLayerFromGeojson(map, animal_id, filepath, zone_id, color = "#088") {
     // If the source not exist, add it
-    if (!map.getSource(id)) {
-        map.addSource(id, {
+    var source_id = zone_id + "-" + animal_id;
+    if (!map.getSource(source_id)) {
+        map.addSource(source_id, {
             type: "geojson",
-            data: data,
+            data: filepath,
         });
     }
 
-    if (!map.getLayer(id)) {
+    if (!map.getLayer(source_id)) {
         map.addLayer({
-            id: id,
+            id: source_id,
             type: "fill",
-            source: id,
+            source: source_id,
             layout: {},
             paint: {
                 "fill-color": color,
@@ -201,12 +202,12 @@ function addSourceAndLayerFromGeojson(map, id, data, color = "#088") {
             },
         });
     }
-    map.setLayoutProperty(id, "visibility", "none");
-    map.moveLayer(id, "decibel_polygons_layer_" + current_zone_id);
+    map.setLayoutProperty(source_id, "visibility", "none");
+    map.moveLayer(source_id, "decibel_polygons_layer_" + current_zone_id);
 }
-function addsourceAndLayerFromConfig(map, marine_fauna, color = "#088") {
+function addsourceAndLayerFromConfig(map, marine_fauna, zone_id, color = "#088") {
     for (var animal in marine_fauna) {
-        addSourceAndLayerFromGeojson(map, animal, marine_fauna[animal], color);
+        addSourceAndLayerFromGeojson(map, animal, marine_fauna[animal], zone_id, color);
     }
 }
 

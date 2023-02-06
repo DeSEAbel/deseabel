@@ -1,4 +1,8 @@
 function formatString(str) {
+    // If "-" in string, split and keep the second part
+    if (str.includes("-")) {
+        str = str.split("-")[1];
+    }
     let words = str.split("_");
     let formattedWords = [];
     for (let word of words) {
@@ -15,7 +19,9 @@ function createLinkDiv(id) {
     link.className = "";
     return link;
 }
+
 function createLayerButton(id, ids) {
+    console.log("createLayerButton: " + id);
     var link = createLinkDiv(id);
     link.onclick = function (e) {
         var clickedLayer = this.id;
@@ -118,9 +124,11 @@ async function simulateClickOnZone(zone_id) {
     // Create layers buttons for the zone of interest
     var marine_fauna = zones[current_zone_id].marine_fauna;
     if ((typeof marine_fauna != "undefined") & (marine_fauna != {})) {
-        marine_fauna_layer_ids = Object.keys(marine_fauna);
+        marine_fauna_layer_ids = Object.keys(marine_fauna).map(
+            (x) => zone_id + "-" + x
+        );
         createLayersButton(marine_fauna_layer_ids, "menu-animals");
-        addsourceAndLayerFromConfig(map, marine_fauna);
+        addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
     }
     document.getElementById(zone_id).className = "active";
 }
@@ -156,7 +164,11 @@ async function add_zones_menu(map) {
                     var previous_marine_fauna = zones[current_zone_id].marine_fauna;
                     // Set to invisible all previous_marine fauna
                     for (var animal in previous_marine_fauna) {
-                        map.setLayoutProperty(animal, "visibility", "none");
+                        map.setLayoutProperty(
+                            clicked_zone_id + "-" + animal,
+                            "visibility",
+                            "none"
+                        );
                     }
                 }
                 current_zone_id = clicked_zone_id;
@@ -165,13 +177,11 @@ async function add_zones_menu(map) {
                 // Create layers buttons for the zone of interest
                 var marine_fauna = zones[current_zone_id].marine_fauna;
                 if ((typeof marine_fauna != "undefined") & (marine_fauna != {})) {
-                    marine_fauna_layer_ids = Object.keys(marine_fauna);
-                    createLayersButton(marine_fauna_layer_ids, "menu-animals");
-                    addsourceAndLayerFromConfig(
-                        map,
-                        marine_fauna,
-                        previous_marine_fauna
+                    marine_fauna_layer_ids = Object.keys(marine_fauna).map(
+                        (x) => current_zone_id + "-" + x
                     );
+                    createLayersButton(marine_fauna_layer_ids, "menu-animals");
+                    addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
                 }
             }
         };
