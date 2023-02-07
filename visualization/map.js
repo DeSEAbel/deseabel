@@ -71,7 +71,7 @@ function loadMap(mapbox_api_key) {
                     // zone_of_interest.keepOnlyTilesInWater();
                     // console.log("Keep only tiles in water done");
                     console.log("Find tile from lonlat");
-                    coordinates_lonlat = findTileFromLonlat(
+                    var coordinates_lonlat = findTileFromLonlat(
                         (longitude = longitude),
                         (latitude = latitude),
                         (hash_coordinates_lonlat_to_xy =
@@ -109,10 +109,8 @@ function loadMap(mapbox_api_key) {
                             <output id="slider_boat_length">' + marker_boat.length + '</output>\
                             </div>\
                             <div id="delete_button"><button type="button">Delete</button>\
-                            </div>')
-                            .addTo(map);
+                            </div>');
                         }
-        
                         popup.once('close', function () {
                             var popupContent = popup._content;
                             var slider_speed = popupContent.querySelector('#slider_speed');
@@ -122,8 +120,6 @@ function loadMap(mapbox_api_key) {
                             slider_speed.addEventListener('input', function () {
                                 marker_boat.speed = slider_speed.value;
                                 var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
-                                console.log("XXXXXXXXXXXXXXXXXXX");
-                                console.log(hash_coordinates_lonlat_to_xy[coordinates_lonlat.join(",")]);
                                 zone_of_interest.autoUpdateDecibelLayer(
                                     map,
                                     coordinates_lonlat,
@@ -152,10 +148,11 @@ function loadMap(mapbox_api_key) {
                                     
                         });
                         console.log('popup created');
-          
+                        
+                        marker_boat.setPopup(popup)
                         // Add popup to the marker boat on click
                         marker_boat.getElement().addEventListener('click', function() {
-                            marker_boat.setPopup(popup).togglePopup();
+                            popup.addTo(map);
                         });
 
                         // Compute the decibel of the marker boat

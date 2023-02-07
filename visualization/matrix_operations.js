@@ -105,10 +105,6 @@ function updateDecibelMatrix(
     
     // check if x0 and y0 are the same as the last updated
     if (last_xy_updated != null && last_xy_updated[0] == x0 && last_xy_updated[1] == y0 && operation == add){
-        console.log(last_xy_updated);
-        console.log(x0);
-        console.log(y0);
-        console.log("AAAAAAAAAAAAAAAAAAAAAA");
         decibel_matrix = calculateDecibelMatrices(
             decibel_matrix,
             last_new_decibel_matrix,
@@ -124,7 +120,11 @@ function updateDecibelMatrix(
         (height = height),
         (step = step)
     );
-    
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+    console.log(x0, y0, decibel, width, height, step)
+    console.log(operation)
+    console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+
     updated_decibel_matrix = calculateDecibelMatrices(
         decibel_matrix,
         new_decibel_matrix,
@@ -135,7 +135,6 @@ function updateDecibelMatrix(
     last_new_decibel_matrix = new_decibel_matrix;
     last_operation = operation;
     last_xy_updated = [x0, y0];
-        
     return [updated_decibel_matrix, xy_sorted_by_distance];
 }
 
