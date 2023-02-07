@@ -26,11 +26,18 @@ function loadMap(mapbox_api_key) {
     map.doubleClickZoom.disable();
 
     // Add sidebar
+    var toggleNoiseImpactors = document.querySelector(".toggle-sidebar-noise-impactors");
+    var sidebarNoiseImpactors = document.querySelector(".sidebar-noise-impactors");
     var toggleZones = document.querySelector(".toggle-sidebar-zones");
     var sidebarZones = document.querySelector(".sidebar-zones");
     var toggleAnimals = document.querySelector(".toggle-sidebar-animals");
     var sidebarAnimals = document.querySelector(".sidebar-animals");
 
+    toggleNoiseImpactors.addEventListener("click", function () {
+        sidebarNoiseImpactors.classList.toggle("show-sidebar-noise-impactors");
+        toggleNoiseImpactors.classList.toggle("toggle-noise-impactors");
+    });
+    
     toggleZones.addEventListener("click", function () {
         sidebarZones.classList.toggle("show-sidebar-zones");
         toggleZones.classList.toggle("toggle-zones");
@@ -52,7 +59,7 @@ function loadMap(mapbox_api_key) {
             zones_of_interest[current_zone_id].keepOnlyTilesInWater();
         });
     });
-
+    
     // Add sonor element to the map when the user click right on it
     map.on("dblclick", function (e) {
         if (typeof zone_of_interest !== "undefined") {
@@ -125,6 +132,7 @@ function loadMap(mapbox_api_key) {
                                     coordinates_lonlat,
                                     decibel
                                 );
+                                
                             });
                             slider_length.addEventListener('input', function () {
                                 marker_boat.length = slider_length.value;
@@ -154,7 +162,7 @@ function loadMap(mapbox_api_key) {
                         marker_boat.getElement().addEventListener('click', function() {
                             popup.addTo(map);
                         });
-
+                        
                         // Compute the decibel of the marker boat
                         var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
 

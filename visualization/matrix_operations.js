@@ -60,16 +60,45 @@ function calculateDecibelMatrices(m1, m2, operation = add) {
             new_decibel =
                 10 *
                 Math.log10(operation(10 ** (m1[y][x] / 10), 10 ** (m2[y][x] / 10)));
+            if (new_decibel <= 0 || isNaN(new_decibel)){
+                new_decibel = 0;
+            }
             decibel_matrix[y].push(new_decibel);
         }
     }
     return decibel_matrix;
 }
 
-// define global variables that define the last xy and decibel updated
-last_xy_updated = null;
-last_new_decibel_matrix = null;
-last_operation = null;
+ // create a list_of markers
+ list_of_coordinates = [];
+ 
+ // Update the decibel of the marker boat in the list of markers
+function updateDecibelMarker(coordinates_lonlat, decibel) {
+    for (var i = 0; i < list_of_coordinates.length; i++) {
+        if (coordinates_lonlat[0] == list_of_coordinates[i][0][0] && 
+            coordinates_lonlat[1] == list_of_coordinates[i][0][1] && 
+            coordinates_lonlat[2] == list_of_coordinates[i][0][2] &&
+            coordinates_lonlat[3] == list_of_coordinates[i][0][3]) {
+                list_of_coordinates[i][1] = decibel;
+            console.log("update decibel marker:" + decibel);
+            return;
+        }
+    }
+    list_of_coordinates.push([coordinates_lonlat, decibel]);
+}
+
+function getDecibelFromCoordinates_lonlat(coordinates_lonlat){
+    for (var i = 0; i < list_of_coordinates.length; i++) {
+        if (coordinates_lonlat[0] == list_of_coordinates[i][0][0] &&
+            coordinates_lonlat[1] == list_of_coordinates[i][0][1] &&
+            coordinates_lonlat[2] == list_of_coordinates[i][0][2] &&
+            coordinates_lonlat[3] == list_of_coordinates[i][0][3]) {
+            return list_of_coordinates[i][1];
+        }
+    }
+    return 0;
+}
+
 /**
  *
  * @param {list} decibel_matrix
@@ -90,9 +119,7 @@ function updateDecibelMatrix(
     height,
     step,
     operation = "add"
-) { 
-    last_decibel_used = decibel;
-    
+) {    
     if (operation == "add"){
         operation = add;
     }else{
@@ -102,12 +129,21 @@ function updateDecibelMatrix(
         return decibel_matrix;
     }
     [x0, y0] = hash_coordinates_lonlat_to_xy[coordinates_lonlat.join(",")];
-    
+
+    var last_decibel = getDecibelFromCoordinates_lonlat(coordinates_lonlat);
     // check if x0 and y0 are the same as the last updated
-    if (last_xy_updated != null && last_xy_updated[0] == x0 && last_xy_updated[1] == y0 && operation == add){
+    if (last_decibel != 0 && operation == add){
+        var [new_decibel_matrix, xy_sorted_by_distance] = computeDecibelMatrixFromXy(
+            x0,
+            y0,
+            last_decibel,
+            width,
+            height,
+            step
+        );
         decibel_matrix = calculateDecibelMatrices(
             decibel_matrix,
-            last_new_decibel_matrix,
+            new_decibel_matrix,
             substract
         );
     }
@@ -121,6 +157,8 @@ function updateDecibelMatrix(
         (step = step)
     );
 
+    updateDecibelMarker(coordinates_lonlat, decibel)
+    
     updated_decibel_matrix = calculateDecibelMatrices(
         decibel_matrix,
         new_decibel_matrix,
@@ -128,9 +166,6 @@ function updateDecibelMatrix(
     );
     
     // set the last variables
-    last_new_decibel_matrix = new_decibel_matrix;
-    last_operation = operation;
-    last_xy_updated = [x0, y0];
     return [updated_decibel_matrix, xy_sorted_by_distance];
 }
 

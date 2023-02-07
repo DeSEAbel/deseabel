@@ -110,14 +110,14 @@ nav {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.fa-layer-group, .fa-fish, .fa-map-marked-alt{
+.fa-layer-group, .fa-fish, .fa-map-marked-alt, .fa-waveform {
   color: #fff;
   font-size: 30px;
   padding: 20px;
 }
 
 
-.show-sidebar, .show-sidebar-animals, .show-sidebar-zones {
+.show-sidebar, .show-sidebar-animals, .show-sidebar-zones, .show-sidebar-noise-impactors {
   display: block;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
@@ -135,6 +135,10 @@ nav {
 }
 
 .toggle-zones {
+  left: 150px;
+}
+
+.toggle-noise-impactors {
   left: 150px;
 }
 
