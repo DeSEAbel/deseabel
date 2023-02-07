@@ -120,10 +120,6 @@ function updateDecibelMatrix(
         (height = height),
         (step = step)
     );
-    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-    console.log(x0, y0, decibel, width, height, step)
-    console.log(operation)
-    console.log("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
 
     updated_decibel_matrix = calculateDecibelMatrices(
         decibel_matrix,
