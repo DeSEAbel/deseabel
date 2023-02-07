@@ -52,7 +52,7 @@ function loadMap(mapbox_api_key) {
             zones_of_interest[current_zone_id].keepOnlyTilesInWater();
         });
     });
-
+    
     // Add sonor element to the map when the user click right on it
     map.on("dblclick", function (e) {
         if (typeof zone_of_interest !== "undefined") {
@@ -125,6 +125,7 @@ function loadMap(mapbox_api_key) {
                                     coordinates_lonlat,
                                     decibel
                                 );
+                                
                             });
                             slider_length.addEventListener('input', function () {
                                 marker_boat.length = slider_length.value;
@@ -154,7 +155,7 @@ function loadMap(mapbox_api_key) {
                         marker_boat.getElement().addEventListener('click', function() {
                             popup.addTo(map);
                         });
-
+                        
                         // Compute the decibel of the marker boat
                         var decibel = computeSoundLevel(marker_boat.length, marker_boat.speed);
 
