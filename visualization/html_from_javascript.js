@@ -115,6 +115,14 @@ function add_zone_menu_divs() {
     }
 }
 
+function add_noise_impactors_menu() {
+    var menu = document.getElementById("menu-noise-impactors");
+    for (zone_id in zones) {
+        var link = createLinkDiv(zone_id);
+        menu.appendChild(link);
+    }
+}
+
 async function simulateClickOnZone(zone_id) {
     current_zone_id = zone_id;
     zone_of_interest = zones_of_interest[current_zone_id];

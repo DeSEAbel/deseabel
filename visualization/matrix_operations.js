@@ -60,6 +60,9 @@ function calculateDecibelMatrices(m1, m2, operation = add) {
             new_decibel =
                 10 *
                 Math.log10(operation(10 ** (m1[y][x] / 10), 10 ** (m2[y][x] / 10)));
+            if (new_decibel <= 0){
+                new_decibel = 0;
+            }
             decibel_matrix[y].push(new_decibel);
         }
     }

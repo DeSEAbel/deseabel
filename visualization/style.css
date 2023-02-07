@@ -117,7 +117,7 @@ nav {
 }
 
 
-.show-sidebar, .show-sidebar-animals, .show-sidebar-zones {
+.show-sidebar, .show-sidebar-animals, .show-sidebar-zones, .show-sidebar-noise-impactors {
   display: block;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
@@ -135,6 +135,10 @@ nav {
 }
 
 .toggle-zones {
+  left: 150px;
+}
+
+.toggle-noise-impactors {
   left: 150px;
 }
 

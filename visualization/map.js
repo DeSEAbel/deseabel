@@ -26,11 +26,18 @@ function loadMap(mapbox_api_key) {
     map.doubleClickZoom.disable();
 
     // Add sidebar
+    var toggleNoiseImpactors = document.querySelector(".toggle-sidebar-noise-impactors");
+    var sidebarNoiseImpactors = document.querySelector(".sidebar-noise-impactors");
     var toggleZones = document.querySelector(".toggle-sidebar-zones");
     var sidebarZones = document.querySelector(".sidebar-zones");
     var toggleAnimals = document.querySelector(".toggle-sidebar-animals");
     var sidebarAnimals = document.querySelector(".sidebar-animals");
 
+    toggleNoiseImpactors.addEventListener("click", function () {
+        sidebarNoiseImpactors.classList.toggle("show-sidebar-noise-impactors");
+        toggleNoiseImpactors.classList.toggle("toggle-noise-impactors");
+    });
+    
     toggleZones.addEventListener("click", function () {
         sidebarZones.classList.toggle("show-sidebar-zones");
         toggleZones.classList.toggle("toggle-zones");
