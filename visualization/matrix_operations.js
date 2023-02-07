@@ -67,9 +67,9 @@ function calculateDecibelMatrices(m1, m2, operation = add) {
 }
 
 // define global variables that define the last xy and decibel updated
-var last_xy_updated = null;
-var last_new_decibel_matrix = null;
-var last_operation = null;
+last_xy_updated = null;
+last_new_decibel_matrix = null;
+last_operation = null;
 /**
  *
  * @param {list} decibel_matrix
@@ -120,7 +120,7 @@ function updateDecibelMatrix(
         (height = height),
         (step = step)
     );
-    
+
     updated_decibel_matrix = calculateDecibelMatrices(
         decibel_matrix,
         new_decibel_matrix,
@@ -131,7 +131,6 @@ function updateDecibelMatrix(
     last_new_decibel_matrix = new_decibel_matrix;
     last_operation = operation;
     last_xy_updated = [x0, y0];
-        
     return [updated_decibel_matrix, xy_sorted_by_distance];
 }
 
