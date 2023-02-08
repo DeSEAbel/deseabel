@@ -67,24 +67,24 @@ function createLayersButton(ids, menu_name = "menu-animals") {
 
 async function initZones() {
     zones_of_interest = {};
-    var map_div = document.getElementById("map-div");
-    var loading = document.createElement("div");
-    loading.innerHTML = "Loading zones...";
-    loading.classList.add("loading-bar");
-    map_div.appendChild(loading);
-    var idx = 0;
+    // var map_div = document.getElementById("map-div");
+    // var loading = document.createElement("div");
+    // loading.innerHTML = "Loading zones...";
+    // loading.classList.add("loading-bar");
+    // map_div.appendChild(loading);
+    // var idx = 0;
     const createZone = async (zone_id) => {
         var zone = zones[zone_id];
-        var zone_name = zone.name;
-        idx += 1;
-        loading.innerHTML =
-            "Loading zone " +
-            zone_name +
-            "... (" +
-            idx +
-            "/" +
-            Object.keys(zones).length +
-            ")";
+        // var zone_name = zone.name;
+        // idx += 1;
+        // loading.innerHTML =
+        //     "Loading zone " +
+        //     zone_name +
+        //     "... (" +
+        //     idx +
+        //     "/" +
+        //     Object.keys(zones).length +
+        //     ")";
         zones_of_interest[zone_id] = new ZoneOfInterest(
             (map = map),
             (width = zone.width),
@@ -99,7 +99,7 @@ async function initZones() {
     for (zone_id in zones) {
         await createZone(zone_id);
     }
-    map_div.removeChild(loading);
+    // map_div.removeChild(loading);
     add_zone_menu_divs();
     simulateClickOnZone(zone_id);
     return new Promise((resolve) => {
@@ -115,29 +115,14 @@ function add_zone_menu_divs() {
     }
 }
 
-
-function add_noise_impactors_menu() {
+function add_noise_impactors_menu_divs() {
     var menu = document.getElementById("menu-noise-impactors");
     for (noise_impactor_id in noise_impactors) {
-        var button = document.createElement("button");
-        button.id = noise_impactor_id;
-        button.innerHTML = formatString(noise_impactors[noise_impactor_id].name);
-        button.style.padding = "10px 20px";
-        button.style.border = "none";
-        button.style.borderRadius = "10px";
-        button.style.width = "130px";
-        button.style.height = "60px";
-        button.style.marginBottom = "10px";
-        // Set an event listener for when the button is clicked
-        button.addEventListener("click", function(){
-            button.style.backgroundColor = "lightblue";
-            noise_impactor_name_for_marker = noise_impactors[noise_impactor_id].name
-        });
-        menu.appendChild(button);
-        if (button.id == "outboard_pleasure_boat") {
-            button.click();
-        }
+        var link = createLinkDiv(noise_impactor_id);
+        menu.appendChild(link);
     }
+    noise_impactor_id = Object.keys(noise_impactors)[0];
+    simulateClickOnNoiseImpactor(noise_impactor_id);
 }
 
 async function simulateClickOnZone(zone_id) {
@@ -156,6 +141,11 @@ async function simulateClickOnZone(zone_id) {
         addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
     }
     document.getElementById(zone_id).className = "active";
+}
+function simulateClickOnNoiseImpactor(noise_impactor_id) {
+    current_noise_impactor_id = noise_impactor_id;
+    console.log("current_noise_impactor_id: " + current_noise_impactor_id);
+    document.getElementById(noise_impactor_id).className = "active";
 }
 
 // Async function because it needs to wait for the zone_of_interest to be created in
@@ -216,3 +206,33 @@ async function add_zones_menu(map) {
     });
 }
 
+function add_noise_impactors_menu(map) {
+    var noise_impactor_ids = Object.keys(noise_impactors);
+    for (var id of noise_impactor_ids) {
+        var link = document.getElementById(id);
+        link.onclick = function (e) {
+            var clicked_noise_impactor_id = this.id;
+            e.preventDefault();
+            e.stopPropagation();
+
+            const visibility = this.className;
+
+            // Toggle layer visibility by changing the layout object's visibility property.
+            if (visibility === "active") {
+                console.log("already active");
+                return;
+            } else {
+                this.className = "active";
+                //set the other noise_impactors to inactive
+                for (var id of noise_impactor_ids) {
+                    if (id !== clicked_noise_impactor_id) {
+                        document.getElementById(id).className = "";
+                    }
+                }
+
+                current_noise_impactor_id = clicked_noise_impactor_id;
+                console.log("current_noise_impactor_id: " + current_noise_impactor_id);
+            }
+        };
+    }
+}

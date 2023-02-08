@@ -180,7 +180,13 @@ function createDivMarker(img_url = `../img/boat2.png`, width = 20, height = 20) 
     return div;
 }
 
-function addSourceAndLayerFromGeojson(map, animal_id, filepath, zone_id, color = "#088") {
+function addSourceAndLayerFromGeojson(
+    map,
+    animal_id,
+    filepath,
+    zone_id,
+    color = "#088"
+) {
     // If the source not exist, add it
     var source_id = zone_id + "-" + animal_id;
     if (!map.getSource(source_id)) {
@@ -327,4 +333,35 @@ async function get_array_impact(headers, zone, species) {
     });
     array_impact = await response.json();
     return array_impact;
+}
+
+function addBathymetry(map) {
+    // add bathymetry to the map mapbox.mapbox-bathymetry-v2
+    map.addSource("bathymetry", {
+        type: "vector",
+        url: "mapbox://mapbox.mapbox-bathymetry-v2",
+    });
+
+    map.addLayer({
+        id: "bathymetry",
+        type: "fill",
+        source: "bathymetry",
+        "source-layer": "depth",
+        paint: {
+            "fill-color": [
+                "interpolate",
+                ["linear"],
+                ["to-number", ["get", "depth"]],
+                0,
+                "#9bd6ff",
+                5000,
+                "#81b2d5",
+                40000,
+                "#6388a2",
+                60000,
+                "#065489",
+            ],
+            "fill-opacity": 0.75,
+        },
+    });
 }
