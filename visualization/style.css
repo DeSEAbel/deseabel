@@ -77,7 +77,7 @@ nav {
 }
 
 /*Sidebar for buttons */
-.sidebar, .sidebar-animals, .sidebar-zones {
+.sidebar, .sidebar-animals, .sidebar-zones, .sidebar-noise-impactors {
   width: 150px;
   z-index: 3;
   background-color: #F4F2F2;
@@ -110,7 +110,20 @@ nav {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.fa-layer-group, .fa-fish, .fa-map-marked-alt, .fa-waveform {
+
+.toggle-sidebar-noise-impactors {
+  position: absolute;
+  z-index: 2;
+  top: 500px;
+  left: 0;
+  cursor: pointer;
+  background-color: #3378aa;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+
+.fa-layer-group, .fa-fish, .fa-map-marked-alt, .fa-drum {
   color: #fff;
   font-size: 30px;
   padding: 20px;
@@ -151,14 +164,14 @@ nav {
 }
 
 /*Buttons */
-#menu-animals, #menu-zones {
+#menu-animals, #menu-zones, #menu-noise-impactors {
   z-index: 1;
   top: 10px;
   left: 10px;
   font-family: "Open Sans", sans-serif;
 }
 
-#menu-animals a, #menu-zones a {
+#menu-animals a, #menu-zones a, #menu-noise-impactors a {
   font-size: 20x;
   border-radius: 10px;
   color: #404040;
@@ -171,17 +184,17 @@ nav {
   text-align: center;
 }
 
-#menu-animals a:hover, #menu-zones a:hover {
+#menu-animals a:hover, #menu-zones a:hover, #menu-noise-impactors a:hover {
   background-color: #ececec78;
   color: #000000;
 }
 
-#menu-animals a.active, #menu-zones a.active {
+#menu-animals a.active, #menu-zones a.active, #menu-noise-impactors a.active {
   background-color: #3887be;
   color: #1b1a1a;
 }
 
-#menu-animals a.active:hover, #menu-zones a.active:hover {
+#menu-animals a.active:hover, #menu-zones a.active:hover, #menu-noise-impactors a.active:hover {
   background: #3074a4;
 }
 
