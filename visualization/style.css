@@ -386,8 +386,8 @@ h2 {
 }
 
 #first-section-contributions{
-  background-color: #0077b6;
-  width: 20%;
+  background-color: rgb(0, 255, 255);
+  width: 80%;
   display: flex;
   justify-content: center;
   box-shadow: 2px 2px 5px #888888;
@@ -396,20 +396,47 @@ h2 {
 }
 
 #first-section-contributions-content{
-  text-align: center;
   font-size: 20px;
-  color: white;
+  color: rgb(0, 0, 0);
+  margin-left: 20px;
+  margin-right: 20px;
+
 }
 
 #second-section-contributions{
-  background-color: #0077b6;
-  width: 70%;
+  background-color: rgb(0, 206, 209);
+  width: 80%;
   display: flex;
   justify-content: center;
   box-shadow: 2px 2px 5px #888888;
   border-radius: 12px;
-  margin: 100px auto;
+  margin: 70px auto;
 }
+
+#second-section-contributions-content{
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#third-section-contributions{
+  background-color: rgb(0, 255, 191);
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 2px 2px 5px #888888;
+  border-radius: 12px;
+  margin: 70px auto;
+}
+
+#third-section-contributions-content{
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 
 #contributions-grid-container {
   display: grid;
@@ -484,3 +511,26 @@ td {
   text-align: center;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
 }
+
+
+/* Facebook */
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.fa-linkedin {  
+  background: #007bb5;  
+  color: white;  
+}  
+
+.fa-instagram {  
+  background: #125688;  
+  color: white;  
+}  
