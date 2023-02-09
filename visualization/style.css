@@ -20,17 +20,17 @@ html,body {
 #logo {
   background-color: #F4F2F2;
   border-bottom-right-radius: 60%;
-  max-width: 7em;
+  max-width: 9em;
   position: absolute;
   z-index: 1;
 }
 
 #logoSidebar {
-  max-width: 5em;
+  max-width: 9em;
   position: absolute;
-  bottom: 0;
-  left: 5px;
-  padding: 30px;
+  bottom: 1px;
+  left: 1px;
+  padding: 1px;
 }
 
 /* .toggleButtons{
