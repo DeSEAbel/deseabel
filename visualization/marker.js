@@ -12,17 +12,17 @@ class MarkerObject {
         this.is_boat = false;
 
         if (type == "outboard_pleasure_boat") {
-            this.div = createDivMarker(`../img/boat2.png`);
+            this.div = createDivMarker(`../img/boat2.png`, 30, 30);
             this.speed = 15;
             this.length = 6;
             this.is_boat = true;
             this.noise_impactor_metadata = noise_impactors.outboard_pleasure_boat
         } else if (type == "wind_turbine") {
-            this.div = createDivMarker(`../img/eolienne.png`);
+            this.div = createDivMarker(`../img/eolienne.png`, 30, 40);
             this.noise_impactor_metadata = noise_impactors.wind_turbine
             this.decibel = this.noise_impactor_metadata.sound_level_mean;
         } else if (type == "fishing_boat") {
-            this.div = createDivMarker(`../img/fishing_boat.png`);
+            this.div = createDivMarker(`../img/fishing_boat.png`, 30, 30);
             this.speed = 8;
             this.length = 20;
             this.is_boat = true;
