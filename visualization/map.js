@@ -51,6 +51,10 @@ function loadMap(mapbox_api_key) {
     map.on("load", () => {
         initZones();
     });
+    
+    map.on("load", () => {
+        add_noise_impactors_menu();
+    });
         
     
     // After the last frame rendered before the map enters an "idle" state.
