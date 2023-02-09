@@ -199,6 +199,7 @@ async function add_zones_menu(map) {
                     addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
                 }
             }
+
         };
     }
     return new Promise((resolve) => {
