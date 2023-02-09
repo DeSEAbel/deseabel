@@ -24,6 +24,8 @@ function loadMap(mapbox_api_key) {
     map.scrollZoom.disable();
     map.dragRotate.disable();
     map.doubleClickZoom.disable();
+    map.dragPan.disable();
+    map.touchZoomRotate.disable();
 
     // Add sidebar
     var toggleNoiseImpactors = document.querySelector(
