@@ -365,3 +365,115 @@ function addBathymetry(map) {
         },
     });
 }
+
+function updateImpactLayer(
+    map,
+    impact_matrix,
+    hash_coordinates_xy_to_index,
+    zone_id,
+    decibel_polygon_features
+) {
+    console.time("updateImpactLayer");
+
+    var impact_polygon_features = [];
+    for (var i = 0; i < impact_matrix.length; i++) {
+        for (var j = 0; j < impact_matrix[i].length; j++) {
+            var index = hash_coordinates_xy_to_index[[i, j]];
+            decibel_polygon_features[index].properties.impact = impact_matrix[i][j];
+            impact_polygon_features.push(decibel_polygon_features[index]);
+        }
+    }
+
+    map.getSource("impact_" + zone_id).setData({
+        type: "FeatureCollection",
+        features: impact_polygon_features,
+    });
+
+    console.timeEnd("updateImpactLayer");
+}
+
+function addSourceLayerImpact(map, zone_id) {
+    map.addSource("impact_" + zone_id, {
+        type: "geojson",
+        data: {
+            type: "FeatureCollection",
+            features: [],
+        },
+    });
+    map.addLayer({
+        id: "impact_" + zone_id,
+        type: "fill",
+        source: "impact_" + zone_id,
+        paint: {
+            "fill-color": [
+                "match",
+                ["get", "impact"],
+                0,
+                "#00ff00",
+                1,
+                "#ffff00",
+                2,
+                "#ff8000",
+                3,
+                "#ff0000",
+                4,
+                "#800000",
+                5,
+                "#580012",
+            ],
+            "fill-opacity": 0.5,
+        },
+    });
+}
+
+function doubleTapAction(e) {
+    if (typeof zone_of_interest !== "undefined") {
+        longitude = e.lngLat.lng;
+        latitude = e.lngLat.lat;
+        console.log("lat: " + latitude + "\nlon: " + longitude);
+        console.log(lonLatInWater(map, longitude, latitude));
+        if (pointInScreenInWater(map, e.point)) {
+            if (
+                longitude > zone_of_interest.longitude_west &&
+                longitude < zone_of_interest.longitude_east &&
+                latitude > zone_of_interest.latitude_south &&
+                latitude < zone_of_interest.latitude_north
+            ) {
+                console.log("Keep only tiles in water");
+                zone_of_interest.keepOnlyTilesInWater();
+                console.log("Keep only tiles in water done");
+                console.log("Find tile from lonlat");
+                var coordinates_lonlat = findTileFromLonlat(
+                    (longitude = longitude),
+                    (latitude = latitude),
+                    (hash_coordinates_lonlat_to_xy =
+                        zone_of_interest.hash_coordinates_lonlat_to_xy)
+                );
+                console.log("Find tile from lonlat done");
+
+                console.log("coordinates_lonlat" + coordinates_lonlat);
+                // Create the marker
+                if (coordinates_lonlat != null) {
+                    // Create marker boat
+                    // e.lngLat contains the geographical position of the point on the map
+                    marker_object = new MarkerObject(
+                        map,
+                        e.lngLat,
+                        coordinates_lonlat,
+                        current_noise_impactor_id
+                    );
+
+                    console.log("Tile coordinates: " + coordinates_lonlat);
+                    console.log("autoUpdateDecibelLayer");
+
+                    zone_of_interest.autoUpdateDecibelLayer(
+                        map,
+                        coordinates_lonlat,
+                        marker_object.decibel
+                    );
+                    console.log("autoUpdateDecibelLayer done");
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+species = {
+    mysticetes: {
+        freq_min: 10,
+        freq_max: 10000,
+        array_sonor_impact_level: [60, 70, 80, 90, 100],
+    },
+    odontocetes: {
+        freq_min: 100,
+        freq_max: 180000,
+        array_sonor_impact_level: [60, 70, 80, 90, 100],
+    },
+    phocides: {
+        freq_min: 100,
+        freq_max: 100000,
+        array_sonor_impact_level: [60, 70, 80, 90, 100],
+    },
+    fish: {
+        freq_min: 50,
+        freq_max: 300,
+        array_sonor_impact_level: [50, 60, 70, 80, 90],
+    },
+    marine_mammal: {
+        freq_min: 10,
+        freq_max: 10000,
+        array_sonor_impact_level: [60, 70, 80, 90, 100],
+    },
+};

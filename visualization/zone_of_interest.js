@@ -57,9 +57,9 @@ class ZoneOfInterest {
         );
         // this.display(this.map);
         this.decibel_matrix = initMatrix(this.width, this.height, this.step);
+        this.impact_matrix = initMatrix(this.width, this.height, this.step);
 
         this.initZoneOfInterest();
-
     }
     initZoneOfInterest() {
         console.time("initZoneOfInterest");
@@ -72,7 +72,7 @@ class ZoneOfInterest {
         this.hash_coordinates_xy_to_lonlat = getHashCoordinatesXyToLonlat(
             this.hash_coordinates_lonlat_to_xy
         );
-       this.coordinates_lonlat_list = getCoordinatesLonlatList(
+        this.coordinates_lonlat_list = getCoordinatesLonlatList(
             this.hash_coordinates_lonlat_to_xy
         );
 
@@ -125,7 +125,6 @@ class ZoneOfInterest {
         console.timeEnd("keepOnlyTilesInWater");
     }
 
-
     display(map) {
         console.time("zone_of_interest.display");
 
@@ -160,8 +159,8 @@ class ZoneOfInterest {
 
         console.timeEnd("zone_of_interest.display");
     }
-    
-    autoUpdateDecibelLayer(map, coordinates_lonlat, decibel, operation="add") {
+
+    autoUpdateDecibelLayer(map, coordinates_lonlat, decibel, operation = "add") {
         console.time("zone_of_interest.autoUpdateDecibelLayer");
 
         console.time("updateDecibelMatrix");
@@ -173,7 +172,7 @@ class ZoneOfInterest {
             this.width,
             this.height,
             this.step,
-            operation=operation
+            (operation = operation)
         );
         console.timeEnd("updateDecibelMatrix");
         this.decibel_matrix = decibel_matrix;
@@ -189,5 +188,46 @@ class ZoneOfInterest {
         );
 
         console.timeEnd("zone_of_interest.autoUpdateDecibelLayer");
+    }
+
+    updateImpactMatrix() {
+        for (var i = 0; i < this.decibel_matrix.length; i++) {
+            for (var j = 0; j < this.decibel_matrix[i].length; j++) {
+                if (this.decibel_matrix[i][j] <= this.array_sonor_impact_level[0]) {
+                    this.impact_matrix[i][j] = 0;
+                } else if (
+                    this.decibel_matrix[i][j] <= this.array_sonor_impact_level[1]
+                ) {
+                    this.impact_matrix[i][j] = 1;
+                } else if (
+                    this.decibel_matrix[i][j] <= this.array_sonor_impact_level[2]
+                ) {
+                    this.impact_matrix[i][j] = 2;
+                } else if (
+                    this.decibel_matrix[i][j] <= this.array_sonor_impact_level[3]
+                ) {
+                    this.impact_matrix[i][j] = 3;
+                } else if (
+                    this.decibel_matrix[i][j] <= this.array_sonor_impact_level[4]
+                ) {
+                    this.impact_matrix[i][j] = 4;
+                } else {
+                    this.impact_matrix[i][j] = 5;
+                }
+            }
+        }
+    }
+
+    autoUpdateImpactLayer() {
+        console.time("zone_of_interest.autoUpdateImpactLayer");
+        this.updateImpactMatrix();
+        updateImpactLayer(
+            this.map,
+            this.impact_matrix,
+            this.hash_coordinates_xy_to_index,
+            this.zone_id,
+            this.decibel_polygon_features
+        );
+        console.timeEnd("zone_of_interest.autoUpdateImpactLayer");
     }
 }
