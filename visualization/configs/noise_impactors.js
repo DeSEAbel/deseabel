@@ -1,4 +1,16 @@
 noise_impactors = {
+    outboard_pleasure_boat: {
+        name: "Outboard pleasure boat",
+        emission_type: "continue",
+        freq_min: 10,
+        freq_max: 20000,
+        sound_level_mean: 140, 
+        sound_level_min: 135,
+        sound_level_max: 175,
+        length_min: 2,
+        length_max: 50,
+        speed_max: 60
+    },
     wind_turbine: {
         name: "Wind turbine",
         emission_type: "continue",
@@ -17,15 +29,15 @@ noise_impactors = {
     //     sound_level_min: 120,
     //     sound_level_max: 190
     // },
-    pile_driving: {
-        name: "Pile driving",
-        emission_type: "impulsive",
-        freq_min: 10,
-        freq_max: 20000,
-        sound_level_mean: 207,
-        sound_level_min: 200,
-        sound_level_max: 250,
-    },
+    // pile_driving: {
+    //     name: "Pile driving",
+    //     emission_type: "impulsive",
+    //     freq_min: 10,
+    //     freq_max: 20000,
+    //     sound_level_mean: 207,
+    //     sound_level_min: 200,
+    //     sound_level_max: 250,
+    // },
     // seismic_probing: {
     //     name: "Seismic probing",
     //     emission_type: "impulsive",
@@ -71,18 +83,6 @@ noise_impactors = {
     //     length_max: 150,
     //     speed_max: 45
     // },
-    outboard_pleasure_boat: {
-        name: "Outboard pleasure boat",
-        emission_type: "continue",
-        freq_min: 10,
-        freq_max: 20000,
-        sound_level_mean: 140, 
-        sound_level_min: 135,
-        sound_level_max: 175,
-        length_min: 2,
-        length_max: 50,
-        speed_max: 60
-    },
     // jetski: {
     //     name: "Jetski",
     //     emission_type: "continue",

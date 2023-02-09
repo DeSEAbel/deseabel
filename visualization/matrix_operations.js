@@ -128,6 +128,7 @@ function updateDecibelMatrix(
     if (coordinates_lonlat == null) {
         return decibel_matrix;
     }
+    
     [x0, y0] = hash_coordinates_lonlat_to_xy[coordinates_lonlat.join(",")];
 
     var last_decibel = getDecibelFromCoordinates_lonlat(coordinates_lonlat);
@@ -170,7 +171,7 @@ function updateDecibelMatrix(
 }
 
 
-function computeSoundLevel(length, speed) {
+function computeSoundLevel(length, speed, optim_factor = 1.0) {
     let SLi = [];
     let dl = Math.pow(length, 1.15) / 3643;
     let D13 = Math.pow(2, 1/3);
@@ -200,7 +201,7 @@ function computeSoundLevel(length, speed) {
       );
     }
   
-    return SLi.reduce((sum, item) => sum + item) / SLi.length;
+    return optim_factor * SLi.reduce((sum, item) => sum + item) / SLi.length;
   }
   
   

@@ -501,6 +501,15 @@ td {
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
 }
 
+#optim_helice_button {
+  background-color: white;
+  border: 1px solid black;
+}
+
+#optim_helice_button.selected {
+  background-color: black;
+  color: white;
+}
 
 /* Facebook */
 .fa-facebook {
