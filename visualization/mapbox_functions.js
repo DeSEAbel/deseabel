@@ -365,3 +365,55 @@ function addBathymetry(map) {
         },
     });
 }
+
+function doubleTapAction(e) {
+    if (typeof zone_of_interest !== "undefined") {
+        longitude = e.lngLat.lng;
+        latitude = e.lngLat.lat;
+        console.log("lat: " + latitude + "\nlon: " + longitude);
+        console.log(lonLatInWater(map, longitude, latitude));
+        if (pointInScreenInWater(map, e.point)) {
+            if (
+                longitude > zone_of_interest.longitude_west &&
+                longitude < zone_of_interest.longitude_east &&
+                latitude > zone_of_interest.latitude_south &&
+                latitude < zone_of_interest.latitude_north
+            ) {
+                console.log("Keep only tiles in water");
+                zone_of_interest.keepOnlyTilesInWater();
+                console.log("Keep only tiles in water done");
+                console.log("Find tile from lonlat");
+                var coordinates_lonlat = findTileFromLonlat(
+                    (longitude = longitude),
+                    (latitude = latitude),
+                    (hash_coordinates_lonlat_to_xy =
+                        zone_of_interest.hash_coordinates_lonlat_to_xy)
+                );
+                console.log("Find tile from lonlat done");
+
+                console.log("coordinates_lonlat" + coordinates_lonlat);
+                // Create the marker
+                if (coordinates_lonlat != null) {
+                    // Create marker boat
+                    // e.lngLat contains the geographical position of the point on the map
+                    marker_object = new MarkerObject(
+                        map,
+                        e.lngLat,
+                        coordinates_lonlat,
+                        current_noise_impactor_id
+                    );
+
+                    console.log("Tile coordinates: " + coordinates_lonlat);
+                    console.log("autoUpdateDecibelLayer");
+
+                    zone_of_interest.autoUpdateDecibelLayer(
+                        map,
+                        coordinates_lonlat,
+                        marker_object.decibel
+                    );
+                    console.log("autoUpdateDecibelLayer done");
+                }
+            }
+        }
+    }
+}
