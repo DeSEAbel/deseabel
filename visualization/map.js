@@ -90,3 +90,7 @@ function loadMap(mapbox_api_key) {
         }
     });
 }
+
+var mapbox_api_key =
+    "pk.eyJ1IjoiZGVzZWFiZWwiLCJhIjoiY2xjcXgwc2gwMGE4eDN4cGQ0ODN5YTZwciJ9.ZKPRSrrdpFBuSvAGtgGSdQ";
+loadMap(mapbox_api_key);
