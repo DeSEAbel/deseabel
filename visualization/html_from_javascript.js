@@ -115,7 +115,6 @@ function add_zone_menu_divs() {
     }
 }
 
-
 function add_noise_impactors_menu() {
     var menu = document.getElementById("menu-noise-impactors");
     for (noise_impactor_id in noise_impactors) {
@@ -129,9 +128,9 @@ function add_noise_impactors_menu() {
         button.style.height = "60px";
         button.style.marginBottom = "10px";
         // Set an event listener for when the button is clicked
-        button.addEventListener("click", function(){
+        button.addEventListener("click", function () {
             button.style.backgroundColor = "lightblue";
-            noise_impactor_name_for_marker = noise_impactors[noise_impactor_id].name
+            noise_impactor_name_for_marker = noise_impactors[noise_impactor_id].name;
         });
         menu.appendChild(button);
         if (button.id == "outboard_pleasure_boat") {
@@ -216,3 +215,29 @@ async function add_zones_menu(map) {
     });
 }
 
+function createHeader() {
+    const headerContainer = document.createElement("div");
+    headerContainer.id = "header_container";
+
+    const link1 = document.createElement("a");
+    link1.href = "index.html";
+    link1.innerHTML = "APPLICATION";
+    headerContainer.appendChild(link1);
+
+    const link2 = document.createElement("a");
+    link2.href = "about.html";
+    link2.innerHTML = "ABOUT DESEABEL";
+    headerContainer.appendChild(link2);
+
+    const link3 = document.createElement("a");
+    link3.href = "team.html";
+    link3.innerHTML = "TEAM";
+    headerContainer.appendChild(link3);
+
+    const link4 = document.createElement("a");
+    link4.href = "get_involved.html";
+    link4.innerHTML = "GET INVOLVED";
+    headerContainer.appendChild(link4);
+
+    document.body.insertBefore(headerContainer, document.body.firstChild);
+}
