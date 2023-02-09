@@ -50,6 +50,8 @@ function loadMap(mapbox_api_key) {
         toggleAnimals.classList.toggle("toggle-animals");
     });
 
+    var lastTap = null;
+
     map.on("load", () => {
         // addBathymetry(map);
         initZones();
@@ -58,7 +60,7 @@ function loadMap(mapbox_api_key) {
 
     // After the last frame rendered before the map enters an "idle" state.
     map.on("idle", () => {
-        add_zones_menu(map)
+        add_zones_menu(map);
         // .then(() => {
         //     zones_of_interest[current_zone_id].keepOnlyTilesInWater();
         // });
@@ -67,49 +69,22 @@ function loadMap(mapbox_api_key) {
 
     // Add sonor element to the map when the user click right on it
     map.on("dblclick", function (e) {
-        if (typeof zone_of_interest !== "undefined") {
-            longitude = e.lngLat.lng;
-            latitude = e.lngLat.lat;
-            console.log("lat: " + latitude + "\nlon: " + longitude);
-            console.log(lonLatInWater(map, longitude, latitude));
-            if (pointInScreenInWater(map, e.point)) {
-                if (
-                    longitude > zone_of_interest.longitude_west &&
-                    longitude < zone_of_interest.longitude_east &&
-                    latitude > zone_of_interest.latitude_south &&
-                    latitude < zone_of_interest.latitude_north
-                ) {
-                    console.log("Keep only tiles in water");
-                    zone_of_interest.keepOnlyTilesInWater();
-                    console.log("Keep only tiles in water done");
-                    console.log("Find tile from lonlat");
-                    var coordinates_lonlat = findTileFromLonlat(
-                        (longitude = longitude),
-                        (latitude = latitude),
-                        (hash_coordinates_lonlat_to_xy =
-                            zone_of_interest.hash_coordinates_lonlat_to_xy)
-                    );
-                    console.log("Find tile from lonlat done");
+        doubleTapAction(e);
+    });
 
-                    console.log("coordinates_lonlat" + coordinates_lonlat);
-                    // Create the marker
-                    if (coordinates_lonlat != null) {
-                        // Create marker boat
-                        // e.lngLat contains the geographical position of the point on the map
-                        marker_object = new MarkerObject(map, e.lngLat, coordinates_lonlat, current_noise_impactor_id);
-
-                        console.log("Tile coordinates: " + coordinates_lonlat);
-                        console.log("autoUpdateDecibelLayer");
-
-                        zone_of_interest.autoUpdateDecibelLayer(
-                            map,
-                            coordinates_lonlat,
-                            marker_object.decibel
-                        );
-                        console.log("autoUpdateDecibelLayer done");
-                    }
-                }
+    map.on("touchstart", function (e) {
+        if (lastTap) {
+            var timeBetweenTaps = new Date().getTime() - lastTap;
+            if (timeBetweenTaps < 50) {
+                // Double tap detected
+                console.log("Double tap detected");
             }
+
+            doubleTapAction(e);
+
+            lastTap = null;
+        } else {
+            lastTap = new Date().getTime();
         }
     });
 }

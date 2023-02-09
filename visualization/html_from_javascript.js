@@ -30,10 +30,25 @@ function createLayerButton(id, ids) {
 
         var visibility = map.getLayoutProperty(clickedLayer, "visibility");
 
+        [zone_id, animal_id] = clickedLayer.split("-");
+        var decibel_polygons_layer_id = "decibel_polygons_layer_" + zone_id;
+        var impact_polygons_layer_id = "impact_" + zone_id;
+
         // Toggle layer visibility by changing the layout object's visibility property.
         if (visibility === "visible") {
             map.setLayoutProperty(clickedLayer, "visibility", "none");
             this.className = "";
+
+            if (map.getLayer(decibel_polygons_layer_id) != undefined) {
+                map.setLayoutProperty(
+                    decibel_polygons_layer_id,
+                    "visibility",
+                    "visible"
+                );
+            }
+            if (map.getLayer(impact_polygons_layer_id) != undefined) {
+                map.setLayoutProperty(impact_polygons_layer_id, "visibility", "none");
+            }
         } else {
             this.className = "active";
             map.setLayoutProperty(clickedLayer, "visibility", "visible");
@@ -44,6 +59,26 @@ function createLayerButton(id, ids) {
                     document.getElementById(layer).className = "";
                 }
             }
+            console.log("clickedLayer: " + map.getLayer(decibel_polygons_layer_id));
+            console.log(
+                "clickedLayer: " + typeof map.getLayer(decibel_polygons_layer_id)
+            );
+
+            zone_of_interest.array_sonor_impact_level =
+                species[animal_id].array_sonor_impact_level;
+            zone_of_interest.autoUpdateImpactLayer();
+            // Display the impact level and undisplay the noise level
+            if (typeof map.getLayer(decibel_polygons_layer_id) != "undefined") {
+                console.log("UNDISPLAYING: " + decibel_polygons_layer_id);
+                map.setLayoutProperty(decibel_polygons_layer_id, "visibility", "none");
+            }
+            if (map.getLayer(impact_polygons_layer_id) != undefined) {
+                map.setLayoutProperty(
+                    impact_polygons_layer_id,
+                    "visibility",
+                    "visible"
+                );
+            }
         }
     };
 
@@ -53,7 +88,8 @@ function createLayerButton(id, ids) {
 function createLayersButton(ids, menu_name = "menu-animals") {
     // menu is the element where the buttons will be added. (e.g., Left toggle menu)
     var menu = document.getElementById(menu_name);
-
+    console.log("MMMMMMMMMMMMEEEEEE: " + menu);
+    console.log("menu: " + menu.firsChild);
     // First remove all children
     while (menu.firstChild) {
         menu.removeChild(menu.firstChild);
@@ -139,6 +175,8 @@ async function simulateClickOnZone(zone_id) {
         );
         createLayersButton(marine_fauna_layer_ids, "menu-animals");
         addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
+    } else {
+        createLayersButton([], (menu_name = "menu-animals"));
     }
     document.getElementById(zone_id).className = "active";
 }
@@ -197,9 +235,10 @@ async function add_zones_menu(map) {
                     );
                     createLayersButton(marine_fauna_layer_ids, "menu-animals");
                     addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
+                } else {
+                    createLayersButton([], (menu_name = "menu-animals"));
                 }
             }
-
         };
     }
     return new Promise((resolve) => {
