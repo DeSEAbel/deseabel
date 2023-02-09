@@ -203,16 +203,20 @@ html,body {
   /* padding: 1% 0; */
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   height: 50px;
+  width: 100%;
 }
 
 #header_container a {
-  font-size: 16px;
+  font-size: 15px;
   color: #000;
-  display: inline-block;
-  padding: 10px 14px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
   text-decoration: none;
   font-family: "Helvetica Neue", sans-serif;
   font-weight: 500;
+  width: 100%;
+  align-items: center;
 }
 
 #header_container a:nth-of-type(1), #header_container a:nth-of-type(2), #header_container a:nth-of-type(3) {
@@ -532,6 +536,11 @@ td {
   background: #214a67;  
   color: white;  
 }  
+
+.fa-github{
+  background: #214a67;  
+  color: white;  
+}
 
 .center_image {
   text-align: center;

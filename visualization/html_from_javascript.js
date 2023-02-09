@@ -139,6 +139,8 @@ async function simulateClickOnZone(zone_id) {
         );
         createLayersButton(marine_fauna_layer_ids, "menu-animals");
         addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
+    } else {
+        createLayersButton([], (menu_name = "menu-animals"));
     }
     document.getElementById(zone_id).className = "active";
 }
@@ -197,9 +199,10 @@ async function add_zones_menu(map) {
                     );
                     createLayersButton(marine_fauna_layer_ids, "menu-animals");
                     addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
+                } else {
+                    createLayersButton([], (menu_name = "menu-animals"));
                 }
             }
-
         };
     }
     return new Promise((resolve) => {
