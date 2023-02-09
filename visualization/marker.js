@@ -85,7 +85,7 @@ class MarkerObject {
                 '</output>\
                 </div>\
                 <br\>\
-                <button id="optim_helice_button">Optimize helice</button>\
+                <button id="optim_propeller_button">Optimize propeller</button>\
                 <br\>\
                 <br\>\
                 <span style="color:red;">\
@@ -180,9 +180,9 @@ class MarkerObject {
         });
     }
 
-    addEventListenerOptimHeliceButtonOnClick(popup, marker, map, coordinates_lonlat) {
-        var optim_helice_button = popup._content.querySelector("#optim_helice_button");
-        optim_helice_button.addEventListener("click", function () {
+    addEventListenerOptimPropellerButtonOnClick(popup, marker, map, coordinates_lonlat) {
+        var optim_propeller_button = popup._content.querySelector("#optim_propeller_button");
+        optim_propeller_button.addEventListener("click", function () {
             if (this.classList.contains("selected")) {
                 this.classList.remove("selected");
                 marker.optim_factor = 1.0;
@@ -214,7 +214,7 @@ class MarkerObject {
         var coordinates_lonlat = this.coordinates_lonlat;
         var addEventListenerSliderOnInput = this.addEventListenerSliderOnInput;
         var addEventListenerDeleteButtonOnClick = this.addEventListenerDeleteButtonOnClick;
-        var addEventListenerOptimHeliceButtonOnClick = this.addEventListenerOptimHeliceButtonOnClick;
+        var addEventListenerOptimPropellerButtonOnClick = this.addEventListenerOptimPropellerButtonOnClick;
         var noise_impactor_metadata = this.noise_impactor_metadata;
 
         popup.once("close", function () {
@@ -223,8 +223,8 @@ class MarkerObject {
                 addEventListenerSliderOnInput(this, marker, map, coordinates_lonlat, noise_impactor_metadata, "#slider_speed");
                 // Add an event listener to the slider length
                 addEventListenerSliderOnInput(this, marker, map, coordinates_lonlat, noise_impactor_metadata, "#slider_length");
-                // Add an event listener to the optim helice button
-                addEventListenerOptimHeliceButtonOnClick(this, marker, map, coordinates_lonlat);
+                // Add an event listener to the optim propeller button
+                addEventListenerOptimPropellerButtonOnClick(this, marker, map, coordinates_lonlat);
             } else {
                 // Add an event listener to the slider decibel
                 addEventListenerSliderOnInput(this, marker, map, coordinates_lonlat, noise_impactor_metadata, "#slider_decibel");
