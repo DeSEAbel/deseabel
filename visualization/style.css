@@ -5,17 +5,17 @@ body {
   "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-html,body,#container,#map-div {
+html,body {
   height:100%;
   min-height:100%;
   max-height:100%;
 }
 
-html,body,#container,#map-div {
-  height:100%;
-  min-height:100%;
-  max-height:100%;
+#container {
+  top:50px;
+  bottom:0px;
 }
+
 
 #logo {
   background-color: #F4F2F2;
@@ -33,17 +33,7 @@ html,body,#container,#map-div {
   padding: 30px;
 }
 
-h3 {
-  
-  text-align: center;
-}
-
-h4 {
-  font-size: large;
-  padding-left: 10px;
-}
-
-.toggleButtons{
+/* .toggleButtons{
   background-color: #3378aa;
   color: #fff;
   padding: 5px;
@@ -54,13 +44,13 @@ h4 {
   height: 5%;
   width: 75%;
   margin-bottom: 10%;
-}
+} */
 
-.toggleButtons:hover{
+/* .toggleButtons:hover{
   background-color: #fff;
   color: #3378aa;
   border: 1px solid #3378aa;
-}
+} */
 
 
 .toggle-first-theme:hover {
@@ -72,9 +62,9 @@ h4 {
   display: inline-block;
 }
 
-nav {
+/* nav {
   display: none;
-}
+} */
 
 /*Sidebar for buttons */
 .sidebar, .sidebar-animals, .sidebar-zones, .sidebar-noise-impactors {
@@ -95,6 +85,7 @@ nav {
   top: 300px;
   left: 0;
   cursor: pointer;
+  width: 73.75px;
   background-color: #3378aa;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -106,6 +97,7 @@ nav {
   top: 400px;
   left: 0;
   cursor: pointer;
+  width: 73.75px;
   background-color: #3378aa;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -115,6 +107,7 @@ nav {
   position: absolute;
   z-index: 2;
   top: 500px;
+  width: 73.75px;
   left: 0;
   cursor: pointer;
   background-color: #3378aa;
@@ -159,9 +152,9 @@ nav {
   background-color: #fff;
 }
 
-.show-first-theme {
+/* .show-first-theme {
   display: block;
-}
+} */
 
 /*Buttons */
 #menu-animals, #menu-zones, #menu-noise-impactors {
@@ -202,42 +195,36 @@ nav {
   display: none;
 }
 
-#container {
+#header_container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  /* padding: 1% 0; */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  height: 50px;
 }
 
-
-#container {
-  display: flex;
-  flex-direction: column;
-}
-
-#top {
-  flex: 0 0 auto;
-  text-align: center;
-  background-color: #F4F2F2;
-  padding: 1% 0 1% 0;
-}
-
-#top a {
-  font-size: 20px;
-  color: #404040;
-  display: inline;
-  padding: 0;
-  padding: 10px;
+#header_container a {
+  font-size: 16px;
+  color: #000;
+  display: inline-block;
+  padding: 10px 14px;
   text-decoration: none;
-  text-align: center;
-  padding-right: 14px;
+  font-family: "Helvetica Neue", sans-serif;
+  font-weight: 500;
 }
 
-#top a:nth-of-type(1), #top a:nth-of-type(2), #top a:nth-of-type(3) {
-  border-right: 1px solid;
+#header_container a:nth-of-type(1), #header_container a:nth-of-type(2), #header_container a:nth-of-type(3) {
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #bottom {
-  flex: 1 1 auto;
-  display: flex;
+  top:50px;
+  height: calc(100% - 50px);
+} 
+#map-div {
+    height: 100%;
 }
 
 #left-container {
@@ -285,19 +272,19 @@ button {
 }
 
 /* Use a button-specific class to style the buttons */
-button.nice-button {
+/* button.nice-button {
   /* Set the button's background color and add some padding */
-  background-color: #eee;
+  /* background-color: #eee;
   padding: 10px 20px;
-}
+} */
 /* Use the :hover and :active pseudo-classes to add hover and active styles */
-nice-button:hover {
-  background-color: #ddd;
+/* nice-button:hover { */
+  /* background-color: #ddd;
 }
 nice-button:active {
   background-color: #ccc;
-}
-
+} */
+/* 
 #about-CriQUIET {
   display: flex;
   flex-direction: row;
@@ -305,10 +292,10 @@ nice-button:active {
 
 .about-us-column {
   flex: 1;
-}
+} */
 
 /* Page a propos */
-#first-section-propos {
+/* #first-section-propos {
   background-image: url("../img/wallpaper_hackathon.jpg");
   width: 70%;
   display: flex;
@@ -320,7 +307,7 @@ nice-button:active {
 
 #first-section-propos-content {
   text-align: center;
-}
+} */
 
 h1 {
   color: black;
@@ -340,7 +327,7 @@ h2 {
   
 }
 
-#first-section-propos-content h2 {
+/* #first-section-propos-content h2 {
   color: white;
   font-size: 30px;
   font-weight: bold;
@@ -350,7 +337,7 @@ h2 {
   color: white;
   font-size: 20px;
   
-}
+} */
 
 .grid-item:nth-of-type(2), .grid-item:nth-of-type(3) {
   border-left: 2px solid white;
@@ -366,9 +353,13 @@ h2 {
   font-size: 30px;
   text-align: center;
 }
-
-#second-section-propos {
-  background-color: #0077b6;
+.grid-item h2 {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+}
+/* #second-section-propos {
+  background-color: #214a67;
   width: 70%;
   display: flex;
   justify-content: center;
@@ -385,30 +376,55 @@ h2 {
   color: white;
 }
 
-#first-section-contributions{
-  background-color: #0077b6;
-  width: 20%;
+#second-section-propos-content h2 {
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+} */
+
+.section-content-block {
+  background-color: #214a67;
+  width: 80%;
   display: flex;
   justify-content: center;
-  box-shadow: 2px 2px 5px #888888;
-  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   margin: 70px auto;
 }
-
-#first-section-contributions-content{
+.title h1 {
+  font-size: 32px;
+  font-weight: bold;
   text-align: center;
+  color: #214a67;
+  margin: 50px 0;
+}
+
+.div-content-block, .div-content-block p {
+  padding: 20px;
   font-size: 20px;
+  text-align: center;
   color: white;
 }
 
-#second-section-contributions{
-  background-color: #0077b6;
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  box-shadow: 2px 2px 5px #888888;
-  border-radius: 12px;
-  margin: 100px auto;
+.div-content-block h3 {
+  text-align: center;
+  margin-left: 8px;
+}
+
+.div-content-block ul{
+  list-style-type: square;
+  padding-left: 20px;
+  text-indent: 20px;
+}
+.div-content-block li{
+  text-align: left;
+  margin-left: 8px;
+}
+
+.bold-white-link {
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
 }
 
 #contributions-grid-container {
@@ -493,4 +509,37 @@ td {
 #optim_helice_button.selected {
   background-color: black;
   color: white;
+}
+
+/* Facebook */
+.fa-facebook {
+  background: #214a67;
+  color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+  background: #214a67;
+  color: white;
+}
+
+.fa-linkedin {  
+  background: #214a67;  
+  color: white;  
+}  
+
+.fa-instagram {  
+  background: #214a67;  
+  color: white;  
+}  
+
+.center_image {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.center_image img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
 }

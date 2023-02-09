@@ -237,3 +237,30 @@ function add_noise_impactors_menu(map) {
         };
     }
 }
+
+function createHeader() {
+    const headerContainer = document.createElement("div");
+    headerContainer.id = "header_container";
+
+    const link1 = document.createElement("a");
+    link1.href = "index.html";
+    link1.innerHTML = "APPLICATION";
+    headerContainer.appendChild(link1);
+
+    const link2 = document.createElement("a");
+    link2.href = "about.html";
+    link2.innerHTML = "ABOUT DESEABEL";
+    headerContainer.appendChild(link2);
+
+    const link3 = document.createElement("a");
+    link3.href = "team.html";
+    link3.innerHTML = "TEAM";
+    headerContainer.appendChild(link3);
+
+    const link4 = document.createElement("a");
+    link4.href = "get_involved.html";
+    link4.innerHTML = "GET INVOLVED";
+    headerContainer.appendChild(link4);
+
+    document.body.insertBefore(headerContainer, document.body.firstChild);
+}

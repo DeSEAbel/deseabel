@@ -1,196 +1,227 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <link rel="shortcut icon" href="../img/deSEAbel.png" />
-  <title>DeSEAbel</title>
-  <link rel="stylesheet" type="text/css" href="style.css" />
-  <meta
-  name="viewport"
-  content="initial-scale=1,maximum-scale=1,user-scalable=no"
-  />
-  <link
-  href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css"
-  rel="stylesheet"
-  />
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
-  <link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-  />
-  <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href="../img/deSEAbel.png" />
+        <title>DeSEAbel</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <meta
+            name="viewport"
+            content="initial-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        <link
+            href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css"
+            rel="stylesheet"
+        />
+        <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+        <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+    </head>
 
-<body>
+    <body>
+        <!-- <div id="container"> -->
+        <img id="logo" src="../img/deSEAbel.png" />
+        <script src="html_from_javascript.js"></script>
+        <script>
+            createHeader();
+        </script>
 
+        <div id="bottom">
+            <!-- <div id="left-container"> -->
+            <div class="toggle-sidebar-animals">
+                <i class="fas fa-fish"></i>
+            </div>
 
+            <div class="sidebar-animals">
+                <h3>Marine fauna</h3>
+                <div class="first-theme" id="menu-animals"></div>
+                <img id="logoSidebar" src="../img/deSEAbel.png" />
+            </div>
 
-  
-  <div id="container">
-    <img id="logo" src="../img/deSEAbel.png" />
-    <div id="top">
-      <a href="index.html">APPLICATION</a>
-      <a href="about.html">À PROPOS</a>
-      <a href="team.html">L'ÉQUIPE</a>
-      <a href="donation.html">CONTRIBUER</a>
-    </div>
-    
-    <div id="bottom">
-      <div id="left-container">
-        
-        <div class="toggle-sidebar-animals">
-          <i class="fas fa-fish"></i>
+            <div class="toggle-sidebar-zones">
+                <i class="fas fa-map-marked-alt"></i>
+            </div>
+
+            <div class="sidebar-zones">
+                <h3>Zones</h3>
+                <div class="first-theme" id="menu-zones"></div>
+                <img id="logoSidebar" src="../img/deSEAbel.png" />
+            </div>
+
+            <div class="toggle-sidebar-noise-impactors">
+                <i class="fas fa-drum"></i>
+            </div>
+
+            <div class="sidebar-noise-impactors">
+                <h3>Noise Impactors</h3>
+                <div class="first-theme" id="menu-noise-impactors"></div>
+                <img id="logoSidebar" src="../img/deSEAbel.png" />
+            </div>
+
+            <div id="map-div"></div>
+            <!-- </div> -->
+
+            <!-- <div id="right-container">
+                    <div id="dead-fish-table">
+                        <table width="100%">
+                            <h4 style="text-align: center">
+                                Impact of the sonor pollution on the marine fauna
+                            </h4>
+                            <tr>
+                                <td width="19%">Risque</td>
+                                <td width="27%">Effet physiologique</td>
+                                <td width="27%">Réaction comportementale</td>
+                                <td width="27%">Faible perturbation</td>
+                            </tr>
+                            <tr>
+                                <td width="19%">10 Noeuds</td>
+
+                                <td width="27%" id="r-fish">
+                                    15% <i class="fas fa-fish"></i>
+                                </td>
+                                <td width="27%" id="y-fish">
+                                    20% <i class="fas fa-fish"></i>
+                                </td>
+                                <td width="27%" id="g-fish">
+                                    65% <i class="fas fa-fish"></i>
+                                </td>
+                            </tr>
+                        </table>
+                        <h4 style="margin: 8px 0 8px 0">Légende</h4>
+                        <h5 style="margin: 8px 0 8px 0; text-align: center">
+                            Pourcentage de la population des mammifères marins
+                        </h5>
+                        <table>
+                            <tr>
+                                <td style="border: none">95%</td>
+                                <td
+                                    style="
+                                        border: none;
+                                        text-align: center;
+                                        width: 85%;
+                                        height: 20px;
+                                        background-image: linear-gradient(
+                                            to right,
+                                            rgba(102, 89, 161, 1),
+                                            rgba(128, 0, 128, 1)
+                                        );
+                                    "
+                                ></td>
+                                <td style="border: none">50%</td>
+                            </tr>
+                        </table>
+                        <h5 style="margin: 8px 0 8px 0; text-align: center">
+                            Pourcentage de la population des poissons
+                        </h5>
+                        <table>
+                            <tr>
+                                <td style="border: none">95%</td>
+                                <td
+                                    style="
+                                        border: none;
+                                        text-align: center;
+                                        width: 85%;
+                                        height: 20px;
+                                        background-image: linear-gradient(
+                                            to right,
+                                            rgba(123, 189, 188, 1),
+                                            rgba(0, 136, 136, 1)
+                                        );
+                                    "
+                                ></td>
+                                <td style="border: none">50%</td>
+                            </tr>
+                        </table>
+                        <h5 style="margin: 8px 0 8px 0; text-align: center">
+                            Decibels perçus dans l'océan
+                        </h5>
+                        <table style="display: inline">
+                            <tr>
+                                <td style="border: none">120dB</td>
+                                <td
+                                    style="
+                                        border: none;
+                                        text-align: center;
+                                        width: 20%;
+                                        height: 20px;
+                                        background-image: linear-gradient(
+                                            to right,
+                                            rgba(77, 238, 128, 1),
+                                            rgba(77, 238, 128, 1)
+                                        );
+                                    "
+                                ></td>
+                                <td style="border: none">195dB</td>
+                                <td style="border: none"></td>
+                                <td
+                                    style="
+                                        border: none;
+                                        text-align: center;
+                                        width: 20%;
+                                        height: 20px;
+                                        background-image: linear-gradient(
+                                            to right,
+                                            rgba(166, 246, 64, 1),
+                                            rgba(166, 246, 64, 1)
+                                        );
+                                    "
+                                ></td>
+                                <td style="border: none">200dB</td>
+                                <td style="border: none"></td>
+                                <td
+                                    style="
+                                        border: none;
+                                        text-align: center;
+                                        width: 20%;
+                                        height: 20px;
+                                        background-image: linear-gradient(
+                                            to right,
+                                            rgba(205, 101, 17, 1),
+                                            rgba(205, 101, 17, 1)
+                                        );
+                                    "
+                                ></td>
+                                <td style="border: none"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div> -->
+            <!-- </div> -->
         </div>
 
-        <div class="sidebar-animals">
-          <h3>Marine fauna</h3>
-          <div class="first-theme" id="menu-animals"></div>
-          <img id="logoSidebar" src="../img/deSEAbel.png" />
+        <div id="dialog-box">
+            <p>
+                Malheureusement, nous avons dépassé le nombre d'utilisation gratuite de
+                la carte. Vous pouvez néanmoins entrer votre propre Token Mapbox qui
+                vous permettra d'accéder gratuitement à cette carte. Il vous faudra
+                créer un compte mapbox et générer un Token mapbox. Lien vers le site.
+            </p>
+            <form>
+                <label for="mapbox_api_key">Mapbox API Key:</label>
+                <input
+                    type="text"
+                    id="mapbox_api_key"
+                    name="mapbox_api_key"
+                    placeholder="Entrez votre clé d'API Mapbox ici"
+                />
+                <input id="submit-button" type="button" value="Entrer" />
+            </form>
         </div>
 
-        <div class="toggle-sidebar-zones">
-          <i class="fas fa-map-marked-alt"></i>
-        </div>
+        <!-- Import files for the matrix operations -->
+        <script src="configs/zones.js"></script>
+        <script src="configs/noise_impactors.js"></script>
+        <script src="html_from_javascript.js"></script>
+        <script src="matrix_operations.js"></script>
+        <script src="matrix_conversion.js"></script>
+        <script src="zone_of_interest.js"></script>
+        <script src="mapbox_functions.js"></script>
+        <script src="marker.js"></script>
 
-        <div class="sidebar-zones">
-          <h3>Zones</h3>
-          <div class="first-theme" id="menu-zones"></div>
-          <img id="logoSidebar" src="../img/deSEAbel.png" /> 
-        </div>
-        
-        <div class="toggle-sidebar-noise-impactors">
-          <i class="fas fa-drum"></i>
-        </div>
-        
-        <div class="sidebar-noise-impactors">
-          <h3>Noise Impactors</h3>
-          <div class="first-theme" id="menu-noise-impactors"></div>
-          <img id="logoSidebar" src="../img/deSEAbel.png" /> 
-        </div>
-        
-        
-        <div id="map-div"></div>
-      </div>
-      
-      <div id="right-container">
-        <div id="dead-fish-table">
-          
-          <table width="100%">
-            <h4 style="text-align: center;">Impact of the sonor pollution on the marine fauna</h4>
-            <tr>
-              <td width="19%">Risque</td>
-              <td width="27%">Effet physiologique</td>
-              <td width="27%">Réaction comportementale</td>
-              <td width="27%">Faible perturbation</td>
-            </tr>
-            <tr>
-              <td width="19%">10 Noeuds</td>
-              
-              <td width="27%" id="r-fish">15% <i class="fas fa-fish"></i></td>
-              <td width="27%" id="y-fish">20% <i class="fas fa-fish"></i></td>
-              <td width="27%" id="g-fish">65% <i class="fas fa-fish"></i></td>
-            </tr>
-            
-          </table>
-          <h4 style="margin: 8px 0 8px 0;">Légende</h4>
-          <h5 style="margin: 8px 0 8px 0; text-align: center;">Pourcentage de la population des mammifères marins</h5>
-          <table>
-            <tr>
-              <td style="border: none;">95%</td>
-              <td style="border: none; text-align:center; width: 85%; height: 20px; background-image: linear-gradient(to right, rgba(102, 89, 161, 1), rgba(128, 0, 128, 1));">
-              </td>
-              <td style="border: none;">50%</td>
-            </tr>
-          </table>
-          <h5 style="margin: 8px 0 8px 0; text-align: center;">Pourcentage de la population des poissons</h5>
-          <table>
-            <tr>
-              <td style="border: none;">95%</td>
-              <td style="border: none; text-align:center; width: 85%; height: 20px; background-image: linear-gradient(to right, rgba(123, 189, 188, 1), rgba(0, 136, 136, 1));">
-              </td>
-              <td style="border: none;">50%</td>
-            </tr>
-          </table>
-          <h5 style="margin: 8px 0 8px 0; text-align: center;">Decibels perçus dans l'océan</h5>
-          <table style="display:inline;">
-            <tr>
-              <td style="border: none;">120dB</td>
-              <td style="border: none; text-align:center; width: 20%; height: 20px; background-image: linear-gradient(to right, rgba(77, 238, 128, 1), rgba(77, 238, 128, 1));">
-              </td>
-              <td style="border: none;">195dB</td>
-              <td style="border: none;"></td>
-              <td style="border: none; text-align:center; width: 20%; height: 20px; background-image: linear-gradient(to right, rgba(166, 246, 64, 1), rgba(166, 246, 64, 1));">
-              </td>
-              <td style="border: none;">200dB</td>
-              <td style="border: none;"></td>
-              <td style="border: none; text-align:center; width: 20%; height: 20px; background-image: linear-gradient(to right, rgba(205, 101, 17, 1), rgba(205, 101, 17, 1));">
-              </td>
-              <td style="border: none;"></td>
-            </tr>
-          </table>
-          
-        </div>
-        
-        <div id="recommendations">
-          <h3 style="text-align: left; margin-left: 8px">
-            Recommandations Navire :
-          </h3>
-          <ul>
-            <li>Réduction de la vitesse des navires</li>
-            <li>Eviter les zones sensibles dans la mesure du possible</li>
-            <li>
-              Design de navires et propulsion diesel-électrique : hybride
-              (éviter les vibrations)
-            </li>
-            <li>Coque lisse et Hélices innovantes</li>
-            <li>Entretien navire</li>
-          </ul>
-          <h3 style="text-align: left; margin-left: 8px">
-            Recommandations Abattage de Pieux :
-          </h3>
-          <ul>
-            <li>
-              Adapter les activités selon le cycle biologique des espèces
-            </li>
-            <li>Rideaux de bulles</li>
-          </ul>
-          <a href="../img/hachis.jpg"
-          ><img
-          src="../img/hachis.jpg"
-          style="
-          position: absolute;
-          bottom: 0;
-          max-height: 5px;
-          max-width: 5px;
-          "
-          /></a>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
-  <div id="dialog-box">
-    <p>Malheureusement, nous avons dépassé le nombre d'utilisation gratuite de la carte. Vous pouvez néanmoins entrer votre propre Token Mapbox qui vous permettra d'accéder gratuitement à cette carte. Il vous faudra créer un compte mapbox et générer un Token mapbox. Lien vers le site.</p>
-    <form>
-      <label for="mapbox_api_key">Mapbox API Key:</label>
-      <input type="text" id="mapbox_api_key" name="mapbox_api_key" placeholder="Entrez votre clé d'API Mapbox ici">
-      <input id="submit-button" type="button" value="Entrer">
-    </form>
-  </div>
-
-  <!-- Import files for the matrix operations -->
-  <script src="configs/zones.js"></script>
-  <script src="configs/noise_impactors.js"></script>
-  <script src="html_from_javascript.js"></script>
-  <script src="matrix_operations.js"></script>
-  <script src="matrix_conversion.js"></script>
-  <script src="zone_of_interest.js"></script>
-  <script src="mapbox_functions.js"></script>
-  <script src="marker.js"></script>
-  
-  <script src="map.js"></script>
-  <script src="dialog_box.js"></script>
-
-</body>
+        <script src="map.js"></script>
+        <script src="dialog_box.js"></script>
+    </body>
 </html>

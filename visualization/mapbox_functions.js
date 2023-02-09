@@ -119,8 +119,8 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
                     type: "exponential",
                     stops: [
                         [60, "#00ff00"],
-                        [80, "#ffff00"],
-                        [100, "#ffa500"],
+                        [90, "#ffff00"],
+                        [120, "#ffa500"],
                         [150, "#ff0000"],
                     ],
                     colorSpace: "lab",
@@ -131,8 +131,8 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
                     stops: [
                         [50, 0],
                         [60, 0.2],
-                        [80, 0.5],
-                        [100, 0.8],
+                        [90, 0.5],
+                        [120, 0.8],
                         [150, 1],
                     ],
                 },
