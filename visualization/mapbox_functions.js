@@ -109,6 +109,11 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
             },
         });
 
+        let first_threshold = 92;
+        let second_threshold = 97;
+        let third_threshold = 101;
+        let fourth_threshold = 104;
+        let fifth_threshold = 114;
         map.addLayer({
             id: decibel_polygons_layer_id,
             type: "fill",
@@ -118,10 +123,10 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
                     property: "decibel",
                     type: "exponential",
                     stops: [
-                        [60, "#00ff00"],
-                        [90, "#ffff00"],
-                        [120, "#ffa500"],
-                        [150, "#ff0000"],
+                        //[second_threshold, "#00ff00"],
+                        [third_threshold, "#ffff00"],
+                        [fourth_threshold, "#ffa500"],
+                        [fifth_threshold, "#ff0000"],
                     ],
                     colorSpace: "lab",
                 },
@@ -129,11 +134,11 @@ function displayPolygonsFromCoordinates(map, zone_id, features) {
                     property: "decibel",
                     type: "interval",
                     stops: [
-                        [50, 0],
-                        [60, 0.2],
-                        [90, 0.5],
-                        [120, 0.8],
-                        [150, 1],
+                        [first_threshold, 0],
+                        [second_threshold, 0.2],
+                        [third_threshold, 0.5],
+                        [fourth_threshold, 0.8],
+                        [fifth_threshold, 1],
                     ],
                 },
             },
