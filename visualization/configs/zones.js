@@ -99,4 +99,15 @@ zones = {
         longitude_west: -122.8824,
         latitude_north: 37.88773,
     },
+    saint_malo: {
+        name: "Saint-Malo",
+        width: 100000,
+        height: 100000,
+        step: 1000,
+        longitude_west: -2.948715,
+        latitude_north: 49.358447,
+        marine_fauna: {
+            marine_mammal: "configs/marine_fauna/marine_mammal_saint_malo.geojson",
+        },
+    },
 };
