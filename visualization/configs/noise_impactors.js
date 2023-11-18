@@ -11,6 +11,18 @@ noise_impactors = {
         length_max: 50,
         speed_max: 60
     },
+    ferry: {
+        name: "Ferry",
+        emission_type: "continue",
+        freq_min: 10,
+        freq_max: 20000,
+        sound_level_mean: 140, 
+        sound_level_min: 130,
+        sound_level_max: 160,
+        length_min: 3,
+        length_max: 30,
+        speed_max: 35
+    },
     wind_turbine: {
         name: "Wind turbine",
         emission_type: "continue",
