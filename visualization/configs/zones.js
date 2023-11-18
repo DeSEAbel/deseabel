@@ -11,6 +11,17 @@ zones = {
             marine_mammal: "configs/marine_fauna/marine_mammal.geojson",
         },
     },
+    saint_malo: {
+        name: "Saint-Malo",
+        width: 100000,
+        height: 100000,
+        step: 1000,
+        longitude_west: -2.948715,
+        latitude_north: 49.358447,
+        marine_fauna: {
+            marine_mammal: "configs/marine_fauna/marine_mammal.geojson",
+        },
+    },
     brest: {
         name: "Brest",
         width: 100000,
