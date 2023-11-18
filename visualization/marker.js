@@ -21,8 +21,16 @@ class MarkerObject {
             this.div = createDivMarker(`../img/eolienne.png`, 30, 40);
             this.noise_impactor_metadata = noise_impactors.wind_turbine
             this.decibel = this.noise_impactor_metadata.sound_level_mean;
-        } else if (type == "fishing_boat") {
-            this.div = createDivMarker(`../img/fishing_boat.png`, 30, 30);
+        } 
+        else if (type == "ferry") {
+            this.div = createDivMarker(`../img/ferry2.png`, 90, 90);
+            this.speed = 8;
+            this.length = 20;
+            this.is_boat = true;
+            this.noise_impactor_metadata = noise_impactors.ferry
+        }
+        else if (type == "fishing_boat") {
+            this.div = createDivMarker(`../img/fishing_boat.png`, 50, 50);
             this.speed = 8;
             this.length = 20;
             this.is_boat = true;
