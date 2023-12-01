@@ -1,0 +1,42 @@
+*{
+    margin:auto;
+
+}
+
+body{
+    background-image: url("../img/background mapm.png");
+  
+    
+}
+
+.header {
+display: flex;
+justify-content: center;
+ border-color: rgb(0, 0, 0);
+ 
+ border : bold;
+ height: 90px;
+
+}
+
+a {
+
+    text-decoration: none;
+    color: black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    
+    }
+
+ .logo-home { 
+
+    height: 300px;
+    width: 300px;
+    margin-top: 5%;
+ }
+
+ .logo {
+
+    height: 60px;
+    width: 60px;
+ }
