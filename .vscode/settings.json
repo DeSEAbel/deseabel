@@ -1,4 +1,7 @@
 {
     "python.formatting.provider": "black",
-    "editor.rulers": [88],
+    "editor.rulers": [
+        88
+    ],
+    "liveServer.settings.port": 5502,
 }
