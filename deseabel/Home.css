@@ -10,15 +10,23 @@
     border: solid 2px;
     color: lightgoldenrodyellow;
 }
+ .logo-header {
+
+    height: 90px;
+    width: 90px;
+    position: relative;
+ }
 
 
-
-img {
-    height: 60px;
-    width: 60px;
+.imggrp {
+    margin-top: 2%;
+    height: 400px;
+    width: 300px;
     display: flex;
-
+    justify-content: center;
 }
+
+
 
 a {
 
@@ -39,8 +47,8 @@ button{
 display: flex;
 justify-content: center;
 margin-top: 6%;
-height: 60px;
-width: 20rem;
+height: 5rem;
+width: 25rem;
 border-radius: 45px;
 border-color: black;
 background-color: #FAF5C0;
@@ -51,12 +59,14 @@ background-color: #FAF5C0;
 
 
 .about-us{
-background-color: antiquewhite;
+background-color: rgba(249, 241, 222, 0.656);
 margin-top: 5%;
 border: black;
+margin-top: 2%;
 margin-left: 6%;
 margin-right: 6%;
-height: 300px
+height: 600px;
+
 
 
 
@@ -67,12 +77,13 @@ font-size: 40px;
 display: flex;
 justify-content: center;
 font-family: 'Phudu', sans-serif;
-font-weight: 900;
+font-weight: 800;
+margin-top: 8%;
 }
 
 .texteprez {
 
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 3%;
     margin-left: 5%;
     margin-right: 5%;
@@ -81,14 +92,18 @@ font-weight: 900;
 
 footer {
     background-color: #FAF5C0;
-    height: 100%;
+    height: 200px;
     width: 100%;
     margin-top: 10%;
+    display: flex;
+    font-family: 'Phudu', sans-serif;
+    align-items: center;
+
 }
 p {
     margin-top: 2%;
     margin-bottom: 2%;
     display: flex;
-    align-items: center;
+   
 }
 
