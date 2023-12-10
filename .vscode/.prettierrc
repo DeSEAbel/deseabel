@@ -1,17 +1,5 @@
 {
-  "tabWidth": 4,
-  "useTabs": false,
-  "printWidth": 88,
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true
-  }
+    "tabWidth": 4,
+    "useTabs": false,
+    "printWidth": 88
 }
