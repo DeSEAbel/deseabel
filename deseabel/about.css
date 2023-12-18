@@ -1,0 +1,115 @@
+* {
+    margin: auto;
+}
+
+body {
+    background-color: #00A08F;
+}
+
+.header {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    border: solid 2px;
+    color: lightgoldenrodyellow;
+}
+.header {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    border: solid 2px;
+    color: lightgoldenrodyellow;
+}
+.logo-header {
+
+    height: 90px;
+    width: 90px;
+    position: relative;
+ }
+
+ a {
+
+    text-decoration: none;
+    color: black;
+    font-family: 'Phudu', sans-serif;
+    font-size: 30px;
+    
+    }
+
+.titre{
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    font-family:'Phudu', sans-serif; ;
+}
+
+.para1 {
+    display: flex;
+    justify-content: center;
+}
+
+
+.carts {
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+
+}
+
+.research{
+    display: flex;
+    flex-direction: column;
+    background-color: beige;
+    width: 400px;
+    height: 500px;
+    font-size: 20px;
+    border: solid 2px;
+    border-radius: 20%;
+    box-shadow: black;
+}
+
+.explore {
+    display: flex;
+    flex-direction: column;
+    background-color: aquamarine;
+    width: 400px;
+    height: 500px;
+    font-size: 20px;
+    border: solid 2px;
+    border-radius: 20%;
+    box-shadow: black;
+}
+
+.share {
+    display: flex;
+    flex-direction: column;
+    background-color: blue;
+    width: 400px;
+    height: 500px;
+    font-size: 20px;
+    border: solid 2px;
+    border-radius: 20%;
+    box-shadow: black;
+}
+
+.video{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+}
+footer {
+    background-color: #FAF5C0;
+    height: 200px;
+    width: 100%;
+    margin-top: 10%;
+    display: flex;
+    font-family: 'Phudu', sans-serif;
+    align-items: center;
+
+}
