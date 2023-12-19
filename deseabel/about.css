@@ -6,6 +6,13 @@ body {
     background-color: #00A08F;
 }
 
+.team {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    margin-top: 8%;
+}
 .header {
     margin-top: 2%;
     display: flex;
@@ -44,7 +51,7 @@ body {
     justify-content: center;
     margin-bottom: 2%;
     margin-top: 2%;
-    font-family:'Phudu', sans-serif; ;
+    font-family:'Phudu', sans-serif; 
 }
 
 .para1 {
@@ -53,12 +60,11 @@ body {
 }
 
 
-.carts {
-    
+.cards{
+    margin-top: 3%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
 
 }
 
@@ -67,11 +73,11 @@ body {
     flex-direction: column;
     background-color: beige;
     width: 400px;
-    height: 500px;
-    font-size: 20px;
+    height: 300px;
     border: solid 2px;
     border-radius: 20%;
     box-shadow: black;
+    
 }
 
 .explore {
@@ -79,8 +85,7 @@ body {
     flex-direction: column;
     background-color: aquamarine;
     width: 400px;
-    height: 500px;
-    font-size: 20px;
+    height: 300px;
     border: solid 2px;
     border-radius: 20%;
     box-shadow: black;
@@ -91,8 +96,7 @@ body {
     flex-direction: column;
     background-color: blue;
     width: 400px;
-    height: 500px;
-    font-size: 20px;
+    height: 300px;
     border: solid 2px;
     border-radius: 20%;
     box-shadow: black;
@@ -103,6 +107,14 @@ body {
     flex-direction: row;
     margin-top: 2%;
 }
+
+.entete {
+    font-size: 30px;
+    font-family:'Phudu', sans-serif ;
+    margin-top: 3%;
+    text-decoration:underline overline;
+
+}
 footer {
     background-color: #FAF5C0;
     height: 200px;
@@ -112,4 +124,10 @@ footer {
     font-family: 'Phudu', sans-serif;
     align-items: center;
 
+}
+
+.txt-entete {
+    font-size: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
 }
