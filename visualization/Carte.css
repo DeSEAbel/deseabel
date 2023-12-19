@@ -3,22 +3,26 @@
 
 }
 
-body{
-    background-image: url("../img/background mapm.png");
-  
-    
+body {
+    background-color: #00A08F;
 }
 
 .header {
-display: flex;
-justify-content: center;
- border-color: rgb(0, 0, 0);
- 
- border : bold;
- height: 90px;
+        margin-top: 2%;
+        display: flex;
+        justify-content: center;
+        height: 100px;
+        border: solid 2px;
+        color: lightgoldenrodyellow;
 
 }
 
+.logo-header {
+
+    height: 90px;
+    width: 90px;
+    position: relative;
+ }
 a {
 
     text-decoration: none;
