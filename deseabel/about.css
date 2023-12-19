@@ -7,8 +7,8 @@ body {
 }
 
 .team {
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: 500px;
     display: flex;
     justify-content: center;
     margin-top: 8%;
@@ -52,11 +52,25 @@ body {
     margin-bottom: 2%;
     margin-top: 2%;
     font-family:'Phudu', sans-serif; 
+    font-weight: 800;
 }
 
-.para1 {
+.para-about {
+
+    
     display: flex;
     justify-content: center;
+    margin-top: 3%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 900px;
+    height: 500px;
+}
+.para1 {
+    
+    font-size: 19px;
+    margin-left: 30px ;
+    margin-right: 30px;
 }
 
 
@@ -94,7 +108,7 @@ body {
 .share {
     display: flex;
     flex-direction: column;
-    background-color: blue;
+    background-color: rgb(17, 235, 163);
     width: 400px;
     height: 350px;
     border: solid 2px;
@@ -151,6 +165,8 @@ footer {
     margin-top: 3%;
     margin-left: 5%;
     font-size: 20px;
+    
+    
 }
 
 .recommendations{
@@ -158,4 +174,13 @@ footer {
     margin-left: 5%;
     font-size: 22px;
     text-decoration: underline;
+}
+
+.titre-recommendations{
+
+    font-size: 28px;
+    margin-top: 5%;
+    font-family: 'Phudu', sans-serif ;
+    display: flex;
+    justify-content: center;
 }
