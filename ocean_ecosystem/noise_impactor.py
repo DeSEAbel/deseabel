@@ -160,6 +160,7 @@ class Types(Enum):
     fishing_boat = "fishing_boat"
     commercial_ship = "commercial_ship"
     outboard_pleasure_boat = "outboard_pleasure_boat"
+    ferry = "ferry"
     high_speed_ship = "high_speed_ship"
     jetski = "jetski"
     pile_driving = "pile_driving"
@@ -227,8 +228,37 @@ class CommercialShip(Boat, type=Types.commercial_ship.name):
             length_max=self.dict_characteristics["length_max"],
         )
 
+class CommercialShip(Boat, type=Types.commercial_ship.name):
+    """Object representing a commercial ship.
+    Its mother class is Boat.
+    """
 
-class OutboardPleasureBoat(Boat, type=Types.outboard_pleasure_boat.name):
+    def __init__(self, id: str, lat: float, lon: float, speed: float, length: float):
+        """Init function.
+
+        Args:
+            id (int): The id of the boat.
+            lat (float): The latitude.
+            lon (float): The longitude.
+            speed (float): The actual speed of the boat (in knot).
+            length (float): The actual length of the boat (in meters).
+        """
+        super().__init__(
+            id,
+            lat,
+            lon,
+            self.type.replace("_", " "),
+            freq_min=self.dict_characteristics["freq_min"],
+            freq_max=self.dict_characteristics["freq_max"],
+            speed_max=self.dict_characteristics["speed_max"],
+            speed=speed,
+            length=length,
+            length_min=self.dict_characteristics["length_min"],
+            length_max=self.dict_characteristics["length_max"],
+        )
+
+
+class Ferry(Boat, type=Types.ferry.name):
     """Object representing a outboard pleasure boat.
     Its mother class is Boat.
     """
