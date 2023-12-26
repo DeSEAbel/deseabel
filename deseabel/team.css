@@ -1,0 +1,97 @@
+* {
+    margin: auto;
+}
+
+.header {
+    margin-top: 2%;
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    border: solid 2px;
+    color: lightgoldenrodyellow;
+}
+ .logo-header {
+
+    height: 90px;
+    width: 90px;
+    position: relative;
+ }
+
+ body {
+    background-color: #00A08F;
+}
+
+a {
+
+    text-decoration: none;
+    color: black;
+    font-family: 'Phudu', sans-serif;
+    font-size: 30px;
+    
+ }
+
+ .img-team {
+    height: 400px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+
+ }
+
+ .para-description {
+
+    margin-left: 3%;
+    margin-right: 3%;
+   
+    margin-top: 3%;
+    font-size: 20px;
+
+ }
+ footer {
+    background-color: #FAF5C0;
+    height: 200px;
+    width: 100%;
+    margin-top: 10%;
+    display: flex;
+    font-family: 'Phudu', sans-serif;
+    align-items: center;
+
+}
+
+.titre {
+
+    display: flex;
+    justify-content: center;
+    font-family:  'Phudu', sans-serif;
+    font-size: 30px;
+    margin-top: 5%;
+}
+
+.solo {
+    
+    height: 100px;
+    width: 100px;
+   
+
+    
+}
+
+.solo-profil-createur {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-family:  'Phudu', sans-serif;
+   margin-top: 3%;
+
+
+}
+
+
+
+.pdg {
+    max-width: 90%;
+    display: flex;
+    flex-direction: row;
+    
+}
