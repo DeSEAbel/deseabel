@@ -3,18 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <title>About DeSEAbel</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <!-- <meta
-      name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
-    /> -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-      integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" type="text/css" href="about.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Phudu:wght@300&family=Poppins&display=swap" rel="stylesheet">
   </head>
+
+  <header>    
+    
+    <div class="header"> 
+            <img class="logo-header" src="../img/deSEAbel.png" alt="logo" class="logo">
+    
+        <a href="../visualization/about.html"> About Us</a>
+        <a href="../visualization/team.html"> Team </a>
+        <a href="../visualization/get_involved.html"> Get Involved </a>
+    
+     
+    </div>
 
   <body>
     <script src="html_from_javascript.js"></script>
@@ -22,56 +25,60 @@
       createHeader();
     </script>
 
-    <center>
-      <h1>About De<span style="color: #214a67;">SEA</span>bel</h1>
-      <h2 style="width:70%;">
+<img class="team" src="../img/IMG_4253.jpg" alt="team" >
+   <div class="para-about"> 
+      <p class="titre"> About </p>
+      <p class="para1"> 
         DeSEAbel is a free and open source application developed to adapt human activities
         to reduce the volume of noise in the oceans.
-      </h2>
-      <h3 style="width:70%;">
-        <span style="color: #214a67">
+      </p>
+      <p class="para1">
+        
           The application is intended to be continually improved by a community of motivated individuals who share a common interest in ecology.
-        </span>
-      </h3>
-      <h3 style="width:70%;">
-        <span style="color: #214a67">
+        
+      </p>
+     
+        <p class="para1">
           With this tool, we aim to raise awareness of the impact of noise in the
           ocean while providing a decision support tool to limit the ecological
           impact of various activities, whether on an individual, corporate or
           governmental scale.
-        </span>
-      </h3>
+        </p>
+      </p>
 
-      </center>
+    </div>
 
-    <h1 style="text-align: center">Our Guidelines</h1>
-    <section class="section-content-block">
-      <div class="div-content-block">
-        <div class="grid-container">
-          <div class="grid-item">
-            <h2>Research</h2>
-            <p>
+
+    <p class="titre">  Our Guidelines </p>
+
+
+<div class="cards">
+  <div class="research">
+            <p class="entete">Research</p>
+            <p class="txt-entete">
               Habitat areas for sensitive species, noise impacts, recommendations
             </p>
           </div>
-          <div class="grid-item">
-            <h2>Explore</h2>
-            <p>Your sound impact scenarios according to your projects or your daily life</p>
+
+         <div class="explore">
+            <p class="entete">Explore</p>
+            <p class="txt-entete">Your sound impact scenarios according to your projects or your daily life</p>
           </div>
-          <div class="grid-item">
-            <h2>Share</h2>
-            <p>
+
+    <div class="share">
+            <p class="entete">Share</p>
+            <p class="txt-entete">
               Free and easily your personalized cards to your collaborators, your company, your association...
             </p>
           </div>
         </div>
-      </div>
-    </section>
+  
 
-    <h1>Our motivations</h1>
-    <section class="section-content-block">
+
+    <p class="titre">Our motivations</p>
+
       <div class="div-content-block">
-        <p>
+        <p class="paragraphe">
           Since 2005, the United Nations has recognized underwater noise from human
            activities as a source of marine pollution and a threat to marine ecosystems.
             In France, underwater noise has been recognized as a source of pollution 
@@ -88,10 +95,8 @@
             of the group. or to maintain the cohesion of the group.
         </p>
       </div>
-    </section>
-    <section class="section-content-block">
-      <div class="div-content-block">
-        <p>
+
+        <p class="paragraphe2"> 
           Humans have significantly altered the soundscape of the oceans. Maritime
           traffic roughly doubled between 1950 and 2000. Vessel traffic adds 3 decibels
           to the sound level of the oceans every 10 years, posing a major threat to
@@ -101,28 +106,24 @@
           and even mass die-offs of species in front of a major noise source.
         </p>
       </div>
-    </section>
 
-    <h1>Reducing Ocean Noise Pollution: Suggestions</h1>
-    <section class="section-content-block">
+    <p class="titre">Reducing Ocean Noise Pollution</p>
       <div class="div-content-block">
 
-          <h3 style="text-align: left; margin-left: 8px">
+          <p class="titre-recommendations">
             Ship Recommendations:
-          </h3>
-          <ul>
+          </p>
+          <ul class="list">
             <li>Reduction of ship speed</li>
             <li>Avoid sensitive areas if possible</li>
-            <li>
-              Ship design and diesel-electric propulsion: hybrid (avoid vibrations)
-            </li>
+            <li> Ship design and diesel-electric propulsion: hybrid (avoid vibrations) </li>
             <li>Smooth hull and innovative propellers</li>
             <li>Ship maintenance</li>
           </ul>
-          <h3 style="text-align: left; margin-left: 8px">
+          <p class="recommendations">
             Pile Driving Recommendations:
-          </h3>
-          <ul>
+        </p>
+          <ul class="list">
             <li>
               Adapt activities according to the biological cycle of species
             </li>
@@ -130,20 +131,24 @@
           </ul>
         
       </div>
-    </section>
+
     
-    <h1>Example of underwater communication</h1>
-    <center>
-    <section id="underwater-communication">
-      <div>
-        <p>
+    <p class="titre">Example of underwater communication</p>
+   
+
+      <div class="video">
+       
           <video src="../sounds/first-sound.mp4" controls></video>
-        </p>
-        <p>
+        
           <video src="../sounds/second-sound.mp4" controls></video>
-        </p>
+     
       </div>
-    </section>
-  </center>
+
+      <footer>
+        <p> CGV</p>
+        <p> A propos de nous </p>
+        <p> Nous rejoindre </p>
+        </footer> 
+
   </body>
 </html>
