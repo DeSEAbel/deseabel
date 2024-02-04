@@ -1,24 +1,24 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-  "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  background-color: #00a08f;
+  font-family: "Phudu", sans-serif;
 }
 
-html,body {
-  height:100%;
-  min-height:100%;
-  max-height:100%;
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+  max-height: 100%;
 }
 
 #container {
-  top:50px;
-  bottom:0px;
+  top: 50px;
+  bottom: 0px;
 }
 
-
 #logo {
-  background-color: #F4F2F2;
+  background-color: #f4f2f2;
   border-bottom-right-radius: 60%;
   max-width: 9em;
   position: absolute;
@@ -52,13 +52,13 @@ html,body {
   border: 1px solid #3378aa;
 } */
 
-
 .toggle-first-theme:hover {
   background-color: #fff;
   cursor: pointer;
 }
 
-.toggle-first-theme h4, .toggle-first-theme i {
+.toggle-first-theme h4,
+.toggle-first-theme i {
   display: inline-block;
 }
 
@@ -67,10 +67,13 @@ html,body {
 } */
 
 /*Sidebar for buttons */
-.sidebar, .sidebar-animals, .sidebar-zones, .sidebar-noise-impactors {
+.sidebar,
+.sidebar-animals,
+.sidebar-zones,
+.sidebar-noise-impactors {
   width: 150px;
   z-index: 3;
-  background-color: #F4F2F2;
+  background-color: #f4f2f2;
   position: fixed;
   left: 0;
   top: 0;
@@ -115,22 +118,24 @@ html,body {
   border-bottom-right-radius: 10px;
 }
 
-
-.fa-layer-group, .fa-fish, .fa-map-marked-alt, .fa-drum {
+.fa-layer-group,
+.fa-fish,
+.fa-map-marked-alt,
+.fa-drum {
   color: #fff;
   font-size: 30px;
   padding: 20px;
 }
 
-
-.show-sidebar, .show-sidebar-animals, .show-sidebar-zones, .show-sidebar-noise-impactors {
+.show-sidebar,
+.show-sidebar-animals,
+.show-sidebar-zones,
+.show-sidebar-noise-impactors {
   display: block;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
-
-
 
 .click-toggle {
   left: 150px;
@@ -157,14 +162,18 @@ html,body {
 } */
 
 /*Buttons */
-#menu-animals, #menu-zones, #menu-noise-impactors {
+#menu-animals,
+#menu-zones,
+#menu-noise-impactors {
   z-index: 1;
   top: 10px;
   left: 10px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Phudu", sans-serif;
 }
 
-#menu-animals a, #menu-zones a, #menu-noise-impactors a {
+#menu-animals a,
+#menu-zones a,
+#menu-noise-impactors a {
   font-size: 20x;
   border-radius: 10px;
   color: #404040;
@@ -177,17 +186,23 @@ html,body {
   text-align: center;
 }
 
-#menu-animals a:hover, #menu-zones a:hover, #menu-noise-impactors a:hover {
+#menu-animals a:hover,
+#menu-zones a:hover,
+#menu-noise-impactors a:hover {
   background-color: #ececec78;
   color: #000000;
 }
 
-#menu-animals a.active, #menu-zones a.active, #menu-noise-impactors a.active {
+#menu-animals a.active,
+#menu-zones a.active,
+#menu-noise-impactors a.active {
   background-color: #3887be;
   color: #1b1a1a;
 }
 
-#menu-animals a.active:hover, #menu-zones a.active:hover, #menu-noise-impactors a.active:hover {
+#menu-animals a.active:hover,
+#menu-zones a.active:hover,
+#menu-noise-impactors a.active:hover {
   background: #3074a4;
 }
 
@@ -213,22 +228,24 @@ html,body {
   justify-content: center;
   padding: 10px;
   text-decoration: none;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Phudu", sans-serif;
   font-weight: 500;
   width: 100%;
   align-items: center;
 }
 
-#header_container a:nth-of-type(1), #header_container a:nth-of-type(2), #header_container a:nth-of-type(3) {
+#header_container a:nth-of-type(1),
+#header_container a:nth-of-type(2),
+#header_container a:nth-of-type(3) {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #bottom {
-  top:50px;
+  top: 50px;
   height: calc(100% - 50px);
-} 
+}
 #map-div {
-    height: 100%;
+  height: 100%;
 }
 
 #left-container {
@@ -253,7 +270,6 @@ html,body {
   flex-direction: column;
 }
 
-
 #right-container > div:first-child {
   /* This element should take up 60% of the container's height */
   flex: 5 0 50%;
@@ -268,7 +284,7 @@ html,body {
 
 button {
   /* Use a consistent font, color, and size for all buttons */
-  font-family: sans-serif;
+  font-family: "Phudu", sans-serif;
   color: #333;
   font-size: 14px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -278,12 +294,12 @@ button {
 /* Use a button-specific class to style the buttons */
 /* button.nice-button {
   /* Set the button's background color and add some padding */
-  /* background-color: #eee;
+/* background-color: #eee;
   padding: 10px 20px;
 } */
 /* Use the :hover and :active pseudo-classes to add hover and active styles */
 /* nice-button:hover { */
-  /* background-color: #ddd;
+/* background-color: #ddd;
 }
 nice-button:active {
   background-color: #ccc;
@@ -319,7 +335,6 @@ h1 {
   padding-top: 50px;
   font-weight: bold;
   text-align: center;
-  
 }
 
 h2 {
@@ -328,7 +343,6 @@ h2 {
   padding-top: 50px;
   font-weight: bold;
   text-align: center;
-  
 }
 
 /* #first-section-propos-content h2 {
@@ -343,7 +357,8 @@ h2 {
   
 } */
 
-.grid-item:nth-of-type(2), .grid-item:nth-of-type(3) {
+.grid-item:nth-of-type(2),
+.grid-item:nth-of-type(3) {
   border-left: 2px solid white;
 }
 
@@ -403,7 +418,8 @@ h2 {
   margin: 50px 0;
 }
 
-.div-content-block, .div-content-block p {
+.div-content-block,
+.div-content-block p {
   padding: 20px;
   font-size: 20px;
   text-align: center;
@@ -415,12 +431,12 @@ h2 {
   margin-left: 8px;
 }
 
-.div-content-block ul{
+.div-content-block ul {
   list-style-type: square;
   padding-left: 20px;
   text-indent: 20px;
 }
-.div-content-block li{
+.div-content-block li {
   text-align: left;
   margin-left: 8px;
 }
@@ -444,7 +460,8 @@ h2 {
   color: white;
 }
 
-#contributions-grid-item:nth-of-type(2), #contributions-grid-item:nth-of-type(3) {
+#contributions-grid-item:nth-of-type(2),
+#contributions-grid-item:nth-of-type(3) {
   border-left: 2px solid white;
 }
 
@@ -470,16 +487,15 @@ tr {
 
 td {
   border-bottom: 2px solid black;
-  border-left: 2px solid black;;
+  border-left: 2px solid black;
 }
-
 
 #dialog-box {
   display: block;
   position: absolute; /* position the element absolutely */
   top: 50%; /* set the top position to the middle of the page */
   left: 25%;
-  margin: auto auto; 
+  margin: auto auto;
   text-align: center; /* center the text within the box */
   width: 50%; /* set the width of the element */
   height: auto; /* set the height of the element */
@@ -502,7 +518,7 @@ td {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 #optim_propeller_button {
@@ -527,19 +543,19 @@ td {
   color: white;
 }
 
-.fa-linkedin {  
-  background: #214a67;  
-  color: white;  
-}  
+.fa-linkedin {
+  background: #214a67;
+  color: white;
+}
 
-.fa-instagram {  
-  background: #214a67;  
-  color: white;  
-}  
+.fa-instagram {
+  background: #214a67;
+  color: white;
+}
 
-.fa-github{
-  background: #214a67;  
-  color: white;  
+.fa-github {
+  background: #214a67;
+  color: white;
 }
 
 .center_image {
@@ -551,4 +567,28 @@ td {
   width: 100%;
   max-width: 500px;
   height: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  border: solid 2px;
+  color: lightgoldenrodyellow;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-family: "Phudu", sans-serif;
+  font-size: 30px;
+}
+.logo-header {
+  height: 90px;
+  width: 90px;
+  position: relative;
+}
+
+* {
+  margin: auto;
 }
