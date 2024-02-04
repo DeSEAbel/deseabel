@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <link rel="shortcut icon" href="../img/deSEAbel.png" />
-        <title>DeSEAbel</title>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <meta
-            name="viewport"
-            content="initial-scale=1,maximum-scale=1,user-scalable=no"
-        />
-        <link
-            href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css"
-            rel="stylesheet"
-        />
-        <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-        />
-        <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="../img/deSEAbel.png" />
+    <title>DeSEAbel</title>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+    <script src="https://cdn.anychart.com/releases/8.0.0/js/anychart-base.min.js"></script>
+  </head>
 
-    <body>
-        <!-- <div id="container"> -->
-        <img id="logo" src="../img/deSEAbel.png" />
-        <script src="html_from_javascript.js"></script>
-        <script>
-            createHeader();
-        </script>
+  <body>
+    <div class="header">
+      <img class="logo-header" src="../img/deSEAbel.png" alt="logo" />
 
-        <div id="bottom">
-            <!-- <div id="left-container"> -->
-            <div class="toggle-sidebar-animals">
-                <i class="fas fa-fish"></i>
-            </div>
+      <a href="../visualization/home.html"> Home</a>
+      <a href="../visualization/team.html"> Team </a>
+      <a href="../visualization/get_involved.html"> Get Involved </a>
+    </div>
 
-            <div class="sidebar-animals">
-                <h3>Marine fauna</h3>
-                <div class="first-theme" id="menu-animals"></div>
-                <img id="logoSidebar" src="../img/deSEAbel.png" />
-            </div>
+    <div id="bottom">
+      <div class="toggle-sidebar-animals">
+        <i class="fas fa-fish"></i>
+      </div>
 
-            <div class="toggle-sidebar-zones">
-                <i class="fas fa-map-marked-alt"></i>
-            </div>
+      <div class="sidebar-animals">
+        <h3>Marine fauna</h3>
+        <div class="first-theme" id="menu-animals"></div>
+        <img id="logoSidebar" src="../img/deSEAbel.png" />
+      </div>
 
-            <div class="sidebar-zones">
-                <h3>Zones</h3>
-                <div class="first-theme" id="menu-zones"></div>
-                <img id="logoSidebar" src="../img/deSEAbel.png" />
-            </div>
+      <div class="toggle-sidebar-zones">
+        <i class="fas fa-map-marked-alt"></i>
+      </div>
 
-            <div class="toggle-sidebar-noise-impactors">
-                <i class="fas fa-drum"></i>
-            </div>
+      <div class="sidebar-zones">
+        <h3>Zones</h3>
+        <div class="first-theme" id="menu-zones"></div>
+        <img id="logoSidebar" src="../img/deSEAbel.png" />
+      </div>
 
-            <div class="sidebar-noise-impactors">
-                <h3>Noise Impactors</h3>
-                <div class="first-theme" id="menu-noise-impactors"></div>
-                <img id="logoSidebar" src="../img/deSEAbel.png" />
-            </div>
+      <div class="toggle-sidebar-noise-impactors">
+        <i class="fas fa-drum"></i>
+      </div>
 
-            <div id="map-div"></div>
-            <!-- </div> -->
-            
+      <div class="sidebar-noise-impactors">
+        <h3>Noise Impactors</h3>
+        <div class="first-theme" id="menu-noise-impactors"></div>
+        <img id="logoSidebar" src="../img/deSEAbel.png" />
+      </div>
 
-            <!-- <div id="right-container">
+      <div id="map-div"></div>
+      <!-- </div> -->
+
+      <!-- <div id="right-container">
                     <div id="dead-fish-table">
                         <table width="100%">
                             <h4 style="text-align: center">
@@ -190,9 +189,9 @@
                         </table>
                     </div>
                 </div> -->
-            <!-- </div> -->
-        </div>
-        <!-- 
+      <!-- </div> -->
+    </div>
+    <!-- 
         <div id="dialog-box">
             <p>
                 Malheureusement, nous avons dépassé le nombre d'utilisation gratuite de
@@ -212,17 +211,17 @@
             </form>
         </div> -->
 
-        <!-- Import files for the matrix operations -->
-        <script src="configs/zones.js"></script>
-        <script src="configs/noise_impactors.js"></script>
-        <script src="html_from_javascript.js"></script>
-        <script src="matrix_operations.js"></script>
-        <script src="matrix_conversion.js"></script>
-        <script src="zone_of_interest.js"></script>
-        <script src="mapbox_functions.js"></script>
-        <script src="marker.js"></script>
+    <!-- Import files for the matrix operations -->
+    <script src="configs/zones.js"></script>
+    <script src="configs/noise_impactors.js"></script>
+    <script src="html_from_javascript.js"></script>
+    <script src="matrix_operations.js"></script>
+    <script src="matrix_conversion.js"></script>
+    <script src="zone_of_interest.js"></script>
+    <script src="mapbox_functions.js"></script>
+    <script src="marker.js"></script>
 
-        <script src="map.js"></script>
-        <!-- <script src="dialog_box.js"></script> -->
-    </body>
+    <script src="map.js"></script>
+    <!-- <script src="dialog_box.js"></script> -->
+  </body>
 </html>
