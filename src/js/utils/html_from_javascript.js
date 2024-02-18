@@ -11,12 +11,12 @@ function formatString(str) {
     return formattedWords.join(" ");
 }
 
-function createLinkDiv(id) {
+function createLinkDiv(id, className = "sidebar-button") {
     var link = document.createElement("a");
     link.id = id;
     link.href = "#";
     link.textContent = formatString(id);
-    link.className = "";
+    link.className = "sidebar-button";
     return link;
 }
 
@@ -35,7 +35,7 @@ function createLayerButton(id, ids) {
             map.setLayoutProperty(clickedLayer, "visibility", "none");
             this.className = "";
         } else {
-            this.className = "active";
+            this.className = "sidebar-active";
             map.setLayoutProperty(clickedLayer, "visibility", "visible");
             // Set the other layers to invisible
             for (var layer of ids) {
@@ -142,12 +142,12 @@ async function simulateClickOnZone(zone_id) {
     } else {
         createLayersButton([], (menu_name = "menu-animals"));
     }
-    document.getElementById(zone_id).className = "active";
+    document.getElementById(zone_id).className = "sidebar-active";
 }
 function simulateClickOnNoiseImpactor(noise_impactor_id) {
     current_noise_impactor_id = noise_impactor_id;
     console.log("current_noise_impactor_id: " + current_noise_impactor_id);
-    document.getElementById(noise_impactor_id).className = "active";
+    document.getElementById(noise_impactor_id).className = "sidebar-active";
 }
 
 // Async function because it needs to wait for the zone_of_interest to be created in
@@ -169,11 +169,11 @@ async function add_zones_menu(map) {
                 console.log("already active");
                 return;
             } else {
-                this.className = "active";
+                this.className = "sidebar-active";
                 //set the other zones to inactive
                 for (var id of zone_ids) {
                     if (id !== clicked_zone_id) {
-                        document.getElementById(id).className = "";
+                        document.getElementById(id).className = "sidebar-button";
                     }
                 }
                 var previous_marine_fauna = [];
@@ -226,11 +226,11 @@ function add_noise_impactors_menu(map) {
                 console.log("already active");
                 return;
             } else {
-                this.className = "active";
+                this.className = "sidebar-active";
                 //set the other noise_impactors to inactive
                 for (var id of noise_impactor_ids) {
                     if (id !== clicked_noise_impactor_id) {
-                        document.getElementById(id).className = "";
+                        document.getElementById(id).className = "sidebar-button";
                     }
                 }
 
