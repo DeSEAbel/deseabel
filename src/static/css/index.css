@@ -12,59 +12,13 @@ body {
   max-height: 100%;
 }
 
-#container {
-  top: 50px;
-  bottom: 0px;
-}
-
-#logo {
-  background-color: #f4f2f2;
-  border-bottom-right-radius: 60%;
-  max-width: 9em;
-  position: absolute;
-  z-index: 1;
-}
-
-#logoSidebar {
+.sidebar-logo {
   max-width: 9em;
   position: absolute;
   bottom: 1px;
   left: 1px;
   padding: 1px;
 }
-
-/* .toggleButtons{
-  background-color: #3378aa;
-  color: #fff;
-  padding: 5px;
-  cursor: pointer;
-  border: none;
-  box-shadow: #333;
-  font-weight: 700;
-  height: 5%;
-  width: 75%;
-  margin-bottom: 10%;
-} */
-
-/* .toggleButtons:hover{
-  background-color: #fff;
-  color: #3378aa;
-  border: 1px solid #3378aa;
-} */
-
-.toggle-first-theme:hover {
-  background-color: #fff;
-  cursor: pointer;
-}
-
-.toggle-first-theme h4,
-.toggle-first-theme i {
-  display: inline-block;
-}
-
-/* nav {
-  display: none;
-} */
 
 /*Sidebar for buttons */
 .sidebar,
@@ -80,6 +34,14 @@ body {
   bottom: 0;
   display: none;
   text-align: center;
+}
+.sidebar-button {
+  font-size: small;
+}
+.sidebar-active {
+  background-color: #3887be;
+  color: #1b1a1a;
+  font-size: small;
 }
 
 .toggle-sidebar-animals {
@@ -193,17 +155,19 @@ body {
   color: #000000;
 }
 
-#menu-animals a.active,
-#menu-zones a.active,
-#menu-noise-impactors a.active {
+#menu-animals a.sidebar-active,
+#menu-zones a.sidebar-active,
+#menu-noise-impactors a.sidebar-active {
   background-color: #3887be;
   color: #1b1a1a;
+  font-size: small;
 }
 
-#menu-animals a.active:hover,
-#menu-zones a.active:hover,
-#menu-noise-impactors a.active:hover {
+#menu-animals a.sidebar-active:hover,
+#menu-zones a.sidebar-active:hover,
+#menu-noise-impactors a.sidebar-active:hover {
   background: #3074a4;
+  font-size: small;
 }
 
 .mapboxgl-ctrl-top-right {
@@ -291,44 +255,6 @@ button {
   border-radius: 4px;
 }
 
-/* Use a button-specific class to style the buttons */
-/* button.nice-button {
-  /* Set the button's background color and add some padding */
-/* background-color: #eee;
-  padding: 10px 20px;
-} */
-/* Use the :hover and :active pseudo-classes to add hover and active styles */
-/* nice-button:hover { */
-/* background-color: #ddd;
-}
-nice-button:active {
-  background-color: #ccc;
-} */
-/* 
-#about-CriQUIET {
-  display: flex;
-  flex-direction: row;
-}
-
-.about-us-column {
-  flex: 1;
-} */
-
-/* Page a propos */
-/* #first-section-propos {
-  background-image: url("../img/wallpaper_hackathon.jpg");
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  box-shadow: 2px 2px 5px #888888;
-  border-radius: 12px;
-  margin: 100px auto;
-}
-
-#first-section-propos-content {
-  text-align: center;
-} */
-
 h1 {
   color: black;
   font-size: 50px;
@@ -344,18 +270,6 @@ h2 {
   font-weight: bold;
   text-align: center;
 }
-
-/* #first-section-propos-content h2 {
-  color: white;
-  font-size: 30px;
-  font-weight: bold;
-}
-
-#first-section-propos-content, #second-section-propos-content p {
-  color: white;
-  font-size: 20px;
-  
-} */
 
 .grid-item:nth-of-type(2),
 .grid-item:nth-of-type(3) {
@@ -377,29 +291,6 @@ h2 {
   font-size: 30px;
   font-weight: bold;
 }
-/* #second-section-propos {
-  background-color: #214a67;
-  width: 70%;
-  display: flex;
-  justify-content: center;
-  box-shadow: 2px 2px 5px #888888;
-  border-radius: 12px;
-  margin: 100px auto;
-  padding: 50px 0 50px 0;
-}
-
-#second-section-propos-content {
-  text-align: center;
-  margin: 20px;
-  font-size: 20px;
-  color: white;
-}
-
-#second-section-propos-content h2 {
-  color: white;
-  font-size: 30px;
-  font-weight: bold;
-} */
 
 .section-content-block {
   background-color: #214a67;
@@ -531,33 +422,6 @@ td {
   color: white;
 }
 
-/* Facebook */
-.fa-facebook {
-  background: #214a67;
-  color: white;
-}
-
-/* Twitter */
-.fa-twitter {
-  background: #214a67;
-  color: white;
-}
-
-.fa-linkedin {
-  background: #214a67;
-  color: white;
-}
-
-.fa-instagram {
-  background: #214a67;
-  color: white;
-}
-
-.fa-github {
-  background: #214a67;
-  color: white;
-}
-
 .center_image {
   text-align: center;
   margin-bottom: 20px;
@@ -572,7 +436,7 @@ td {
 .header {
   display: flex;
   justify-content: center;
-  height: 100px;
+  height: 12%;
   border: solid 2px;
   color: lightgoldenrodyellow;
 }
@@ -582,13 +446,11 @@ a {
   color: black;
   font-family: "Phudu", sans-serif;
   font-size: 30px;
+  margin: auto;
 }
 .logo-header {
   height: 90px;
   width: 90px;
   position: relative;
-}
-
-* {
   margin: auto;
 }
