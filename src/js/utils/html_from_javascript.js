@@ -137,10 +137,10 @@ async function simulateClickOnZone(zone_id) {
         marine_fauna_layer_ids = Object.keys(marine_fauna).map(
             (x) => zone_id + "-" + x
         );
-        createLayersButton(marine_fauna_layer_ids, "menu-animals");
+        createLayersButton(marine_fauna_layer_ids, menu="menu-animals");
         addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
     } else {
-        createLayersButton([], (menu_name = "menu-animals"));
+        createLayersButton([], menu_name = "menu-animals");
     }
     document.getElementById(zone_id).className = "sidebar-active";
 }
@@ -200,7 +200,7 @@ async function add_zones_menu(map) {
                     createLayersButton(marine_fauna_layer_ids, "menu-animals");
                     addsourceAndLayerFromConfig(map, marine_fauna, current_zone_id);
                 } else {
-                    createLayersButton([], (menu_name = "menu-animals"));
+                    createLayersButton([], menu_name = "menu-animals");
                 }
             }
         };
